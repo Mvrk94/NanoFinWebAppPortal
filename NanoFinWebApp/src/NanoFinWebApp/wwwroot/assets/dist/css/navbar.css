@@ -1,0 +1,459 @@
+.navigation-example .img-src{
+    background-attachment: scroll;
+}
+
+.navigation-example{
+    background-image: url('../img/bg.jpg');
+    background-position: center center;
+    background-size: cover;
+    margin-top:0;
+    min-height: 740px;
+}
+
+.MTnavbar {
+  -webkit-transition: all 150ms ease 0s;
+  -moz-transition: all 150ms ease 0s;
+  -o-transition: all 150ms ease 0s;
+  -ms-transition: all 150ms ease 0s;
+  transition: all 150ms ease 0s;
+}
+
+.MTnavbar {
+  background-color: #9c27b0;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+}
+.MTnavbar .MTnavbar-brand {
+  position: relative;
+  height: 50px;
+  line-height: 30px;
+  color: inherit;
+  padding: 10px 15px;
+}
+.MTnavbar .MTnavbar-brand:hover, .MTnavbar .MTnavbar-brand:focus {
+  color: inherit;
+  background-color: transparent;
+}
+.MTnavbar .MTnavbar-text {
+  color: inherit;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.MTnavbar .MTnavbar-nav > li > a {
+  color: inherit;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+.MTnavbar .MTnavbar-nav > li > a:hover, .MTnavbar .MTnavbar-nav > li > a:focus {
+  color: inherit;
+  background-color: transparent;
+}
+.MTnavbar .MTnavbar-nav > li > a .material-icons,
+.MTnavbar .MTnavbar-nav > li > a .fa {
+  font-size: 20px;
+  margin-top: -3px;
+  margin-right: 3px;
+  margin: -3px 4px 0 4px;
+}
+.MTnavbar .MTnavbar-nav > li > a .fa {
+  top: 2px;
+  position: relative;
+}
+.MTnavbar .MTnavbar-nav > li > .dropdown-menu {
+  margin-top: -20px;
+}
+.MTnavbar .MTnavbar-nav > li.open > .dropdown-menu {
+  margin-top: 0;
+}
+.MTnavbar .MTnavbar-nav > .active > a, .MTnavbar .MTnavbar-nav > .active > a:hover, .MTnavbar .MTnavbar-nav > .active > a:focus {
+  color: inherit;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.MTnavbar .MTnavbar-nav > .disabled > a, .MTnavbar .MTnavbar-nav > .disabled > a:hover, .MTnavbar .MTnavbar-nav > .disabled > a:focus {
+  color: inherit;
+  background-color: transparent;
+  opacity: 0.9;
+}
+.MTnavbar .MTnavbar-toggle {
+  border: 0;
+}
+.MTnavbar .MTnavbar-toggle:hover, .MTnavbar .MTnavbar-toggle:focus {
+  background-color: transparent;
+}
+.MTnavbar .MTnavbar-toggle .icon-bar {
+  background-color: inherit;
+  border: 1px solid;
+}
+.MTnavbar .MTnavbar-default .MTnavbar-toggle,
+.MTnavbar .MTnavbar-inverse .MTnavbar-toggle {
+  border-color: transparent;
+}
+.MTnavbar .MTnavbar-collapse,
+.MTnavbar .MTnavbar-form {
+  border-top: none;
+  box-shadow: none;
+}
+.MTnavbar .MTnavbar-nav > .open > a, .MTnavbar .MTnavbar-nav > .open > a:hover, .MTnavbar .MTnavbar-nav > .open > a:focus {
+  background-color: transparent;
+  color: inherit;
+}
+@media (max-width: 767px) {
+  .MTnavbar .MTnavbar-nav .MTnavbar-text {
+    color: inherit;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .MTnavbar .MTnavbar-nav .open .dropdown-menu > .dropdown-header {
+    border: 0;
+    color: inherit;
+  }
+  .MTnavbar .MTnavbar-nav .open .dropdown-menu .divider {
+    border-bottom: 1px solid;
+    opacity: 0.08;
+  }
+  .MTnavbar .MTnavbar-nav .open .dropdown-menu > li > a {
+    color: inherit;
+  }
+  .MTnavbar .MTnavbar-nav .open .dropdown-menu > li > a:hover, .MTnavbar .MTnavbar-nav .open .dropdown-menu > li > a:focus {
+    color: inherit;
+    background-color: transparent;
+  }
+  .MTnavbar .MTnavbar-nav .open .dropdown-menu > .active > a, .MTnavbar .MTnavbar-nav .open .dropdown-menu > .active > a:hover, .MTnavbar .MTnavbar-nav .open .dropdown-menu > .active > a:focus {
+    color: inherit;
+    background-color: transparent;
+  }
+  .MTnavbar .MTnavbar-nav .open .dropdown-menu > .disabled > a, .MTnavbar .MTnavbar-nav .open .dropdown-menu > .disabled > a:hover, .MTnavbar .MTnavbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: inherit;
+    background-color: transparent;
+  }
+}
+.MTnavbar .MTnavbar-link {
+  color: inherit;
+}
+.MTnavbar .MTnavbar-link:hover {
+  color: inherit;
+}
+.MTnavbar .btn {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.MTnavbar .btn-link {
+  color: inherit;
+}
+.MTnavbar .btn-link:hover, .MTnavbar .btn-link:focus {
+  color: inherit;
+}
+.MTnavbar .btn-link[disabled]:hover, .MTnavbar .btn-link[disabled]:focus, fieldset[disabled] .MTnavbar .btn-link:hover, fieldset[disabled] .MTnavbar .btn-link:focus {
+  color: inherit;
+}
+.MTnavbar .MTnavbar-form {
+  margin-top: 16px;
+}
+.MTnavbar .MTnavbar-form .form-group {
+  margin: 0;
+  padding: 0;
+}
+.MTnavbar .MTnavbar-form .form-group .material-input:before, .MTnavbar .MTnavbar-form .form-group.is-focused .material-input:after {
+  background-color: inherit;
+}
+.MTnavbar .MTnavbar-form .form-group .form-control,
+.MTnavbar .MTnavbar-form .form-control {
+  border-color: inherit;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  height: 28px;
+  font-size: 14px;
+  line-height: 1.42857;
+}
+.MTnavbar, .MTnavbar.MTnavbar-default {
+  /*background-color: #9c27b0;*/  /*original nav (fixed on scroll) colour*/
+  background-color: rgba(0, 176, 240, 0.99); /*hex value: #00AFF0 */
+  color: #ffffff;
+}
+.MTnavbar .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar .MTnavbar-form input.form-control::-moz-placeholder, .MTnavbar.MTnavbar-default .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-default .MTnavbar-form input.form-control::-moz-placeholder {
+  color: #ffffff;
+}
+.MTnavbar .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar .MTnavbar-form input.form-control:-ms-input-placeholder, .MTnavbar.MTnavbar-default .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-default .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar .MTnavbar-form input.form-control::-webkit-input-placeholder, .MTnavbar.MTnavbar-default .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-default .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar .dropdown-menu, .MTnavbar.MTnavbar-default .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar .dropdown-menu li > a:hover, .MTnavbar .dropdown-menu li > a:focus, .MTnavbar.MTnavbar-default .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-default .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #9c27b0;
+}
+.MTnavbar .dropdown-menu .active > a, .MTnavbar.MTnavbar-default .dropdown-menu .active > a {
+  background-color: #9c27b0;
+  color: #ffffff;
+}
+.MTnavbar .dropdown-menu .active > a:hover, .MTnavbar .dropdown-menu .active > a:focus, .MTnavbar.MTnavbar-default .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-default .dropdown-menu .active > a:focus {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-inverse {
+  background-color: #3f51b5;
+  color: contrast-color(#3f51b5, #000000, #ffffff);
+}
+.MTnavbar.MTnavbar-inverse .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-inverse .MTnavbar-form input.form-control::-moz-placeholder {
+  color: contrast-color(#3f51b5, #000000, #ffffff);
+}
+.MTnavbar.MTnavbar-inverse .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-inverse .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: contrast-color(#3f51b5, #000000, #ffffff);
+}
+.MTnavbar.MTnavbar-inverse .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-inverse .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: contrast-color(#3f51b5, #000000, #ffffff);
+}
+.MTnavbar.MTnavbar-inverse .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar.MTnavbar-inverse .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-inverse .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #3f51b5;
+}
+.MTnavbar.MTnavbar-inverse .dropdown-menu .active > a {
+  background-color: #3f51b5;
+  color: contrast-color(#3f51b5, #000000, #ffffff);
+}
+.MTnavbar.MTnavbar-inverse .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-inverse .dropdown-menu .active > a:focus {
+  color: contrast-color(#3f51b5, #000000, #ffffff);
+}
+.MTnavbar.MTnavbar-primary {
+  background-color: #9c27b0;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-primary .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-primary .MTnavbar-form input.form-control::-moz-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-primary .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-primary .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-primary .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-primary .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-primary .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar.MTnavbar-primary .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-primary .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #9c27b0;
+}
+.MTnavbar.MTnavbar-primary .dropdown-menu .active > a {
+  background-color: #9c27b0;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-primary .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-primary .dropdown-menu .active > a:focus {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-success {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-success .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-success .MTnavbar-form input.form-control::-moz-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-success .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-success .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-success .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-success .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-success .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar.MTnavbar-success .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-success .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #4caf50;
+}
+.MTnavbar.MTnavbar-success .dropdown-menu .active > a {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-success .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-success .dropdown-menu .active > a:focus {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-info {
+  background-color: #03a9f4;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-info .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-info .MTnavbar-form input.form-control::-moz-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-info .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-info .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-info .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-info .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-info .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar.MTnavbar-info .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-info .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #03a9f4;
+}
+.MTnavbar.MTnavbar-info .dropdown-menu .active > a {
+  background-color: #03a9f4;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-info .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-info .dropdown-menu .active > a:focus {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-warning {
+  background-color: #fbc02d;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-warning .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-warning .MTnavbar-form input.form-control::-moz-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-warning .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-warning .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-warning .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-warning .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-warning .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar.MTnavbar-warning .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-warning .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #fbc02d;
+}
+.MTnavbar.MTnavbar-warning .dropdown-menu .active > a {
+  background-color: #fbc02d;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-warning .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-warning .dropdown-menu .active > a:focus {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-danger {
+  background-color: #f44336;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-danger .MTnavbar-form .form-group input.form-control::-moz-placeholder,
+.MTnavbar.MTnavbar-danger .MTnavbar-form input.form-control::-moz-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-danger .MTnavbar-form .form-group input.form-control:-ms-input-placeholder,
+.MTnavbar.MTnavbar-danger .MTnavbar-form input.form-control:-ms-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-danger .MTnavbar-form .form-group input.form-control::-webkit-input-placeholder,
+.MTnavbar.MTnavbar-danger .MTnavbar-form input.form-control::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-danger .dropdown-menu {
+  border-radius: 3px !important;
+}
+.MTnavbar.MTnavbar-danger .dropdown-menu li > a:hover, .MTnavbar.MTnavbar-danger .dropdown-menu li > a:focus {
+  color: #FFFFFF;
+  background-color: #f44336;
+}
+.MTnavbar.MTnavbar-danger .dropdown-menu .active > a {
+  background-color: #f44336;
+  color: #ffffff;
+}
+.MTnavbar.MTnavbar-danger .dropdown-menu .active > a:hover, .MTnavbar.MTnavbar-danger .dropdown-menu .active > a:focus {
+  color: #ffffff;
+}
+.MTnavbar-inverse {
+  background-color: #3f51b5;
+}
+.MTnavbar.MTnavbar-transparent {
+  background-color: transparent;
+  box-shadow: none;
+}
+.MTnavbar-fixed-top {
+  border-radius: 0;
+}
+@media (max-width: 1199px) {
+  .MTnavbar .MTnavbar-brand {
+    height: 50px;
+    padding: 10px 15px;
+  }
+  .MTnavbar .MTnavbar-form {
+    margin-top: 10px;
+  }
+  .MTnavbar .MTnavbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+.MTnavbar .alert {
+  border-radius: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 85px;
+  width: 100%;
+  z-index: 3;
+  transition: all 0.3s;
+}
+
+.section-MTnavbars {
+  padding-bottom: 0;
+}
+
+.MTnavbar-absolute {
+  position: absolute;
+  width: 100%;
+  padding-top: 10px;
+  z-index: 1031;
+}
+
+#MTnavbar-full .MTnavbar{
+    border-radius: 0 !important;
+    margin-bottom: 15px;
+    z-index: 2;
+}
+
+.MTnavbar-small .logo-container .brand{
+    color: #333333;
+}
+
+.MTnavbar-default.MTnavbar-small .logo-container .brand{
+    color: #333333;
+}
+.MTnavbar-transparent.MTnavbar-small .logo-container .brand{
+    color: #FFFFFF;
+}
+.MTnavbar-default.MTnavbar-small .logo-container .brand{
+    color: #333333;
+}
+
+.section-MTnavbars{
+    padding-top: 0;
+}
+#MTnavbar .MTnavbar{
+    border-radius: 0;
+}

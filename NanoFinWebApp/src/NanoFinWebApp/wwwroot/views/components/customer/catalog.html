@@ -1,0 +1,130 @@
+﻿<div class = "index-page" ng-controller="catalogPageController">
+    <div class="wrapper">
+        <div class="header header-filter" style="background: url('assets/img/mendance.jpg') no-repeat center center fixed; background-size:cover;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="brand">
+                            <h1 style="font-family: 'Rock Salt', cursive;">NanoFin</h1>
+                            <h3>Smart. Quick. Bankless.</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main main-raised">
+            <div class="section section-basic">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="title">
+                                <div ng-app="myApp" ng-controller="customerCtrl" class="text-center">
+                                    <h1 class="text-info">Let's Talk Nano-Insurance...</h1>
+                                    <ul >
+                                        <li>hello there</li>
+                                        <li ng-repeat="insTypeDescription in insuranceTypes">{{insTypeDescription.insuranctTypeDescription}}</li>
+                                        </ul>
+
+                                    <h4 style="padding:1px">Select from our various categories below:</h4>
+
+                                </div>
+                            </div>
+
+                            <!-- Tabs with icons on Card -->
+                            <div class="card card-nav-tabs">
+                                <div class="header header-info">
+                                    <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper text-center">
+
+                                            <ul ng-controller="customerCtrl" class="nav nav-tabs" style= "display:inline-block;" data-tabs="tabs">
+                                                <li ng-repeat="insuranceT in insuranceTypes">{{insuranceT.insuranctTypeDescription}}</li>
+
+
+                                                <!--<li class="active">
+                                                    <a href="#asset" data-toggle="tab">
+                                                        <i class="fa fa-home fa-2x"></i>
+                                                        Asset
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#travel" data-toggle="tab">
+                                                        <i class="fa fa-suitcase fa-2x"></i>
+                                                        Travel
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#legal" data-toggle="tab">
+                                                        <i class="fa fa-gavel fa-2x"></i>
+                                                        Legal
+                                                    </a>
+
+                                                </li>
+                                                <li>
+                                                    <a href="#medical" data-toggle="tab">
+                                                        <i class="fa fa-ambulance fa-2x"></i>
+
+                                                        Medical
+                                                    </a>
+
+                                                </li>
+                                                <li>
+                                                    <a href="#funeral" data-toggle="tab">
+                                                        <i class="fa fa-heartbeat fa-2x"></i>
+                                                        Funeral
+                                                    </a>
+
+                                                </li>
+                                                <li>
+                                                    <a href="#valueAdded" data-toggle="tab">
+                                                        <i class="fa fa-plus fa-2x"></i>
+                                                        Value-Added Services
+                                                    </a>
+
+                                                </li>-->
+
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="tab-content text-center">
+                                        <div class="tab-pane active" id="asset">
+                                            <p> asset </p>
+                                        </div>
+                                        <div class="tab-pane" id="travel">
+                                            <p> travel</p>
+                                        </div>
+                                        <div class="tab-pane" id="legal">
+                                            <p>legal</p>
+                                        </div>
+                                        <div class="tab-pane" id="medical">
+                                            <p>medical</p>
+                                        </div>
+
+                                        <div class="tab-pane" id="funeral">
+                                            <p>funeral</p>
+                                        </div>
+                                        <div class="tab-pane" id="valueAdded">
+                                            <p>value added</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Tabs with icons on Card -->
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
