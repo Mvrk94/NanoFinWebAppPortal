@@ -34,7 +34,7 @@
         $http(
        {
            method: 'GET',
-         url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
+         url: 'http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
        })
        .then(successCallBack(resonce,, errorCallBack);
        // }*/
@@ -48,12 +48,13 @@
             lastPolicyDOc = response.data.lastestPolicyNo;
             table.rows.add(unprocessedList);
             table.draw();
+            alert("data");
             addRowHandlers();
         };
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
+            url: 'http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
         })
         .then(successCallBack, errorCallBack);
        
@@ -65,7 +66,8 @@
             {
                 var currentRow = table.rows[i];
                 var createClickHandler =
-                    function (row) {
+                    function (row)
+                    {
                         return function () {
                             var cell = row.getElementsByTagName("td")[0];
                             var id = cell.innerHTML;
@@ -107,7 +109,6 @@
             html += "<div class='form-group'>";
             html += "<br />";
             html += "<label for='txtAddress' class='col-sm-3 control-label'>Address</label>";
-
             html += "<div class='col-sm-8'>";
             html += "<input type='text' class='form-control' id='txtAddress' value='" + unprocessedApplication.address + "' disabled>";
             html += "</div>";
@@ -126,10 +127,19 @@
             html += "</div>";
 
             html += "<div class='row'>";
+            html += "<div class='form-group'>";
+            html += "<br />";
+            html += "<label for='txtStartDate' class='col-sm-3 control-label'>Product Purchased</label>";
+            html += "<div class='col-sm-8'>";
+            html += "<input type='text' class='form-control' id='txtStartDate' value='" + unprocessedApplication.startdate + "' disabled>";
+            html += "</div>";
+            html += "</div>";
+            html += "</div>";
+
+            html += "<div class='row'>";
             html += "<br />";
             html += "<div id='frmPolicyDoc' class='form-group'>";
             html += "<label for='txtPolicyNo' class='col-sm-3 control-label'>Assign Policy No</label>";
-
             html += "<div class='col-sm-8'>";
             html += "<input type='text' class='form-control' id='txtPolicyNo'>";
             html += "<div id='txtError'></div>";
@@ -171,38 +181,47 @@
                 $http(
                {
                    method: 'GET',
-                   url: "http://nanofinapi.azurewebsites.net/api/insuranceManager/isPolicyNumberUnique?policyNo=" + newPolicyNo
-               }).then(function (responce){
-                   if(responce.data ===  false)
-                   {
-                       invalidInput("The policy number entered already exist");
-                   }
-                   else
-                   {
-                       var processApp =
+                   url: "http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/isPolicyNumberUnique?policyNo=" + newPolicyNo
+               }).then(function (responce)
+               {
+                       if (responce.data == false)
                        {
-                           "providerID": 11,
-                           "activeproductID": id,
-                           "policyNo": newPolicyNo.toString(),
-                       };
 
-                       var req =
-                        {
-                            method: 'POST',
-                            url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/ProcessInsuranceProduct',
-                            headers:{'Content-Type': 'application/json; charset=UTF-8'},
-                            data: JSON.stringify(processApp)
-                        };
-                       $http(req).then(
-                           function (responce)
+                           invalidInput("The policy number entered already exist");
+                       }
+                       else
+                       {
+                           var processApp =
                            {
-                               if (responce === true)
-                               alert("happy!!!");
-                           });
+                               "providerID": 11,
+                               "activeproductID": id,
+                               "policyNo": newPolicyNo.toString(),
+                           };
 
+                           //var progressBar = "<div class='progress-bar progress-bar-green' role='progressbar' aria-valuenow='40' aria-valuemin='0' aria-valuemax='100' style='width: 40%'>";
+                           //progressBar += "style='width: 40%'>";
+                           //progressBar += "  </div>";
+                           //document.getElementById("txtError").innerHTML = $compile(progressBar)($scope);
+                           //document.getElementById("btnModalApprove").Enabled = false;
 
-                   }
-               });
+                           var req =
+                            {
+                                method: 'POST',
+                                url: 'http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/ProcessInsuranceProduct',
+                                headers:{'Content-Type': 'application/json; charset=UTF-8'},
+                                data: JSON.stringify(processApp)
+                            };
+                           $http(req).then(
+                               function (responce)
+                               {
+                                   if (Boolean.valueOf(responce.data) === true)
+                                       alert("happy!!!");
+                                   $('#myModal').modal('hide');
+
+                               });
+
+                       }
+                });
             };
         };
 
@@ -210,9 +229,10 @@
         {
             for (var r = 0 ; r < unprocessedList.length ; r++)
             {
-                if (unprocessedList[r].activeProductID == insuranceProductID) {
+                if (unprocessedList[r].activeProductID == insuranceProductID) 
+                {
                     id = insuranceProductID;
-                    return unprocessedList[r]
+                    return unprocessedList[r];
                 }
             }
         }

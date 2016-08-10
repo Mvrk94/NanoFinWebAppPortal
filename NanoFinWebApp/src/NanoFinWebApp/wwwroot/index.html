@@ -19,19 +19,42 @@
 
     <!-- DataTables -->
     <link rel="stylesheet" href="assets/plugins/datatables/dataTables.bootstrap.css">
-   
-    
+    <!-- jQuery 2.2.3 -->
+    <script src="assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
     <script src="lib/angular/angular.min.js"></script>
+
     <script src="lib/angular-route/angular-route.min.js"></script>
     <script src="app.js"></script>
+
+    
     <!--<script src="components.js"></script>-->
     <base href="/" />
+
+    <style>
+
+        .notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+        .stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
+    </style>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini" ng-app="myApp" ng-cloak>
     <!-- Site wrapper -->
-    <div class="wrapper">
-        <header class="main-header">
+    <div class="wrapper"  >
+        <header class="main-header" >
             <!-- Logo -->
             <a href="assets/index2.html" class="logo" style="background-color:#03a9f4">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -342,9 +365,10 @@
     <!-- ChartJS 1.0.1 -->
     <script src="assets/plugins/chartjs/Chart.min.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="assets/dist/js/pages/dashboard2.js"></script>
+    <!--<script src="assets/dist/js/pages/dashboard2.js"></script>-->
     <!-- AdminLTE for demo purposes -->
     <script src="assets/dist/js/demo.js"></script>
+
 
  
 </body>
