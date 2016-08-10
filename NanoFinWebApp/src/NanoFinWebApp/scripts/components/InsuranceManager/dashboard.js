@@ -40,7 +40,30 @@
             $scope.memebers = responce.data;
         };
 
-        var successCallBack = function (response) {
+        //var setAreaRatings = function (responce) {
+        //    var bestArea = responce.data[0];
+        //    var worstArea = responce.data[0];
+
+           
+        //    var counter = 0;
+        //    var data = responce.data;
+        //    for (var p in data) {
+        //        if (parseInt(data[counter].voucherSent) > parseInt(bestArea.voucherSent))
+        //        {
+        //            bestArea = responce.data[counter];
+        //        }
+        //        else if (parseInt(data[counter].voucherSent) < parseInt(worstArea.voucherSent))
+        //        {
+        //            worstArea = responce.data[counter];
+        //        }
+        //        counter++;
+        //    }
+        //    $scope.bestArea.address = String(bestArea.address).split(':')[2];
+        //    $scope.worstArea.address = String(worstArea.address).split(':')[2];
+        //};
+
+        var successCallBack = function (response)
+        {
             $scope.insuranceProductList = response.data;
             var mapMarkers = [];
             var details = response.data;
@@ -54,15 +77,6 @@
                     });
                 counter++;
             }
-
-            var setAreaRatings = function ()
-            {
-               
-
-
-            };
-
-
 
             Vmaps = $('#world-map-markers').vectorMap(
             {
@@ -103,15 +117,25 @@
                 },
                 markers: mapMarkers
             });
+            var bestArea = response.data[0];
+            var worstArea = response.data[0];
 
-            //var tt = $('#world-map-markers').getMapObject();
-            //for (var i = 0, l = response.data.length; i < l; i++)
-            //{
-            //    mapMarkers.push({latLng: response.data[i].address });
-            //    //mapMarkersValues.push(plants[i].status);
-            //}
-            //map.createMarkers(mapMarkers);
 
+            counter = 0;
+            for (var v in response.data)
+            {
+                if (parseInt(response.data[counter].voucherSent) > parseInt(bestArea.voucherSent)) {
+                    bestArea = response.data[counter];
+                }
+                else if (parseInt(response.data[counter].voucherSent) < parseInt(worstArea.voucherSent)) {
+                    worstArea = response.data[counter];
+                }
+                counter++;
+            }
+            $scope.bestArea = bestArea;
+            $scope.worstArea = worstArea;
+            $scope.bestArea.address = String(bestArea.address).split(':')[2];
+            $scope.worstArea.address = String(worstArea.address).split(':')[2];
         };
 
         var getUnprocessedApplications = function (responce) {
@@ -122,7 +146,8 @@
             $scope.insuranceProductList = response.data;
         };
 
-      
+       
+
 
         $http(
        {

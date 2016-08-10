@@ -35,6 +35,11 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: '/views/components/home/viewiunprocessedapplications.html',
         controller: 'insuranceApplicationsPageController'
     })
+    .when('/Reports',
+    {
+        title: 'reports',
+        templateUrl: '/views/components/home/reports.html',
+    })
 
     .otherwise({
         templateUrl: '/views/components/home/home.html',

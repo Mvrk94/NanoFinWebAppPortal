@@ -112,17 +112,17 @@
                 
                 <!-- /.info-box -->
                 <div class="info-box bg-green">
-                    <span class="info-box-icon"><i class="fa fa-trophy"></i></span>
+                    <span class="info-box-icon"><i class="fa fa-map-marker"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Popular Selling Area</span>
-                        <span class="info-box-number">Area name</span>
+                        <span class="info-box-number">{{bestArea.address}}</span>
 
                         <div class="progress">
                             <div class="progress-bar" style="width: 20%"></div>
                         </div>
                         <span class="progress-description">
-                           {{}} Sales
+                           {{bestArea.voucherSent}} Sales
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -131,17 +131,17 @@
                 
                 <!-- Info Boxes Style 2 -->
                 <div class="info-box bg-yellow">
-                    <span class="info-box-icon"><i class="fa fa-frown-o"></i></span>
+                    <span class="info-box-icon"><i class="fa fa-map-marker"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Least Popular Area</span>
-                        <span class="info-box-number">Area name</span>
+                        <span class="info-box-number">{{worstArea.address}}</span>
 
                         <div class="progress">
                             <div class="progress-bar" style="width: 50%"></div>
                         </div>
                         <span class="progress-description">
-                           {{}} Sales
+                           {{worstArea.voucherSent}} Sales
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -149,7 +149,7 @@
 
                 <!-- /.info-box -->
                 <div class="info-box bg-aqua">
-                    <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+                    <span class="info-box-icon"><i class="fa fa-trophy"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Best selling</span>
