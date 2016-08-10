@@ -21,7 +21,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Market Share</span>
-                        <span class="info-box-number">90<small>%</small></span>
+                        <span class="info-box-number">{{MarketShare}}<small>%</small></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -30,11 +30,11 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+                    <span class="info-box-icon bg-red"><i class="fa  fa-warning"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Popularity</span>
-                        <span class="info-box-number">41,410</span>
+                        <span class="info-box-text">Unprocessed Applications</span>
+                        <span class="info-box-number">{{unprocessedApplications}}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -50,7 +50,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Sales</span>
-                        <span class="info-box-number">760</span>
+                        <span class="info-box-number">{{mySales}}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -63,7 +63,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">New Members</span>
-                        <span class="info-box-number">2,000</span>
+                        <span class="info-box-number">{{memebers}}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -77,7 +77,7 @@
             <!-- Left col -->
             <div class="col-md-8">
                 <!-- MAP & BOX PANE -->
-                <div class="box box-success">
+                <div class="box box-success" style="height:415px">
                     <div class="box-header with-border">
                         <h3 class="box-title">Sales Points</h3>
 
@@ -89,14 +89,14 @@
                         </div>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body no-padding">
-                        <div class="row">
+                    <div class="box-body no-padding" >
+                        <!--<div class="row">-->
                             <div>
                                 <div class="pad">
                                     <!-- Map will be created here -->
                                     <div id="world-map-markers" style="height: 325px;"></div>
                                 </div>
-                            </div>
+                            <!--</div>-->
                             <!-- /.col -->
                            
                         </div>
@@ -105,221 +105,83 @@
                     <!-- /.box-body -->
                 </div>
 
-
-                <!-- TABLE: LATEST ORDERS -->
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Latest Orders</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div class="table-responsive">
-                            <table class="table no-margin">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Item</th>
-                                        <th>Status</th>
-                                        <th>Popularity</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-info">Processing</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                        <td>Samsung Smart TV</td>
-                                        <td><span class="label label-warning">Pending</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                        <td>iPhone 6 Plus</td>
-                                        <td><span class="label label-danger">Delivered</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                        <td>Call of Duty IV</td>
-                                        <td><span class="label label-success">Shipped</span></td>
-                                        <td>
-                                            <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer clearfix">
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
-                <!-- /.box -->
             </div>
             <!-- /.col -->
 
             <div class="col-md-4">
-                <!-- Info Boxes Style 2 -->
-                <div class="info-box bg-yellow">
-                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">Inventory</span>
-                        <span class="info-box-number">5,200</span>
-
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 50%"></div>
-                        </div>
-                        <span class="progress-description">
-                            50% Increase in 30 Days
-                        </span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
+                
                 <!-- /.info-box -->
                 <div class="info-box bg-green">
-                    <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+                    <span class="info-box-icon"><i class="fa fa-trophy"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Mentions</span>
-                        <span class="info-box-number">92,050</span>
+                        <span class="info-box-text">Popular Selling Area</span>
+                        <span class="info-box-number">Area name</span>
 
                         <div class="progress">
                             <div class="progress-bar" style="width: 20%"></div>
                         </div>
                         <span class="progress-description">
-                            20% Increase in 30 Days
+                           {{}} Sales
                         </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
+                
+                
+                <!-- Info Boxes Style 2 -->
+                <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="fa fa-frown-o"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Least Popular Area</span>
+                        <span class="info-box-number">Area name</span>
+
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 50%"></div>
+                        </div>
+                        <span class="progress-description">
+                           {{}} Sales
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+
                 <!-- /.info-box -->
                 <div class="info-box bg-aqua">
                     <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Best selling</span>
-                        <span class="info-box-number">114,381</span>
+                        <span class="info-box-number">{{bestProduct.name}}</span>
 
                         <div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
+                            <div class="progress-bar" style="width: 90%"></div>
                         </div>
                         <span class="progress-description">
-                            70% Increase in 30 Days
+                           Current Sales {{bestProduct.overallUsage}}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
                 <div class="info-box bg-red">
-                    <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
+                    <span class="info-box-icon"><i class="fa fa-exclamation-circle"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Under performing</span>
-                        <span class="info-box-number">163,921</span>
+                        <span class="info-box-number">{{worstProduct.name}}</span>
 
                         <div class="progress">
-                            <div class="progress-bar" style="width: 40%"></div>
+                            <div class="progress-bar" style="width: 15%"></div>
                         </div>
                         <span class="progress-description">
-                            40% decrease in 30 Days
+                            Current Sales {{worstProduct.overallUsage}}
                         </span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Products Type Purchases</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="chart-responsive">
-                                    <canvas id="pieChart" height="150"></canvas>
-                                </div>
-                                <!-- ./chart-responsive -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-md-4">
-                                <ul class="chart-legend clearfix">
-                                    <li><i class="fa fa-circle-o text-red"></i> Home Cover</li>
-                                    <li><i class="fa fa-circle-o text-green"></i> Car Cover</li>
-                                    <li><i class="fa fa-circle-o text-yellow"></i> Airtime</li>
-                                    <li><i class="fa fa-circle-o text-aqua"></i> Electricity</li>
-                                    <li><i class="fa fa-circle-o text-gray"></i> Health</li>
-                                </ul>
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer no-padding">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#">Product 1 <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a></li>
-                            <li><a href="#">Product 2 <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a></li>
-                            <li><a href="#">Product 3 <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
-                            <li><a href="#">View more<span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a></li>
-                        </ul>
-                    </div>
-                    <!-- /.footer -->
-                </div>
-                <!-- /.box -->
             </div>
             <!-- /.col -->
         </div>
