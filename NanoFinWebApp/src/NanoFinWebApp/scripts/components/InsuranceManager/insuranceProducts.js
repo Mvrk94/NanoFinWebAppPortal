@@ -55,32 +55,32 @@
             {
                 if (response.data[c].typeOfInsurance == "Asset")
                 {
-                    Asset.push(data[c])
+                    Asset.push(data[c]);
                 }
 
                 if (response.data[c].typeOfInsurance == "Travel")
                 {
-                    Travel.push(data[c])
+                    Travel.push(data[c]);
                 }
 
                 if (response.data[c].typeOfInsurance == "Legal")
                 {
-                    Legal.push(data[c])
+                    Legal.push(data[c]);
                 }
 
                 if (response.data[c].typeOfInsurance == "Medical")
                 {
-                    Medical.push(data[c])
+                    Medical.push(data[c]);
                 }
 
                 if (response.data[c].typeOfInsurance == "Funeral")
                 {
-                    Funeral.push(data[c])
+                    Funeral.push(data[c]);
                 }
 
                 if (response.data[c].typeOfInsurance == "Value Added Services")
                 {
-                    ValueAdded.push(data[c])
+                    ValueAdded.push(data[c]);
                 }
             }
 

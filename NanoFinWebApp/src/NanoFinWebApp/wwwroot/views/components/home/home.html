@@ -33,7 +33,9 @@
                     <span class="info-box-icon bg-red"><i class="fa  fa-warning"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Unprocessed Applications</span>
+                        <span class="info-box-text">Unprocessed Insurance Purchases</span>
+                        <span class="info-box-text"> Purchases</span>
+                        <br />
                         <span class="info-box-number">{{unprocessedApplications}}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -49,7 +51,7 @@
                     <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Sales</span>
+                        <span class="info-box-text">Sales This Month</span>
                         <span class="info-box-number">{{mySales}}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -62,7 +64,7 @@
                     <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">New Members</span>
+                        <span class="info-box-text">Unique Clients</span>
                         <span class="info-box-number">{{memebers}}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -72,15 +74,15 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
+        <br/>
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
             <div class="col-md-8">
                 <!-- MAP & BOX PANE -->
-                <div class="box box-success" style="height:415px">
+                <div class="box box-success" >
                     <div class="box-header with-border">
-                        <h3 class="box-title">Sales Points</h3>
-
+                        <h1 class="box-title"><font size="5">Reseller HotSpots</font></h1>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                 <i class="fa fa-minus"></i>
@@ -94,7 +96,7 @@
                             <div>
                                 <div class="pad">
                                     <!-- Map will be created here -->
-                                    <div id="world-map-markers" style="height: 325px;"></div>
+                                    <div id="world-map-markers" style="height: 330px;"></div>
                                 </div>
                             <!--</div>-->
                             <!-- /.col -->
@@ -103,13 +105,18 @@
                         <!-- /.row -->
                     </div>
                     <!-- /.box-body -->
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                          The  above  map  displays  areas  where  the  most  vouchers  have  been  send  by  resellers
+                    </div>
+                    <!-- /.box-footer -->
+
                 </div>
 
             </div>
             <!-- /.col -->
 
             <div class="col-md-4">
-                
                 <!-- /.info-box -->
                 <div class="info-box bg-green">
                     <span class="info-box-icon"><i class="fa fa-map-marker"></i></span>
@@ -119,7 +126,7 @@
                         <span class="info-box-number">{{bestArea.address}}</span>
 
                         <div class="progress">
-                            <div class="progress-bar" style="width: 20%"></div>
+                            <div class="progress-bar" style="width: 80%"></div>
                         </div>
                         <span class="progress-description">
                            {{bestArea.voucherSent}} Sales
@@ -138,7 +145,7 @@
                         <span class="info-box-number">{{worstArea.address}}</span>
 
                         <div class="progress">
-                            <div class="progress-bar" style="width: 50%"></div>
+                            <div class="progress-bar" style="width: 15%"></div>
                         </div>
                         <span class="progress-description">
                            {{worstArea.voucherSent}} Sales
@@ -152,11 +159,11 @@
                     <span class="info-box-icon"><i class="fa fa-trophy"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Best selling</span>
+                        <span class="info-box-text">Best selling Product</span>
                         <span class="info-box-number">{{bestProduct.name}}</span>
 
                         <div class="progress">
-                            <div class="progress-bar" style="width: 90%"></div>
+                            <div class="progress-bar" style="width: 95%"></div>
                         </div>
                         <span class="progress-description">
                            Current Sales {{bestProduct.overallUsage}}
@@ -169,7 +176,7 @@
                     <span class="info-box-icon"><i class="fa fa-exclamation-circle"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Under performing</span>
+                        <span class="info-box-text">Under performing Product</span>
                         <span class="info-box-number">{{worstProduct.name}}</span>
 
                         <div class="progress">
