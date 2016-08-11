@@ -48,13 +48,12 @@
             lastPolicyDOc = response.data.lastestPolicyNo;
             table.rows.add(unprocessedList);
             table.draw();
-            alert("data");
             addRowHandlers();
         };
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
+            url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
         })
         .then(successCallBack, errorCallBack);
        
@@ -181,7 +180,7 @@
                 $http(
                {
                    method: 'GET',
-                   url: "http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/isPolicyNumberUnique?policyNo=" + newPolicyNo
+                   url: "http://nanofinapi.azurewebsites.net/api/insuranceManager/isPolicyNumberUnique?policyNo=" + newPolicyNo
                }).then(function (responce)
                {
                        if (responce.data == false)
@@ -207,7 +206,7 @@
                            var req =
                             {
                                 method: 'POST',
-                                url: 'http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/ProcessInsuranceProduct',
+                                url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/ProcessInsuranceProduct',
                                 headers:{'Content-Type': 'application/json; charset=UTF-8'},
                                 data: JSON.stringify(processApp)
                             };

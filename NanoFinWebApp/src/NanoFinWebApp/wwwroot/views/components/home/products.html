@@ -1,64 +1,277 @@
-﻿<div ng-controller="insuranceProd">
+﻿ <!-- /.col -->
+<div class="content" ng-controller="viewInsuranceProducts">
 
     <section class="content-header">
         <h1>
-            Products
-            <small>Preview page</small>
+            <font size="12">Products</font>
+            <small>Assets</small>
         </h1>
-        <br />
-        <br />
-        <br />
-
-        <div class="row">
-            <div class="col-md-4">
-                <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <br />
-        <br />
-
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Widgets</li>
+            <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Examples</a></li>
+            <li class="active">User profile</li>
         </ol>
     </section>
-
+    <br />
     <!-- Main content -->
     <section class="content">
-
-        <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div  ng-repeat="product in insuranceProductList">
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="{{product.boxColor}}">
-                        <div class="inner">
-                            <h4><strong>{{product.name}}</strong></h4>
-                            
-                            <p>{{product.typeOfInsurance}}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa {{product.icon}}"></i>
-                        </div>
-                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
-                            More info <i class="fa fa-arrow-circle-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul id="linkContainer" class="nav nav-tabs ">
+                        <li class="active"><a data-target="#Asset" data-toggle="tab">Asset</a></li>
+                        <li ><a data-target="#Travel" data-toggle="tab">Travel</a></li>
+                        <li ><a data-target="#Legal" data-toggle="tab">Legal</a></li>
+                        <li ><a data-target="#Medical" data-toggle="tab">Medical</a></li>
+                        <li ><a data-target="#Funeral" data-toggle="tab">Funeral</a></li>
+                        <li ><a data-target="#ValueAddedServices" data-toggle="tab">Value Added Services</a></li>
+                    </ul>
 
+                    <div class="tab-content" id="tabContainer">
+                        <div class=" active tab-pane" id="Asset">
+                            <br /><br />
+                            
+                            <div ng-repeat="product in Asset">
+                                <div class="col-xs-3">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                        </div>
+
+                        <div class="tab-pane" id="Travel">
+                            <br /><br />
+                            <div ng-repeat="product in Travel">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            
+                        </div>
+
+                        <div class="tab-pane" id="Legal">
+                            <br /><br />
+                            <div ng-repeat="product in Legal">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            
+                        </div>
+
+                        <div class="tab-pane" id="Medical">
+                            <br /><br />
+                            <div ng-repeat="product in Medical">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            
+                        </div>
+
+                        <div class="tab-pane" id="Funeral">
+                            <br /><br />
+                            <div ng-repeat="product in Funeral">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            
+                        </div>
+
+                        <div class="tab-pane" id="Travel">
+                            <br /><br />
+                            <div ng-repeat="product in Travel">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            
+                        </div>
+
+                        <div class="tab-pane" id="ValueAddedServices">
+                            <br /><br />
+                            <div ng-repeat="product in valueAdded">
+                                <div class="col-lg-3 col-xs-6">
+                                    <!-- small box -->
+                                    <div class="{{product.boxColor}}">
+                                        <div class="inner">
+                                            <h4><strong>{{product.name}}</strong></h4>
+
+                                            <p>{{product.typeOfInsurance}}</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa {{product.icon}}"></i>
+                                        </div>
+                                        <a href="/ProductManagement?vid={{product.id}}" class="small-box-footer">
+                                            More info <i class="fa fa-arrow-circle-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            <br /><br />
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
         </div>
         <!-- /.row -->
-
     </section>
-</div>
+</div>	

@@ -40,6 +40,11 @@ app.config(function ($routeProvider, $locationProvider) {
         title: 'reports',
         templateUrl: '/views/components/home/reports.html',
     })
+    .when('/validate',
+    {
+        title: 'validate',
+        templateUrl: '/views/components/home/validatorUsers.html',
+    })
 
     .otherwise({
         templateUrl: '/views/components/home/home.html',

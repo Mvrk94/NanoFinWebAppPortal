@@ -1,5 +1,5 @@
 ﻿angular.module('myApp')
-    .controller('reportsController', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
+    .controller('validateUsers', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
 
         var table;
         var unprocessedList;
@@ -14,11 +14,14 @@
                     "autoWidth": false,
                     'columns':
                         [
-                            { 'data': 'index' },
-                            { 'data': 'month' },
-                            { 'data': 'NumberofPurchases' },
-                            { 'data': 'unitsSold' },
-                            { 'data': 'OverallSales' },
+                            { 'data': 'userID' },
+                            { 'data': 'brankNo' },
+                            { 'data': 'name' },
+                            { 'data': 'IDNumber' },
+                            { 'data': 'bankName' },
+                            { 'data': 'accountNo' },
+                            { 'data': 'address' },
+                            { 'data': 'contactInfo' },
                         ]
                 });
         });
@@ -28,13 +31,21 @@
         };
         var successCallBack = function (response) {
             unprocessedList = response.data;
+
+            var counter = 0;
+            for (var p in unprocessedList)
+            {
+                unprocessedList[counter].brankNo = "Pending";
+                counter++;
+            }
+
             table.rows.add(unprocessedList);
             table.draw();
         };
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapi.azurewebsites.net/api/Reports/getInvoices?providerID=11'
+            url: 'http://nanofinapi.azurewebsites.net/api/Validator/getUnValidatedUsers'
         })
         .then(successCallBack, errorCallBack);
 
