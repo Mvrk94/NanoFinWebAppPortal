@@ -1,0 +1,206 @@
+﻿
+
+
+<div id="reportsPage" style="overflow:scroll" ng-controller="reportsNaster">
+
+
+
+
+    <style>
+        /*.slideOne 
+        {
+          width: 50px;
+          height: 10px;
+          background: #333;
+          margin: 20px auto;
+          position: relative;
+          border-radius: 50px;
+          box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+          label 
+              {
+                display: block;
+                width: 16px;
+                height: 16px;
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                cursor: pointer;
+                background: #fcfff4;
+                background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+                border-radius: 50px;
+                box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+                transition: all 0.4s ease;
+            }
+          input[type=checkbox] 
+          {
+            visibility: hidden;
+            &:checked + label 
+            {
+              left: 37px;
+            }  
+          }
+        }*/
+
+
+        .removePersonalSpace {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .boxSize {
+        }
+    </style>
+
+    <section class="content-header">
+        <h1>
+            Mailbox
+            <small>13 new messages</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Mailbox</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+
+    <label>
+        <input type="checkbox" class="flat-red" checked>
+    </label><label>
+    <input type="checkbox" class="flat-red" checked>
+</label>
+    <section class="content">
+        <br />
+        <div class="row " style="width:1800px">
+
+            <div class="col-md-3 " style="width:300px; margin:3px; padding:0px;margin-left:20px">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="height:90%;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:65px">
+
+                        <h3 class="widget-user-username">Track your Performance</h3>
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-stacked" style="font-size:19px">
+
+                            <li> <br /> <br /></li>
+                            <li ng-click="targetSales()">
+                                <a>
+                                    Target Progress <br />
+                                    <span style="font-size:12px">show the current sales vs predicted sales value</span>
+                                </a>
+                            </li>
+                            <li ng-click="compareProducts()">
+                                <a>
+                                    Compare Product Sales  <br />
+                                    <span style="font-size:12px">compare sales for one or more Products</span>
+                                </a>
+                            </li>
+                            <li ng-click="forecastedSales()">
+                                <a>
+                                    Forcasted Sales  <br />
+                                    <span style="font-size:12px">View forcasted sales for your Products</span>
+                                </a>
+                            </li>
+                            <li ng-click="GeoProductSales()">
+                                <a>
+                                    Geo-Location  Sales  <br />
+                                    <span style="font-size:12px">Product sales Per Product</span>
+                                </a>
+                            </li>
+
+                            <li ng-click="predictLocationSales()">
+                                <a>
+                                    Geo-Location Predicted Sales  <br />
+                                    <span style="font-size:12px">Product sales Per Product</span>
+                                </a>
+                            </li>
+                            <li> <br /> <br /></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-3 " style="width:300px;margin:3px; padding:0px">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:65px">
+
+                        <h3 class="widget-user-username">Select Product or Type</h3>
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                    </div>
+                    <div  class="box-footer no-padding" style="width:300px;height:485px;overflow-y:scroll">
+                        <ul class="nav nav-stacked" id="itemList"  style="font-size:15px">
+
+                            <li style="font-size:19px" >  <br /> <br /></li>
+                            <li> <button type="button" class="btn btn-block btn-default">Default</button></li>
+                            <div id="itemList"></div>    
+                            <li> <br /> <br /></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+            <!-- /.col -->
+
+            <div style="width:1200px; margin:3px;margin-left:630px; padding:0px">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="height:50%;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:65px">
+
+                        <h3 class="widget-user-username">Data</h3>
+                        <br/><br />
+                         
+                        <center><h1 style="color:black;"> Target sales    <small style="margin-left:15px;margin-right:20px">vs</small>   Current Sales per Product</h1></center>
+                        
+                        <br /><br /><br />
+                        
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                        <div class="chart">
+                            <canvas id="canvasData" style="height:300px"></canvas>
+                        </div>
+
+                    </div>
+                    <div class="box-footer no-padding" style="width:899px;height:485px">
+
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <script>
+        $(function () {
+            //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+
+            });
+            //Red color scheme for iCheck
+            $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+                checkboxClass: 'icheckbox_minimal-red',
+
+            });
+            //Flat red color scheme for iCheck
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+
+            });
+        });
+    </script>
+</div>

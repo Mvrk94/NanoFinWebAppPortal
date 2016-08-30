@@ -60,16 +60,28 @@
         };
 
         $scope.submitInsuranceProductChanges = function () {
+
             var xhr = new XMLHttpRequest();
             xhr.open("PUT", "http://nanofinapi.azurewebsites.net/api/insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON
             xhr.send(JSON.stringify($scope.InsuranceProduct));
-
-            xhr.onloadend = function () {
-                // done
-            };
+            xhr.onloadend = function () {};
         };
+
+        $scope.SendFile = function ()
+        {
+            var f = document.getElementById('file1').files[0],
+            r = new FileReader();
+            r.onloadend = function (e)
+            {
+                var data = e.target.result;
+                alert(e.target.fileName);
+            };
+            alert(e.target.fileName);
+            r.readAsBinaryString(f);
+        };
+
 
     }]);

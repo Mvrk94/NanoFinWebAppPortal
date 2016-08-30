@@ -9,36 +9,36 @@ app.config(function ($routeProvider, $locationProvider) {
     })
     .when('/home', {
         title: 'Insurance Manager',
-        templateUrl: '/views/components/home/home.html',
+        templateUrl: '/views/components/InsuranceManager/home.html',
         controller: 'homePageController'
 
     })
 
     .when('/ProductManagement', {
         title: 'Insurance Manager',
-        templateUrl: '/views/components/home/productManagement.html',  
+        templateUrl: '/views/components/InsuranceManager/productManagement.html',
         controller: 'productManagementPageController'
     })
    .when('/Products', {
        title: 'Insurance Manager',
-       templateUrl: '/views/components/home/products.html',
+       templateUrl: '/views/components/InsuranceManager/products.html',
        controller: 'productsPageController'
    })
 
     .when('/addProduct', {
         title: 'Insurance Manager',
-        templateUrl: '/views/components/home/AddInsuranceProduct.html',
+        templateUrl: '/views/components/InsuranceManager/AddInsuranceProduct.html',
         controller: 'AddProductPageController'
     })
     .when('/ProcessPurchases', {
         title: ' home',
-        templateUrl: '/views/components/home/viewiunprocessedapplications.html',
+        templateUrl: '/views/components/InsuranceManager/viewiunprocessedapplications.html',
         controller: 'insuranceApplicationsPageController'
     })
     .when('/Reports',
     {
         title: 'reports',
-        templateUrl: '/views/components/home/reports.html',
+        templateUrl: '/views/components/InsuranceManager/reports.html',
     })
     .when('/validate',
     {
@@ -46,8 +46,14 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: '/views/components/home/validatorUsers.html',
     })
 
+   .when('/test',
+    {
+        title: 'validate',
+        templateUrl: '/views/components/test/test.html',
+    })
+
     .otherwise({
-        templateUrl: '/views/components/home/home.html',
+        templateUrl: '/views/components/InsuranceManager/home.html',
         controller: 'homePageController'
     });
 

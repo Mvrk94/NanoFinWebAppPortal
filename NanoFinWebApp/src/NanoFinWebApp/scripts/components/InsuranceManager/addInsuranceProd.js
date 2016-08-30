@@ -11,7 +11,7 @@
             ProductType_ID : 1,
             productName: "",
             productDescription: "",
-            productPolicyDocPath: "path",
+            productPolicyDocPath: "c://",
             isAvailableForPurchase: true
         };
 
@@ -29,6 +29,7 @@
                 ipClaimInfoPath: "string"
             };
 
+
         $scope.submitProductChanges = function ()
         {
             $scope.product.isAvailableForPurchase = document.getElementById("sltAvailable").value;
@@ -42,9 +43,10 @@
             };
 
             $http(req).then(
-                function(responce)
+                function (responce, status, headers, config)
                 {
-                    $scope.InsuranceProduct.Product_ID = responce.data.Product_ID; 
+                    $scope.InsuranceProduct.Product_ID = parseInt(String(headers('location')).replace("http://nanofinapi.azurewebsites.net/api/insuranceManager/Postproduct/", ""));
+                    alert("first item sent");
                 }
                 );
         };
@@ -65,6 +67,7 @@
             };
             $http(req).then(
                 function (responce) {
+                    alert("second item sent");
                     $scope.InsuranceProduct.Product_ID = 262;
                 });
 

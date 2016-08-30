@@ -20,7 +20,7 @@
             var r = "";
            
                 r += "div class='col-lg-3 col-xs-6'>";
-                r += "<!-- small box -->"
+                r += "<!-- small box -->";
                 r += "<div class='"+boxColor +"'>";
                 r += "<div class='inner'>";
                 r += "<h4><strong>"+name+"</strong></h4>";

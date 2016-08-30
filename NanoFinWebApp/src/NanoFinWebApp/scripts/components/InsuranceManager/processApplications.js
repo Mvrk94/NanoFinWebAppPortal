@@ -183,7 +183,7 @@
                    url: "http://nanofinapi.azurewebsites.net/api/insuranceManager/isPolicyNumberUnique?policyNo=" + newPolicyNo
                }).then(function (responce)
                {
-                       if (responce.data == false)
+                       if (responce.data === false)
                        {
 
                            invalidInput("The policy number entered already exist");
