@@ -3,6 +3,24 @@
 angular.module('myApp')
         .controller('reportsNaster', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
         
+        $scope.getType = function (insuranceType) {
+                if (insuranceType == 1)
+                    return "Assets";
+                else if (insuranceType == 2)
+                    return "Travel";
+                else if (insuranceType == 11)
+                    return "Legal";
+
+                else if (insuranceType == 21)
+                    return "Medical";
+                else if (insuranceType == 31)
+                    return "Funeral";
+
+                return "Value Added";
+            };
+
+        var canDraw = 0;
+
         var errorCallBack = function (response) {
 
             $scope.products = response.data;
@@ -11,12 +29,36 @@ angular.module('myApp')
         var saveItemInformartion = function (response)
         {
             $scope.itemsData = response;
+            fillOptions();
         };
 
-        var getSalesTarget = function (responce)
+        var setTargetSales = function (responce)
         {
             $scope.targetInfor = responce;
 
+        };
+
+        var setLocationData = function (responce) {
+
+            $scope.ProvinceData = responce;
+            var c = $scope.initMap;
+            c();
+        };
+
+        var setProduct1 = function (responce) {
+            $scope.product1data = responce.data;
+            alert($scope.product1data.name);
+            canDraw += 1;
+            if (canDraw % 2 === 0)
+                drawCompareProducts();
+        };
+
+        var setProduct2 = function (responce) {
+            $scope.product2data = responce.data;
+            alert($scope.product2data.name);
+            canDraw += 1;
+            if (canDraw % 2 === 0)
+                drawCompareProducts();
         };
 
         var fillOptions = function ()
@@ -55,20 +97,21 @@ angular.module('myApp')
                url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList'
            }).then(saveItemInformartion, errorCallBack);
 
-
+        /*
+            Product Compare Sales With Target
+        */
         $scope.targetSales = function ()
         {
-            fillOptions();
             $http(
             {
                 method: 'GET',
-                url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11'
-            }).then(getSalesTarget, errorCallBack);
+                url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=1'
+            }).then(setTargetSales, errorCallBack);
         };
 
         $scope.drawToCanvas = function ()
         {
-
+            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:830px;marign-left:29px;'></canvas>";
             var responce = $scope.targetInfor;
             var drawItems = [];
             var index = 0;
@@ -79,7 +122,7 @@ angular.module('myApp')
             {
                 var check = document.getElementById("checkbox" + responce.data[index].ProductID).checked;
 
-                if (check != false)
+                if (check === true)
                 {
                     i++;
                     drawItems.push(responce.data[index]);
@@ -95,7 +138,7 @@ angular.module('myApp')
             for (var v in drawItems)
             {
                 var temp = drawItems[counter];
-                labels.push(temp.ProductID);
+                labels.push(temp.name);
                 sales.push(temp.currentSales);
                 target.push(temp.targetSales);
                 counter++;
@@ -152,10 +195,10 @@ angular.module('myApp')
                 //Number - Pixel width of the bar stroke
                 barStrokeWidth: 2,
                 //Number - Spacing between each of the X value sets
-                barValueSpacing: 5,
+                barValueSpacing: 8,
                 //Number - Spacing between data sets within X values
                 isFixedWidth: false,
-                barWidth: 20,
+                barWidth: 10,
 
                 barDatasetSpacing: 1,
                 //String - A legend template
@@ -170,100 +213,64 @@ angular.module('myApp')
 
 
         };
-        $scope.getType = function (insuranceType) {
-            if (insuranceType == 1)
-                return "Assets";
-            else if (insuranceType == 2)
-                return "Travel";
-            else if (insuranceType == 11)
-                return "Legal";
 
-            else if (insuranceType == 21)
-                return "Medical";
-            else if (insuranceType == 31)
-                return "Funeral";
-
-            return "Value Added";
-        };
-
-
-        $scope.compareProuctsCanvas = function () {
-
-            var responce = $scope.targetInfor;
-            var drawItems = [];
-            var index = 0;
-
-            for (var tmep in responce.data) {
-                var check = document.getElementById("checkbox" + responce.data[index].ProductID).checked;
-
-                if (check != false)
-                {
-                    drawItems.push(responce.data[index]);
-                }
-                index++;
-            }
-
+        /*
+            compare product sales
+        */
+        var drawCompareProducts = function ()
+        {
             var labels = [];
-            var sales = [];
-            var target = [];
+            var p1 = [];
+            var p2 = [];
             var counter = 0;
 
+            alert("compare product");
 
-            var satasets = [];
-
-            for (var v in drawItems)
-            {
-                var temp = drawItems[counter];
-                //labels.push(temp.ProductID);
-                //sales.push(temp.currentSales);
-                //target.push(temp.targetSales);
-                var tempDataset =
-                {
-                    label: temp.ProductID,
-                    fillColor: "rgba(210, 214, 222, 1)",
-                    strokeColor: "rgba(210, 214, 222, 1)",
-                    pointColor: "rgba(210, 214, 222, 1)",
-                    pointStrokeColor: "#c1c7d1",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: sales
-                };
-
+            for (var t in $scope.product1data.predictions) {
+                p1.push($scope.product1data.predictions[counter]);
                 counter++;
             }
+
+            counter = 0;
+            for (var y in $scope.product2data.predictions) {
+                p2.push($scope.product2data.predictions[counter]);
+                counter++;
+                labels.push("2016 - " + counter);
+            }
+            var color1 = "#d35400";
+            var color2 = "#f1c40f";
             var areaChartData =
             {
                 labels: labels,
                 datasets: [
                     {
                         label: "Sales",
-                        fillColor: "rgba(210, 214, 222, 1)",
-                        strokeColor: "rgba(210, 214, 222, 1)",
-                        pointColor: "rgba(210, 214, 222, 1)",
+                        fillColor: color1,
+                        strokeColor: color1,
+                        pointColor: color1,
                         pointStrokeColor: "#c1c7d1",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: sales
+                        pointHighlightStroke: color1,
+                        data: p1
                     },
                     {
                         label: "Target",
-                        fillColor: "rgba(210, 214, 222, 1)",
-                        strokeColor: "rgba(210, 214, 222, 1)",
-                        pointColor: "rgba(210, 214, 222, 1)",
+                        fillColor: color2,
+                        strokeColor: color2,
+                        pointColor: color2,
                         pointStrokeColor: "#c1c7d1",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: target
+                        pointHighlightStroke: color2,
+                        data: p2
                     }
                 ]
             };
-            //document.getElementById("canvasData").innerHTML = 0;
             var barChartCanvas = $("#canvasData").get(0).getContext("2d");
             var barChart = new Chart(barChartCanvas);
             var barChartData = areaChartData;
-            barChartData.datasets[1].fillColor = "#00a65a";
-            barChartData.datasets[1].strokeColor = "#00a65a";
-            barChartData.datasets[1].pointColor = "#00a65a";
+            //barChartData.datasets[1].fillColor = "#00a65a";
+            //barChartData.datasets[1].strokeColor = "#00a65a";
+            //barChartData.datasets[1].pointColor = "#00a65a";
             var barChartOptions =
             {
                 //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
@@ -283,12 +290,12 @@ angular.module('myApp')
                 //Number - Pixel width of the bar stroke
                 barStrokeWidth: 2,
                 //Number - Spacing between each of the X value sets
-                barValueSpacing: 5,
+                barValueSpacing: 10,
                 //Number - Spacing between data sets within X values
                 isFixedWidth: false,
-                barWidth: 20,
+                barWidth: 15,
 
-                barDatasetSpacing: 1,
+                barDatasetSpacing: 5,
                 //String - A legend template
                 legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
                 //Boolean - whether to make the chart responsive
@@ -298,11 +305,49 @@ angular.module('myApp')
 
             barChartOptions.datasetFill = false;
             barChart.Bar(barChartData, barChartOptions);
-
-
         };
 
+      
 
+        $scope.compareProuctsCanvas = function ()
+        {
+            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></canvas>";
+            var drawItems = [];
+            var index = 0;
+            var i = 0;
+            var j = 0;
+            var productlist = $scope.itemsData.data;
+            var found = 0;
+            for (var prod = 0 ; prod < productlist.length || found == 0; prod++)
+            {
+                var check = document.getElementById("checkbox" + productlist[index].ProductID).checked;
+
+                if (check === true)
+                {
+                    i++;
+                    found++;
+                    alert(productlist[index].ProductID);
+                    drawItems.push(productlist[index].ProductID);
+                }
+                index++;
+            }
+
+            $http(
+            {
+                method: 'GET',
+                url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=5",
+            }).then(setProduct1, errorCallBack);
+
+            $http(
+            {
+                method: 'GET',
+                url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=5",
+            }).then(setProduct2, errorCallBack);
+
+            //product2data
+           
+
+        };
 
             //AIzaSyCt2traC_kQPwyOqg4cpyi0SLk_9__eN9U
         /*
@@ -310,6 +355,7 @@ angular.module('myApp')
         */
         var monthylsalesData = function (responce)
         {
+            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></div>";
             alert("please");
             var datasets = [];
             var counter = 1;
@@ -355,7 +401,7 @@ angular.module('myApp')
             }
 
             var line = new Morris.Line({
-                element: 'line-chart',
+                element: 'canvasData',
                 resize: true,
                 data: datasets,
                 xkey: 'y',
@@ -384,21 +430,52 @@ angular.module('myApp')
            }).then(monthylsalesData, errorCallBack);
         };
 
-        $scope.initMap = function ()
-        {
-            alert("am here");
-           var  map = new google.maps.Map(document.getElementById('map'),
-                    {
-                        center: { lat: -25.397, lng: 12.644 },
-                        zoom: 8,
-                        scrollwheel: false,
-                    });
-        };
-       
-        var salesPerProvince = function ()
+
+        $scope.drawMapdata = function ()
         {
             
+            $http(
+         {
+             method: 'GET',
+             url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales?productProvider=11'
+         }).then(setLocationData, errorCallBack);
+            
         };
+       
+        $scope.initMap = function ()
+        {
+             responce = $scope.ProvinceData;
+
+             var map = new google.maps.Map(document.getElementById('canvasData'),
+            {
+                center: { lat: -30.106538, lng: 22.485489 },
+                zoom: 8,
+                scrollwheel: false,
+            });
+
+            var markers = [];
+            var counter = 0;            
+            for (var local in responce.data)
+            {
+                var pos = String(responce.data[counter].LatLng).split(',');
+                var lat = pos[0];
+                var lng = pos[1];
+                var temp = new google.maps.Marker({
+                    map: map,
+                    position: { lat: parseFloat(pos[0]), lng: parseFloat(pos[1])},
+                    title: responce.data[counter].Province + "R " + responce.data[counter].sales,
+                    });
+                counter++;
+            }
+         };
+
+
+
+    /*
+        COMPARE PRODUCT SALES        
+    */
+
+      
 
 }]);
 

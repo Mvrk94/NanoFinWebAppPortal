@@ -61,7 +61,7 @@
                                     <span style="font-size:12px">show the current sales vs predicted sales value</span>
                                 </a>
                             </li>
-                            <li ng-click="compareProducts()">
+                            <li ng-click="compareProuctsCanvas()">
                                 <a>
                                     Compare Product Sales  <br />
                                     <span style="font-size:12px">compare sales for one or more Products</span>
@@ -73,7 +73,7 @@
                                     <span style="font-size:12px">View forcasted sales for your Products</span>
                                 </a>
                             </li>
-                            <li ng-click="initMap()">
+                            <li ng-click="drawMapdata()">
                                 <a>
                                     Geo-Location  Sales  <br />
                                     <span style="font-size:12px">Product sales Per Product</span>
@@ -144,9 +144,11 @@
                 <div class="box-footer  no-padding bg-aqua" style="width:899px;height:480px">
             <br/><br /><br />
                     <div class="box-body border-radius-none bg-aqua" style="height:425px;width:899px;">
-                        <!--<div id="map"></div>-->
-                        <div class="chart" id="line-chart"></div>
-                        <canvas id="canvasData"></canvas>
+                        <!--<div id="map"></div>
+                        <div class="chart" id="line-chart"></div>-->
+                        <div id="insertCanvas"></div>
+
+                        <!--<canvas  class="chart" id="canvasData" style="height:425px;width:899px;"></canvas>-->
                         
                     </div>
                    
