@@ -1,0 +1,329 @@
+﻿<div id="geoReports">
+    <style>
+        .removePersonalSpace {
+            margin: 0px;
+            padding: 0px;
+        }
+
+       
+    </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgzaeGEo_YeMg-YKoZuXSWTLw7r8f0b30&callback=initMap" async defer></script>
+
+    <script >
+        window.onload = function (e)
+        {
+            evt =  e || window.event;
+
+            var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
+
+            if(document.attachEvent) {
+              document.getElementById('scrollableDiv').attachEvent('on'+mousewheelevt, scroll);
+            } else {
+              document.getElementById('scrollableDiv').addEventListener(mousewheelevt, scroll, false);
+            }
+          }
+
+
+        function scroll(evt)
+        {
+            scrollTarget =  evt.currentTarget || evt.srcElement;
+
+            if(scrollTarget.scrollWidth > scrollTarget.offsetWidth- 200 ) {
+              var delta = Math.max(-1, Math.min(1, (evt.wheelDelta || -evt.detail)));
+              switch(delta) {
+                case 1:
+                  scrollTarget.scrollLeft -= 32;
+                  break;
+
+                case -1:
+                  scrollTarget.scrollLeft += 32;
+                  break;
+              }
+            }
+          }
+
+    </script>
+
+    <section class="content-header">
+        <h1>
+            <font size="12">Geo Reports</font>
+            <small>see .... reports</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Help</a></li>
+        </ol>
+    </section>
+    <br />
+
+    <div id='scrollableDiv' style='width:1100px; height: 500px; position: absolute; overflow: hidden;'>
+        <div style='width:1550px ;'>
+            <div class="row">
+                <div class="col-sm-3" style="width:330px;margin:3px; padding:0px;margin-left:20px">
+
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user" style="height:90%;">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-aqua" style="height:65px">
+
+                            <h3 class="widget-user-username">Track your Performance</h3>
+                            <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked" style="font-size:19px">
+
+                                <li> <br /> <br /></li>
+                                <li onclick="drawMonthlySales()">
+                                    <a>
+                                        Monthly Sales <br />
+                                        <span style="font-size:12px">show the current sales vs predicted sales value</span>
+                                    </a>
+                                </li>
+                                <li onclick="monthlyLocationSales()">
+                                    <a>
+                                        Geo month sales  <br />
+                                        <span style="font-size:12px">compare sales for one or more Products</span>
+                                    </a>
+                                </li>
+                                <li onclick="ProductLocatioinSales()">
+                                    <a>
+                                        Geo Product Sales  <br />
+                                        <span style="font-size:12px">View forcasted sales for your Products</span>
+                                    </a>
+                                </li>
+                                <li onclick="InsuranceTypesLocationSales()">
+                                    <a>
+                                        Insurance Type Reports
+                                        <br />
+                                        <span style="font-size:12px">Product sales Per Product</span>
+                                    </a>
+                                </li>
+
+                                <li onclick="ProvincialSales()">
+                                    <a>
+                                        Provincial Sales  <br />
+                                        <span style="font-size:12px">Product sales Per Product</span>
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.widget-user -->
+
+                </div>
+                <!-- /.col -->
+            <div class="col-sm-7" style="width:1200px;height:500px;color:aqua;">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user" style="height:90%;">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-aqua" style="height:65px">
+
+                            <h3 class="widget-user-username">Track your Performance</h3>
+                            <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                        </div>
+                        <div class="box-footer no-padding">
+                            <div id="canvas" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width:400px;height:480px">
+                        
+
+                    </div>
+            </div>
+                <!-- /.row -->
+        </div>
+        </div>
+
+
+    </div>
+
+    <script type='text/javascript'>
+
+        var map;
+        var monthlylocationMarker = [];
+          function initMap()
+          {
+              document.getElementById('canvas').innerHTML = "<div id='map' style='width:600px;height:440px'></div>";
+              map = new google.maps.Map(document.getElementById('map'),
+             {
+                 center: { lat: -29.126612, lng: 25.543462 },
+                 zoom: 5
+             });
+          };
+
+
+          var drawMonthlySales = function ()
+          {
+              document.getElementById('canvas').innerHTML = "";
+              alert("monthly sales");
+              map = null;
+          };
+
+          var monthlyLocationSales = function ()
+          {
+               initMap();
+              var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthlyLocationSalesSum");
+
+              arr = JSON.parse(responce);
+              for (i = 0; i < arr.length; i++)
+              {
+                  var latlng = String(arr[i].LatLng).split(",");
+                  var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
+                  var note = String(arr[i].city) + " R" + arr[i].sales;
+
+
+                  var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: note
+                  });
+              }
+          };
+
+          var ProvincialSales = function ()
+          {
+              initMap();
+              var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
+
+              arr = JSON.parse(responce);
+              for (i = 0; i < arr.length; i++) {
+                  var latlng = String(arr[i].LatLng).split(",");
+                  var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
+                  var note = String(arr[i].Province) + " R" + arr[i].sales;
+
+
+                  var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: note
+                  });
+              }
+          };
+
+          var ProductLocatioinSales = function ()
+          {
+              
+
+
+
+
+              initMap();
+              alert("product location sales");
+          };
+
+          var InsuranceTypesLocationSales = function ()
+          {
+              
+              initMap();
+              alert("insurance type location sales");
+          };
+
+
+          function httpGet(theUrl)
+          {
+              var xmlHttp = new XMLHttpRequest();
+              xmlHttp.open("GET", theUrl, false); // false for synchronous request
+              xmlHttp.send(null);
+              return xmlHttp.responseText;
+          }
+
+          function drawProductsModal()
+          {
+              var html = "";
+              html += "<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>";
+              html += "<div class='modal-dialog' role='document'>";
+              html += "<div class='modal-content'>";
+              html += "<div class='modal-header'>";
+              html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+              html += "<h4 class='modal-title' id='myModalLabel'>" + unprocessedApplication.customerName + "'s Insurance Application </h4>";
+              html += "</div>";
+              html += "<div class='modal-body'>";
+              html += "<div class='row'> <div class='col-sm-5 col-sm-push-6'>    <p style='text-align: right'><strong>Lastest Policy#:" + lastPolicyDOc + " </strong<></p> </div></div>";
+              html += "<div class='row'>";
+              html += "<div class='form-group'>";
+              html += "<label for='txtIDno' class='col-sm-3 control-label'>ID</label>";
+              html += "<div class='col-sm-8'>";
+              html += "<input type='text' class='form-control' value='" + unprocessedApplication.customerIDNo + "' disabled>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+
+              html += "<div class='row'>";
+              html += "<div class='form-group'>";
+              html += "<br />";
+              html += "<label for='txtAddress' class='col-sm-3 control-label'>Address</label>";
+              html += "<div class='col-sm-8'>";
+              html += "<input type='text' class='form-control' id='txtAddress' value='" + unprocessedApplication.address + "' disabled>";
+              html += "</div>";
+              html += "<br />";
+              html += "</div>";
+              html += "</div>";
+
+              html += "<div class='row'>";
+              html += "<div class='form-group'>";
+              html += "<br />";
+              html += "<label for='txtProductPurchase' class='col-sm-3 control-label'>Product Purchased</label>";
+              html += "<div class='col-sm-8'>";
+              html += "<input type='text' class='form-control' id='txtProductPurchase' value='" + unprocessedApplication.InsurnceName + "' disabled>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+
+              html += "<div class='row'>";
+              html += "<div class='form-group'>";
+              html += "<br />";
+              html += "<label for='txtStartDate' class='col-sm-3 control-label'>Product Purchased</label>";
+              html += "<div class='col-sm-8'>";
+              html += "<input type='text' class='form-control' id='txtStartDate' value='" + unprocessedApplication.startdate + "' disabled>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+
+              html += "<div class='row'>";
+              html += "<br />";
+              html += "<div id='frmPolicyDoc' class='form-group'>";
+              html += "<label for='txtPolicyNo' class='col-sm-3 control-label'>Assign Policy No</label>";
+              html += "<div class='col-sm-8'>";
+              html += "<input type='text' class='form-control' id='txtPolicyNo'>";
+              html += "<div id='txtError'></div>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+
+              html += "</div>";
+              html += "<div class='modal-footer'>";
+              html += "<div class='row'>";
+              html += "<div class='col-sm-4 '>";
+              html += "<button type='button' class='btn btn-danger ' data-dismiss='modal'>Decline Application</button>";
+              html += "</div>";
+
+              html += "<div class='col-sm-4 col-sm-push-4'>";
+              html += "<button type='button' id='btnModalApprove' class='btn btn-success'>Approve Application</button>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+              html += "</div>";
+
+              $("#processApplicationModal").html(html);
+              $("#myModal").modal();
+
+              var modalButton = document.getElementById("btnModalApprove");
+              modalButton.onclick = function ()
+              {
+                  var newPolicyNo = document.getElementById("txtPolicyNo").value;
+                  if (newPolicyNo === "") { invalidInput("please enter a policy number"); return; }
+              }
+          }
+
+    </script>
+    
+
+
+</div>
+
+<div id="processApplicationModal"></div>

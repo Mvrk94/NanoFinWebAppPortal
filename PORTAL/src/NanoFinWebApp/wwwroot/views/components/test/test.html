@@ -1,0 +1,171 @@
+﻿    <!-- Morris.js charts -->
+
+
+
+<div id="reportsPage" style="overflow:scroll" ng-controller="reportsNaster">
+
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkIBUzzdZb8TgLRaECvmf6J6H9UZi23oc&callback=drawMapdata"
+            async defer></script>-->
+    
+
+
+    <style>
+
+        .angular-google-map-container {
+        height: 400px;
+}
+
+         #map 
+         {
+            height:419px;
+            width:899px;
+            margin:0px;padding:0px;
+            margin-left:-10px;
+      }
+
+        .removePersonalSpace {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .boxSize {
+        }
+    </style>
+
+    <section class="content-header">
+        <h1>
+            Mailbox
+            <small>13 new messages</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Mailbox</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <br />
+        <div class="row " style="width:2000px">
+
+            <div class="col-md-3 " style="width:300px; margin:3px; padding:0px;margin-left:20px">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="height:90%;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:65px">
+
+                        <h3 class="widget-user-username">Track your Performance</h3>
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-stacked" style="font-size:19px">
+
+                            <li> <br /> <br /></li>
+                            <li ng-click="targetSales()">
+                                <a>
+                                    Target Progress <br />
+                                    <span style="font-size:12px">show the current sales vs predicted sales value</span>
+                                </a>
+                            </li>
+                            <li ng-click="compareProuctsCanvas()">
+                                <a>
+                                    Compare Product Sales  <br />
+                                    <span style="font-size:12px">compare sales for one or more Products</span>
+                                </a>
+                            </li>
+                            <li ng-click="drawMonthlySales()">
+                                <a>
+                                    Forcasted Sales  <br />
+                                    <span style="font-size:12px">View forcasted sales for your Products</span>
+                                </a>
+                            </li>
+                            <li ng-click="drawMapdata()">
+                                <a>
+                                    Geo-Location  Sales  <br />
+                                    <span style="font-size:12px">Product sales Per Product</span>
+                                </a>
+                            </li>
+
+                            <li ng-click="predictLocationSales()">
+                                <a>
+                                    Geo-Location Predicted Sales  <br />
+                                    <span style="font-size:12px">Product sales Per Product</span>
+                                </a>
+                            </li>
+                            <li> <br /> <br /></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-3 " style="width:300px;margin:3px; padding:0px">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:65px">
+
+                        <h3 class="widget-user-username">Select Product or Type</h3>
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                    </div>
+                    <div  class="box-footer no-padding" style="width:300px;height:485px;overflow-y:scroll">
+                        <br/>
+                        <br />
+                        <br />
+                        <button type="button" ng-click="drawToCanvas()" class="btn btn-block btn-default" style="margin-bottom:8px;width:280px">Generate Graph</button>
+                        <ul class="nav nav-stacked" id="itemList"  style="font-size:15px;width:280px;overflow-x: hidden;">
+
+                            
+                            <div id="itemList"></div>    
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+            <!-- /.col -->
+
+            <div style="width:899px; margin-top:3px;margin-left:630px;margin-right:200px; padding:0px">
+
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="height:50%;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:65px">
+
+                    <h3 class="widget-user-username">Canvas</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn bg-aqua btn-sm" style="margin-top:-50px" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn bg-aqua btn-sm" style="margin-top:-50px" data-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="box-footer  no-padding bg-aqua" style="width:899px;height:480px">
+            <br/><br /><br />
+                    <div class="box-body border-radius-none bg-aqua" style="height:425px;width:899px;">
+                        <!--<div id="map"></div>
+                        <div class="chart" id="line-chart"></div>-->
+                        <div id="insertCanvas"></div>
+                    </div>
+                   
+                </div>
+                <!-- /.widget-user -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+   
+
+    
+    
+
+</div>
