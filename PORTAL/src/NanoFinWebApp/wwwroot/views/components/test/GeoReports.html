@@ -112,6 +112,7 @@
                     <!-- /.widget-user -->
 
                 </div>
+                
                 <!-- /.col -->
             <div class="col-sm-7" style="width:1200px;height:500px;color:aqua;">
                     <!-- Widget: user widget style 1 -->
@@ -144,6 +145,8 @@
 
         var map;
         var monthlylocationMarker = [];
+        var productlist = [];
+
           function initMap()
           {
               document.getElementById('canvas').innerHTML = "<div id='map' style='width:600px;height:440px'></div>";
@@ -152,21 +155,28 @@
                  center: { lat: -29.126612, lng: 25.543462 },
                  zoom: 5
              });
+              httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
           };
+
+          function getProductList(responce)
+          {
+              productlist = JSON.parse(responce);   
+          }
 
 
           var drawMonthlySales = function ()
           {
               document.getElementById('canvas').innerHTML = "";
+
+
               alert("monthly sales");
               map = null;
           };
 
           var monthlyLocationSales = function ()
           {
-               initMap();
+              if (map === null) initMap();
               var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthlyLocationSalesSum");
-
               arr = JSON.parse(responce);
               for (i = 0; i < arr.length; i++)
               {
@@ -185,11 +195,13 @@
 
           var ProvincialSales = function ()
           {
-              initMap();
+              if (map === null) initMap();
+              map.clear();
               var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
 
               arr = JSON.parse(responce);
-              for (i = 0; i < arr.length; i++) {
+              for (i = 0; i < arr.length; i++)
+              {
                   var latlng = String(arr[i].LatLng).split(",");
                   var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
                   var note = String(arr[i].Province) + " R" + arr[i].sales;
@@ -205,19 +217,12 @@
 
           var ProductLocatioinSales = function ()
           {
+              drawProductsModal();
               
-
-
-
-
-              initMap();
-              alert("product location sales");
           };
 
           var InsuranceTypesLocationSales = function ()
           {
-              
-              initMap();
               alert("insurance type location sales");
           };
 
@@ -232,98 +237,133 @@
 
           function drawProductsModal()
           {
+              arr = productlist;
+
               var html = "";
-              html += "<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>";
+              var index = 0;
+
+              html += "<div class='modal fade' tabindex='-1' id='processApplicationModal' role='dialog' aria-labelledby='gridSystemModalLabel'>";
               html += "<div class='modal-dialog' role='document'>";
               html += "<div class='modal-content'>";
-              html += "<div class='modal-header'>";
+              html += "<div class='modal-header bg-aqua'>";
               html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
-              html += "<h4 class='modal-title' id='myModalLabel'>" + unprocessedApplication.customerName + "'s Insurance Application </h4>";
+              html += "<h4 class='modal-title' id='gridSystemModalLabel'>Please Select A Product</h4>";
               html += "</div>";
               html += "<div class='modal-body'>";
-              html += "<div class='row'> <div class='col-sm-5 col-sm-push-6'>    <p style='text-align: right'><strong>Lastest Policy#:" + lastPolicyDOc + " </strong<></p> </div></div>";
-              html += "<div class='row'>";
-              html += "<div class='form-group'>";
-              html += "<label for='txtIDno' class='col-sm-3 control-label'>ID</label>";
-              html += "<div class='col-sm-8'>";
-              html += "<input type='text' class='form-control' value='" + unprocessedApplication.customerIDNo + "' disabled>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
 
-              html += "<div class='row'>";
-              html += "<div class='form-group'>";
-              html += "<br />";
-              html += "<label for='txtAddress' class='col-sm-3 control-label'>Address</label>";
-              html += "<div class='col-sm-8'>";
-              html += "<input type='text' class='form-control' id='txtAddress' value='" + unprocessedApplication.address + "' disabled>";
-              html += "</div>";
-              html += "<br />";
-              html += "</div>";
-              html += "</div>";
-
-              html += "<div class='row'>";
-              html += "<div class='form-group'>";
-              html += "<br />";
-              html += "<label for='txtProductPurchase' class='col-sm-3 control-label'>Product Purchased</label>";
-              html += "<div class='col-sm-8'>";
-              html += "<input type='text' class='form-control' id='txtProductPurchase' value='" + unprocessedApplication.InsurnceName + "' disabled>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
-
-              html += "<div class='row'>";
-              html += "<div class='form-group'>";
-              html += "<br />";
-              html += "<label for='txtStartDate' class='col-sm-3 control-label'>Product Purchased</label>";
-              html += "<div class='col-sm-8'>";
-              html += "<input type='text' class='form-control' id='txtStartDate' value='" + unprocessedApplication.startdate + "' disabled>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
-
-              html += "<div class='row'>";
-              html += "<br />";
-              html += "<div id='frmPolicyDoc' class='form-group'>";
-              html += "<label for='txtPolicyNo' class='col-sm-3 control-label'>Assign Policy No</label>";
-              html += "<div class='col-sm-8'>";
-              html += "<input type='text' class='form-control' id='txtPolicyNo'>";
-              html += "<div id='txtError'></div>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
+              for (index = 0; index < arr.length - 1; index++)
+              {
+                  html += "<div class='row'>";
+                  html += "<div  class='col-sm-5' style='margin:7px;'";
+                  html += "<label><input type='radio' name='r3' id='checked" + arr[index].ProductID + "' class='flat-red' checked>" + arr[index].name + "</label>";
+                  html += "</div>";
+                  index++;
+                  html += "<div  class='col-sm-5' style='margin:7px;'";
+                  html += "<label><input type='radio'  name='r3' id='checked" + arr[index].ProductID + "' class='flat-red' checked>" + arr[index].name + "</label>";
+                  html += "</div>";
+                  index++;
+                  html += "</div";
+                  html += "";
+              }
 
               html += "</div>";
               html += "<div class='modal-footer'>";
-              html += "<div class='row'>";
-              html += "<div class='col-sm-4 '>";
-              html += "<button type='button' class='btn btn-danger ' data-dismiss='modal'>Decline Application</button>";
+              html += "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>";
+              html += "<button type='button' id='submitSelectProductModal' class='btn btn-primary'>Save changes</button>";
               html += "</div>";
+              html += "</div><!-- /.modal-content -->";
+              html += "</div><!-- /.modal-dialog -->";
+              html += "</div><!-- /.modal -->";
 
-              html += "<div class='col-sm-4 col-sm-push-4'>";
-              html += "<button type='button' id='btnModalApprove' class='btn btn-success'>Approve Application</button>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
-              html += "</div>";
+              document.getElementById("insertModal").innerHTML = html;
+              
+              
 
-              $("#processApplicationModal").html(html);
-              $("#myModal").modal();
+              $('#processApplicationModal').modal('show');
 
-              var modalButton = document.getElementById("btnModalApprove");
-              modalButton.onclick = function ()
+
+              document.getElementById("submitSelectProductModal").onclick = function ()
               {
-                  var newPolicyNo = document.getElementById("txtPolicyNo").value;
-                  if (newPolicyNo === "") { invalidInput("please enter a policy number"); return; }
+                  
+                  var radios = document.getElementsByClassName("flat-red");
+
+                  for (var i = 0, length = radios.length; i < length; i++)
+                  {
+                      if (radios[i].checked)
+                      {
+                          getAndDrawSelectProduct(productlist[i].ProductID);
+                          $('#processApplicationModal').modal('hide');
+                          return;
+                      }
+                  }
+              };
+
+              //Flat red color scheme for iCheck
+              $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                  checkboxClass: 'icheckbox_flat-green',
+                  radioClass: 'iradio_flat-green'
+              });
+          }
+
+          function getAndDrawSelectProduct(productID)
+          {
+              alert(productID);
+              responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductLocationExpenditure?productID="+ productID);
+              arr = JSON.parse(responce);
+
+              for (i = 0; i < arr.length; i++)
+              {
+                  var latlng = String(arr[i].LatLng).split(",");
+                  var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
+                  var note = String(arr[i].Province) + " " + arr[i].city + ",  R" + arr[i].sales;
+
+
+                  var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: note
+                  });
               }
           }
 
+
+          function httpGetAsync(theUrl, callback)
+          {
+              var xmlHttp = new XMLHttpRequest();
+              xmlHttp.onreadystatechange = function ()
+              {
+                  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                      callback(xmlHttp.responseText);
+              }
+              xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+              xmlHttp.send(null);
+          }
     </script>
     
 
 
 </div>
 
-<div id="processApplicationModal"></div>
+
+<div id="insertModal"></div>
+<!--<div id="processApplicationModal"></div>-->
+
+<!--<div class="modal fade" tabindex="-1" id="processApplicationModal" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-aqua">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div id="insertProduct"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    <!--</div>--><!-- /.modal-dialog -->
+<!--</div>--><!-- /.modal -->
