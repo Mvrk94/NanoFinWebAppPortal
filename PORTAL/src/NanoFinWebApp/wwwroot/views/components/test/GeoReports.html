@@ -145,6 +145,7 @@
 
         var map;
         var monthlylocationMarker = [];
+        var markers = [];
         var productlist = [];
 
           function initMap()
@@ -193,6 +194,8 @@
               }
           };
 
+         
+
           var ProvincialSales = function ()
           {
               if (map === null) initMap();
@@ -225,16 +228,7 @@
           {
               alert("insurance type location sales");
           };
-
-
-          function httpGet(theUrl)
-          {
-              var xmlHttp = new XMLHttpRequest();
-              xmlHttp.open("GET", theUrl, false); // false for synchronous request
-              xmlHttp.send(null);
-              return xmlHttp.responseText;
-          }
-
+          
           function drawProductsModal()
           {
               arr = productlist;
@@ -255,11 +249,11 @@
               {
                   html += "<div class='row'>";
                   html += "<div  class='col-sm-5' style='margin:7px;'";
-                  html += "<label><input type='radio' name='r3' id='checked" + arr[index].ProductID + "' class='flat-red' checked>" + arr[index].name + "</label>";
+                  html += "<label><input type='radio' name='r3' id='checked" + arr[index].Product_ID + "' class='flat-red' checked>" + arr[index].name + "</label>";
                   html += "</div>";
                   index++;
                   html += "<div  class='col-sm-5' style='margin:7px;'";
-                  html += "<label><input type='radio'  name='r3' id='checked" + arr[index].ProductID + "' class='flat-red' checked>" + arr[index].name + "</label>";
+                  html += "<label><input type='radio'  name='r3' id='checked" + arr[index].Product_ID + "' class='flat-red' checked>" + arr[index].name + "</label>";
                   html += "</div>";
                   index++;
                   html += "</div";
@@ -276,22 +270,18 @@
               html += "</div><!-- /.modal -->";
 
               document.getElementById("insertModal").innerHTML = html;
-              
-              
-
               $('#processApplicationModal').modal('show');
 
 
               document.getElementById("submitSelectProductModal").onclick = function ()
               {
-                  
                   var radios = document.getElementsByClassName("flat-red");
 
                   for (var i = 0, length = radios.length; i < length; i++)
                   {
                       if (radios[i].checked)
                       {
-                          getAndDrawSelectProduct(productlist[i].ProductID);
+                          getAndDrawSelectProduct(productlist[i].Product_ID);
                           $('#processApplicationModal').modal('hide');
                           return;
                       }
@@ -317,15 +307,24 @@
                   var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
                   var note = String(arr[i].Province) + " " + arr[i].city + ",  R" + arr[i].sales;
 
-
                   var marker = new google.maps.Marker({
                       position: myLatLng,
+                      animation: google.maps.Animation.DROP,
                       map: map,
                       title: note
                   });
+
+                  //marker.addListener()
               }
           }
 
+          function provinceStatics(provinceName)
+          {
+              provinceInsuranceTypeExpenditure = httpGet("");
+
+
+
+          }
 
           function httpGetAsync(theUrl, callback)
           {
@@ -337,6 +336,21 @@
               }
               xmlHttp.open("GET", theUrl, true); // true for asynchronous 
               xmlHttp.send(null);
+          }
+
+          function httpGet(theUrl) {
+              var xmlHttp = new XMLHttpRequest();
+              xmlHttp.open("GET", theUrl, false); // false for synchronous request
+              xmlHttp.send(null);
+              return xmlHttp.responseText;
+          }
+
+          function toggleBounce(marker) {
+              if (marker.getAnimation() !== null) {
+                  marker.setAnimation(null);
+              } else {
+                  marker.setAnimation(google.maps.Animation.BOUNCE);
+              }
           }
     </script>
     
