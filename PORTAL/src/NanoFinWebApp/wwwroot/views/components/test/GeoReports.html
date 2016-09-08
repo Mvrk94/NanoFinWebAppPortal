@@ -47,7 +47,7 @@
 
     <section class="content-header">
         <h1>
-            <font size="12">Geo Reports</font>
+            <font size="11">Geo Reports</font>
             <small>see .... reports</small>
         </h1>
         <ol class="breadcrumb">
@@ -56,15 +56,15 @@
     </section>
     <br />
 
-    <div id='scrollableDiv' style='width:1100px; height: 500px; position: absolute; overflow: hidden;'>
+    <div id='scrollableDiv' style='width:1100px; height: 530px; position: absolute; overflow: hidden;'>
         <div style='width:1550px ;'>
             <div class="row">
-                <div class="col-sm-3" style="width:330px;margin:3px; padding:0px;margin-left:20px">
+                <div class="col-sm-3" style="width:285px;margin:3px; padding:0px;margin-left:30px">
 
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user" style="height:90%;">
                         <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-aqua" style="height:65px">
+                        <div class="widget-user-header bg-aqua" style="height:58px;margin-top:-7px;">
 
                             <h3 class="widget-user-username">Track your Performance</h3>
                             <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
@@ -114,25 +114,25 @@
                 </div>
                 
                 <!-- /.col -->
-            <div class="col-sm-7" style="width:1200px;height:500px;color:aqua;">
+            <div class="col-sm-7" style="width:1200px;height:585px;margin-left:0px;color:aqua;">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user" style="height:90%;">
                         <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-aqua" style="height:65px">
+                        <div class="widget-user-header bg-aqua" style="height:58px;margin-top:-7px;">
 
                             <h3 class="widget-user-username">Track your Performance</h3>
                             <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
                         </div>
                         <div class="box-footer no-padding">
-                            <div id="canvas" >
+                            <div class="row">
+                                <div id="canvas" class="col-sm-6"></div>
+
+                                <div id="submenu" class="col-sm-5"></div>
                             </div>
-                        </div>
+                        </div>    
                     </div>
 
-                    <div style="width:400px;height:480px">
-                        
-
-                    </div>
+                   
             </div>
                 <!-- /.row -->
         </div>
@@ -145,18 +145,21 @@
 
         var map;
         var monthlylocationMarker = [];
-        var markers = [];
+        
         var productlist = [];
 
           function initMap()
           {
-              document.getElementById('canvas').innerHTML = "<div id='map' style='width:600px;height:440px'></div>";
+              document.getElementById('canvas').innerHTML = "<div id='map' style='width:598px;height:460px'></div>";
               map = new google.maps.Map(document.getElementById('map'),
              {
                  center: { lat: -29.126612, lng: 25.543462 },
                  zoom: 5
              });
               httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
+
+              var htnl = "<div id='informationBox' style='width:570px;height:460px;'></div>";
+              document.getElementById('submenu').innerHTML = htnl;
           };
 
           function getProductList(responce)
@@ -168,15 +171,13 @@
           var drawMonthlySales = function ()
           {
               document.getElementById('canvas').innerHTML = "";
-
-
               alert("monthly sales");
               map = null;
           };
 
           var monthlyLocationSales = function ()
           {
-              if (map === null) initMap();
+              initMap();
               var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthlyLocationSalesSum");
               arr = JSON.parse(responce);
               for (i = 0; i < arr.length; i++)
@@ -189,22 +190,77 @@
                   var marker = new google.maps.Marker({
                       position: myLatLng,
                       map: map,
-                      title: note
+                      title: note,
+                      snippet: "marker" + arr[i].Location_ID
+                  });
+
+                  marker.addListener('click', function ()
+                  {
+                      alert(this.snippet);
                   });
               }
+              monthlysalesinforBox(arr);
           };
 
-         
 
-          var ProvincialSales = function ()
+          var monthlysalesinforBox =  function(arr)
           {
-              if (map === null) initMap();
-              map.clear();
+              var html = "";
+
+              html = "";
+
+              html += "<div class='box box-widget widget-user' style='width:97%;color:black;margin:1px;'>";
+              html += "<div class='box-header bg-aqua'>";
+              html += "<h3 class='box-title'>LocationName Product sales</h3>";
+              html += "";
+              html += "<div class='box-tools pull-right'>";
+              html += "<button type='button' class='btn btn-box-tool' style='color:white;' data-widget='collapse'><i class='fa fa-minus'></i>";
+              html += "</button>";
+              html += "";
+              html += "</div>";
+              html += "</div>";
+              html += "";
+              html += "<div class='box-footer no-padding'>";
+              html += "<ul class='nav nav-pills nav-stacked' style='font-size:15px;'>";
+              for (i = 0; i < arr.length; i++)
+              {
+                  var location  = String(arr[i].city);
+                  html += "<li>"+ location +"<span class='pull-right text-green'><i class='fa fa-angle-up'></i> R "+ arr[i].sales +"</span></li>";
+              }
+              html += "<li>. </li>";
+              html += "</ul>";
+              html += "</div>";
+              html += "</div>";
+              html += "";
+              
+              html += "<div class='box box-solid bg-aqua' style='margin:1px'>";
+              html += "<div class='box-header'>";
+              html += "<i class='fa fa-th'></i>";
+              html += "";
+              html += "<h3 class='box-title'>Sales Graph</h3>";
+
+              html += "<div class='box-tools pull-right'>";
+              html += "<button type='button' class='btn bg-aqua btn-sm' data-widget='collapse'><i class='fa fa-minus'></i>";
+              html += "</button>";
+              html += "<button type='button' class='btn bg-aqua btn-sm' data-widget='remove'><i class='fa fa-times'></i>";
+              html += "</button>";
+              html += "</div>";
+              html += "</div>";
+              html += "<div class='box-body border-radius-none'>";
+              html += "<div class='chart' id='line-chart' style='height: 226px;'></div>";
+              html += "</div>";
+              html += "</div>";
+
+              
+              document.getElementById('informationBox').innerHTML += html;
+          }
+
+          var ProvincialSales = function () {
+              initMap();
               var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
 
               arr = JSON.parse(responce);
-              for (i = 0; i < arr.length; i++)
-              {
+              for (i = 0; i < arr.length; i++) {
                   var latlng = String(arr[i].LatLng).split(",");
                   var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
                   var note = String(arr[i].Province) + " R" + arr[i].sales;
@@ -218,10 +274,12 @@
               }
           };
 
+
+
           var ProductLocatioinSales = function ()
           {
-              drawProductsModal();
-              
+              initMap();
+              drawProductsModal();  
           };
 
           var InsuranceTypesLocationSales = function ()
@@ -326,6 +384,9 @@
 
           }
 
+
+
+
           function httpGetAsync(theUrl, callback)
           {
               var xmlHttp = new XMLHttpRequest();
@@ -359,7 +420,7 @@
 </div>
 
 
-<div id="insertModal"></div>
+<div id="insertModal" ></div>
 <!--<div id="processApplicationModal"></div>-->
 
 <!--<div class="modal fade" tabindex="-1" id="processApplicationModal" role="dialog" aria-labelledby="gridSystemModalLabel">
