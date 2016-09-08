@@ -7,7 +7,8 @@
 
        
     </style>
-
+    <!-- ChartJS 1.0.1 -->
+    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgzaeGEo_YeMg-YKoZuXSWTLw7r8f0b30&callback=initMap" async defer></script>
 
     <script >
@@ -91,14 +92,7 @@
                                         <span style="font-size:12px">View forcasted sales for your Products</span>
                                     </a>
                                 </li>
-                                <li onclick="InsuranceTypesLocationSales()">
-                                    <a>
-                                        Insurance Type Reports
-                                        <br />
-                                        <span style="font-size:12px">Product sales Per Product</span>
-                                    </a>
-                                </li>
-
+                                
                                 <li onclick="ProvincialSales()">
                                     <a>
                                         Provincial Sales  <br />
@@ -106,6 +100,7 @@
                                     </a>
                                 </li>
                                
+                                <li><a><br /><span style="font-size:12px"></span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,9 +139,11 @@
     <script type='text/javascript'>
 
         var map;
+        var selectedProduct = 31;
         var monthlylocationMarker = [];
         
         var productlist = [];
+        var provincialData = [];
 
           function initMap()
           {
@@ -171,7 +168,7 @@
           var drawMonthlySales = function ()
           {
               document.getElementById('canvas').innerHTML = "";
-              alert("monthly sales");
+              //alert("monthly sales");
               map = null;
           };
 
@@ -201,7 +198,7 @@
                       var locID = String(this.snippet).replace("marker", "");
                       //this.setAnimation(google.maps.Animation.BOUNCE);
                       var req = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
-                      alert(req);
+                      //alert(req);
                       monthlysalesinforBox(JSON.parse(req), this.title);
                       locationLineGraph(locID);
                   });
@@ -213,7 +210,7 @@
           var monthlysalesinforBox =  function(arr, title)
           {
               var html = "";
-              alert(arr);
+              //alert(arr);
               html = "";
 
               html += "<div class='box box-widget widget-user' style='width:97%;color:black;margin:1px;border:1px solid blue;'>";
@@ -333,22 +330,103 @@
                   var marker = new google.maps.Marker({
                       position: myLatLng,
                       map: map,
-                      title: note
+                      title: note,
+                      snippet: "marker" + arr[i].Province
+                  });
+
+                  marker.addListener('click', function () {
+                      var locID = String(this.snippet).replace("marker", "");
+                      drawProvincialPieGrapg(locID);
+                      this.setAnimation(google.maps.Animation.BOUNCE);
+
                   });
               }
+              var res = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProvincialProductType")
+              provincialData = JSON.parse(res);
           };
 
+          var drawProvincialPieGrapg =  function(id)
+          {
+              var html = "<div id='informationBox' style='width:570px;height:460px;'></div>";
+              document.getElementById('submenu').innerHTML = html;
+              
+              html = "<div class='box box-danger'>";
+              html += "<div class='box-header with-border'>";
+              html += "<h3 class='box-title'>Donut Chart</h3>";
+
+              html += "<div class='box-tools pull-right'>";
+              html += "<button type='button' class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i>";
+              html += "</button>";
+              html += "<button type='button' class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button>";
+              html += "</div>";
+              html += "</div>";
+              html += "<div class='box-body'>";
+              html += "<canvas id='pieChart' style='height:400px'></canvas>";
+              html += "</div>";
+              html += "</div>";
+
+              document.getElementById('informationBox').innerHTML = html;
+
+              var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+              var pieChart = new Chart(pieChartCanvas);
+              var PieData = [];
+
+              var colors = ["#f56954", "#00a65a", "#f39c12", "#00c0ef", "#3c8dbc", "#d2d6de"];
+              var colourCounter = 0;
+
+              for (i = 0; i < provincialData.length; i++)
+              {
+                  if (provincialData[i].Province === id)
+                  {
+                      
+                      PieData.push({
+                          value: provincialData[i].sales ,
+                          color: colors[colourCounter],
+                          highlight: colors[colourCounter],
+                          label:  provincialData[i].insuranctTypeDescription + " Sold Worth R"
+                      });
+                      colourCounter++;
+                  }
+              }
+              var pieOptions = {
+                  //Boolean - Whether we should show a stroke on each segment
+                  segmentShowStroke: true,
+                  //String - The colour of each segment stroke
+                  segmentStrokeColor: "#fff",
+                  //Number - The width of each segment stroke
+                  segmentStrokeWidth: 2,
+                  //Number - The percentage of the chart that we cut out of the middle
+                  percentageInnerCutout: 50, // This is 0 for Pie charts
+                  //Number - Amount of animation steps
+                  animationSteps: 100,
+                  //String - Animation easing effect
+                  animationEasing: "easeOutBounce",
+                  //Boolean - Whether we animate the rotation of the Doughnut
+                  animateRotate: true,
+                  //Boolean - Whether we animate scaling the Doughnut from the centre
+                  animateScale: false,
+                  //Boolean - whether to make the chart responsive to window resizing
+                  responsive: true,
+                  // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                  maintainAspectRatio: true,
+                  //String - A legend template
+                  legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+              };
+              //Create pie or douhnut chart
+              // You can switch between pie and douhnut using the method below.
+              pieChart.Doughnut(PieData, pieOptions);
+          }
 
 
           var ProductLocatioinSales = function ()
           {
               initMap();
-              drawProductsModal();  
+              drawProductsModal();
           };
 
           var InsuranceTypesLocationSales = function ()
           {
-              alert("insurance type location sales");
+              //alert("insurance type location sales");
           };
           
           function drawProductsModal()
@@ -419,10 +497,10 @@
 
           function getAndDrawSelectProduct(productID)
           {
-              alert(productID);
+              //alert(productID);
               responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductLocationExpenditure?productID="+ productID);
               arr = JSON.parse(responce);
-
+              selectedProduct = productID;
               for (i = 0; i < arr.length; i++)
               {
                   var latlng = String(arr[i].LatLng).split(",");
@@ -433,22 +511,58 @@
                       position: myLatLng,
                       animation: google.maps.Animation.DROP,
                       map: map,
-                      title: note
+                      title: note,
+                      snippet: "marker" + arr[i].Location_ID
+                  });
+
+                  marker.addListener('click', function () {
+                      var locID = String(this.snippet).replace("marker", "");
+                      drawProductLocationInformation(locID);
+                      this.setAnimation(google.maps.Animation.BOUNCE);
                   });
 
                   //marker.addListener()
               }
           }
 
-          function provinceStatics(provinceName)
+
+          var drawProductLocationInformation = function (locID)
           {
-              provinceInsuranceTypeExpenditure = httpGet("");
+              res = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getDemographicProductLocationLastMonthSales?productID=" + selectedProduct + "&locationsID=" + locID);
+              
+              data = JSON.parse(res);
 
+              var numConsumers = 0;
 
+              for (var i = 0 ; i < data.length ; i++)
+              {
+                  numConsumers += data[i].numConsumers;
+              }
+              var html = "<br /> <br/>"
+              html += "<div class='row'>";
 
-          }
+              for( var  i  = 0 ; i <  data.length && i < 3 ;i++)
+              {
+                html += "<div class='col-sm-7'>";
+                html += "<div class='info-box'>";
+                html += "<span class='info-box-icon bg-aqua' style='height:105px'><i class='fa fa-envelope-o'></i></span>";
 
+                html += "<div class='info-box-content' style='color:black;'>";
+                html += "SEGMENT SIZE <b style='margin-left: 45px'>" + parseFloat((data[i].numConsumers / numConsumers) * 100).toFixed(2) + "%" + "</b><br/>";
+                html += "EMPLOYMENT STATUS <b style='margin-left: 2px'>" + data[i].employmentStatus + "</b><br/>";
+                html += "AVG NETINCOME    <b style='margin-left: 26px'>R" + data[i].netIncome + "</b><br/>";
+                html += "Avg #DEPENDANTS   <b style='margin-left: 21px'>" + data[i].NumDependants + "</b><br/>";
+                html += "OVERALL GROUP Exp <b style='margin-left: 11px'>R" + data[i].sales + "</b><br/>";
+                html += "</div>";
+                html += "  </div>";
+                html += "</div> <br />";
+              }
+              html += "</div>";
 
+              var stucture = "<div id='informationBox' style='width:570px;height:460px;'></div>";
+              document.getElementById('submenu').innerHTML = stucture;
+              document.getElementById('informationBox').innerHTML = html;
+          };
 
 
           function httpGetAsync(theUrl, callback)
@@ -479,7 +593,7 @@
           }
     </script>
     
-
+    
 
 </div>
 

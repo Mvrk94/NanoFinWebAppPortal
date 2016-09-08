@@ -49,7 +49,7 @@ angular.module('myApp')
 
         var setProduct1 = function (responce) {
             $scope.product1data = responce.data;
-            alert($scope.product1data.name);
+            //alert($scope.product1data.name);
             canDraw += 1;
             if (canDraw % 2 === 0)
                 drawCompareProducts();
@@ -57,7 +57,7 @@ angular.module('myApp')
 
         var setProduct2 = function (responce) {
             $scope.product2data = responce.data;
-            alert($scope.product2data.name);
+            //alert($scope.product2data.name);
             canDraw += 1;
             if (canDraw % 2 === 0)
                 drawCompareProducts();
@@ -71,8 +71,9 @@ angular.module('myApp')
                 result += "	<li  style='margin-bottom:9px;width:280px'>";
                 result += "	<div class='row'>";
                 result += "	<div class='col-sm-1 col-sm-push-1 removePersonalSpace'>";
-                result += "<label><input type='checkbox' id='checkbox" + data[c].ProductID + "' class='flat-red'></label>";
+                result += "<label><input type='checkbox' id='checkbox" + data[c].Product_ID + "' class='flat-red'></label>";
                 result += "	</div>";
+                //alert(data[c].Product_ID)
                 result += "";
                 result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
                 result += String(data[c].name) + " <br />";
@@ -226,7 +227,7 @@ angular.module('myApp')
             var p2 = [];
             var counter = 0;
 
-            alert("compare product");
+            //alert("compare product");
 
             for (var t in $scope.product1data.predictions) {
                 p1.push($scope.product1data.predictions[counter]);
@@ -322,14 +323,14 @@ angular.module('myApp')
             var found = 0;
             for (var prod = 0 ; prod < productlist.length || found == 0; prod++)
             {
-                var check = document.getElementById("checkbox" + productlist[index].ProductID).checked;
+                var check = document.getElementById("checkbox" + productlist[index].Product_ID).checked;
 
                 if (check === true)
                 {
                     i++;
                     found++;
-                    alert(productlist[index].ProductID);
-                    drawItems.push(productlist[index].ProductID);
+                    //alert(productlist[index].Product_ID);
+                    drawItems.push(productlist[index].Product_ID);
                 }
                 index++;
             }
@@ -358,7 +359,7 @@ angular.module('myApp')
         var monthylsalesData = function (responce)
         {
             document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></div>";
-            alert("please");
+            //alert("please");
             var datasets = [];
             var counter = 1;
             var year = 5;
@@ -458,7 +459,7 @@ angular.module('myApp')
 
         //    // Fire the loading
         //    head.appendChild(script);
-        //    alert("am here");
+        //    //alert("am here");
         //}
 
         $scope.initMap = function ()
@@ -467,7 +468,7 @@ angular.module('myApp')
 
             while (currentTime + 1000 >= new Date().getTime()) {
             }
-            alert("am here 2");
+            //alert("am here 2");
 
 
             var map = new google.maps.Map(document.getElementById('canvasData'),
@@ -493,7 +494,7 @@ angular.module('myApp')
         };
 
         var message = function () {
-            alert("hahaha");
+            //alert("hahaha");
         };
 
     /*
