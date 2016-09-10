@@ -1,5 +1,10 @@
 ﻿    <!-- Morris.js charts -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 
 <div id="reportsPage" style="overflow:scroll" ng-controller="reportsNaster">
@@ -61,38 +66,38 @@
                         <ul class="nav nav-stacked" style="font-size:19px">
 
                             <li> <br /> <br /></li>
+                            <li ng-click="overallProductSales()">
+                                <a>
+                                    Overall Product Sales <br />
+                                    <span style="font-size:12px">Bar graph for the overall Product Sales this month</span>
+                                </a>
+                            </li>
                             <li ng-click="targetSales()">
                                 <a>
-                                    Target Progress <br />
-                                    <span style="font-size:12px">show the current sales vs predicted sales value</span>
+                                    Product Targets This Month  <br />
+                                    <span style="font-size:12px">View Sales vs Pre-set Targets </span>
                                 </a>
                             </li>
                             <li ng-click="compareProuctsCanvas()">
                                 <a>
-                                    Compare Product Sales  <br />
-                                    <span style="font-size:12px">compare sales for one or more Products</span>
+                                   View Predicted Sales  <br />
+                                    <span style="font-size:12px">view one more product sale with predictions</span>
                                 </a>
                             </li>
-                            <li ng-click="drawMonthlySales()">
+                            <li ng-click="insuranceTypeSales()">
                                 <a>
-                                    Forcasted Sales  <br />
-                                    <span style="font-size:12px">View forcasted sales for your Products</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    Assets reports to be added  <br />
-                                    <span style="font-size:12px">...</span>
+                                    View overAll Insurance type sales<br />
+                                    <span style="font-size:12px">View Insurance type overall Expenditure</span>
                                 </a>
                             </li>
 
-                            <li>
+                            <li ng-click="compareInsuranceTypes()">
                                 <a>
-                                    Assets Reports to be added  <br />
-                                    <span style="font-size:12px">...</span>
+                                    View overAll Insurance type sales<br />
+                                    <span style="font-size:12px">View Insurance type overall Expenditure</span>
                                 </a>
                             </li>
-                            <li> <br /> <br /></li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -147,9 +152,9 @@
                     </div>
                 </div>
 
-                <div class="box-footer  no-padding bg-aqua" style="width:899px;height:480px">
+                <div class="box-footer  no-padding" style="width:899px;height:480px">
             <br/><br /><br />
-                    <div class="box-body border-radius-none bg-aqua" style="height:425px;width:899px;">
+                    <div class="box-body border-radius-none" style="height:425px;width:899px;">
                         <!--<div id="map"></div>
                         <div class="chart" id="line-chart"></div>-->
                         <div id="insertCanvas"></div>

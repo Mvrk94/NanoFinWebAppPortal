@@ -30,7 +30,7 @@
         {
             scrollTarget =  evt.currentTarget || evt.srcElement;
 
-            if(scrollTarget.scrollWidth > scrollTarget.offsetWidth- 200 ) {
+            if(scrollTarget.scrollWidth > scrollTarget.offsetWidth ) {
               var delta = Math.max(-1, Math.min(1, (evt.wheelDelta || -evt.detail)));
               switch(delta) {
                 case 1:
@@ -57,8 +57,8 @@
     </section>
     <br />
 
-    <div id='scrollableDiv' style='width:1100px; height: 530px; position: absolute; overflow: hidden;'>
-        <div style='width:1550px ;'>
+    <div id='scrollableDiv' style='width:2000px; height: 530px; position: absolute; overflow: scroll;'>
+        <div>
             <div class="row">
                 <div class="col-sm-3" style="width:285px;margin:3px; padding:0px;margin-left:30px">
 
@@ -147,7 +147,7 @@
 
           function initMap()
           {
-              document.getElementById('canvas').innerHTML = "<div id='map' style='width:598px;height:460px'></div>";
+              document.getElementById('canvas').innerHTML = "<div id='map' style='width:500px;height:460px'></div>";
               map = new google.maps.Map(document.getElementById('map'),
              {
                  center: { lat: -29.126612, lng: 25.543462 },
@@ -155,7 +155,7 @@
              });
               httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
 
-              var htnl = "<div id='informationBox' style='width:570px;height:460px;'></div>";
+              var htnl = "<div id='informationBox' style='width:570px;height:460px;margin-left:-35px;'></div>";
               document.getElementById('submenu').innerHTML = htnl;
           };
 
@@ -545,7 +545,7 @@
               {
                 html += "<div class='col-sm-7'>";
                 html += "<div class='info-box'>";
-                html += "<span class='info-box-icon bg-aqua' style='height:105px'><i class='fa fa-envelope-o'></i></span>";
+                html += "<span class='info-box-icon bg-aqua' style='height:108px'><i class='fa fa-group'></i></span>";
 
                 html += "<div class='info-box-content' style='color:black;'>";
                 html += "SEGMENT SIZE <b style='margin-left: 45px'>" + parseFloat((data[i].numConsumers / numConsumers) * 100).toFixed(2) + "%" + "</b><br/>";

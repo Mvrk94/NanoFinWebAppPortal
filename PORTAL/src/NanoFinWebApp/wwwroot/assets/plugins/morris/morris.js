@@ -590,20 +590,22 @@ Licensed under the BSD-2-Clause License.
 
   })(Morris.EventEmitter);
 
-  Morris.parseDate = function(date) {
+  Morris.parseDate = function(date1) {
     var isecs, m, msecs, n, o, offsetmins, p, q, r, ret, secs;
-    if (typeof date === 'number') {
+    if (typeof date1 === 'number') {
       return date;
     }
+	
     m = date.match(/^(\d+) Q(\d)$/);
     n = date.match(/^(\d+)-(\d+)$/);
     o = date.match(/^(\d+)-(\d+)-(\d+)$/);
     p = date.match(/^(\d+) W(\d+)$/);
     q = date.match(/^(\d+)-(\d+)-(\d+)[ T](\d+):(\d+)(Z|([+-])(\d\d):?(\d\d))?$/);
     r = date.match(/^(\d+)-(\d+)-(\d+)[ T](\d+):(\d+):(\d+(\.\d+)?)(Z|([+-])(\d\d):?(\d\d))?$/);
-    if (m) {
-      return new Date(parseInt(m[1], 10), parseInt(m[2], 10) * 3 - 1, 1).getTime();
-    } else if (n) {
+    //if (m) {
+    //  return new Date(parseInt(m[1], 10), parseInt(m[2], 10) * 3 - 1, 1).getTime();
+    //}
+	if (n) {
       return new Date(parseInt(n[1], 10), parseInt(n[2], 10) - 1, 1).getTime();
     } else if (o) {
       return new Date(parseInt(o[1], 10), parseInt(o[2], 10) - 1, parseInt(o[3], 10)).getTime();
