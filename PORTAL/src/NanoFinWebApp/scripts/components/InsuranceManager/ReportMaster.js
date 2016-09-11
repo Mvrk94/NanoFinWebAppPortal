@@ -24,6 +24,7 @@ angular.module('myApp')
             return "Value Added";
         };
         $scope.reportName = " ";
+        $scope.shortdescription = "";
 
         var fillInsuranceType = function ()
         {
@@ -150,10 +151,12 @@ angular.module('myApp')
             document.getElementById("insertCanvas").innerHTML = "";
             fillOptions();
             $scope.reportName = "Current Month sales vs Target sales";
+            $scope.shortdescription = " The graph below compares the selected product’s sales with target sales that you set for this month. Sales are in Rands.";
 
             document.getElementById("drawReport").onclick = function ()
             {
                 $scope.reportName = "Current Month sales vs Target sales";
+                $scope.shortdescription = " The graph below compares the selected product’s sales with target sales that you set for this month. Sales are in Rands.";
                 $scope.drawTargetToCanvas();
             };
         };
@@ -287,7 +290,8 @@ angular.module('myApp')
             var name1 = $scope.product1data.name + " in ZAR";
             var name2 = $scope.product2data.name + " in ZAR";
 
-            $scope.reportName = $scope.product1data.name + " Sales vs  " + $scope.product2data.name +  " Sales";
+            $scope.reportName = $scope.product1data.name + " Sales vs  " + $scope.product2data.name + " Sales";
+            $scope.shortdescription = " The graph below compares the two select product sales. The last six months sales together with the forecasted sales of each selected product. Sales are in Rands.";
             //var date = new Date(Date.UTC(2015, 1, 1));
             //var options = { year: "numeric" };
 
@@ -353,6 +357,7 @@ angular.module('myApp')
             turnOnMainList("btnCompareProducts");
             document.getElementById("insertCanvas").innerHTML = "";
             $scope.reportName = "Compare two Products";
+            $scope.shortdescription = " The graph will  show the two select product sales. The last six months sales together with the forecasted sales of each selected product. Sales are in Rands.";
 
             document.getElementById("drawReport").onclick = function ()
             {
@@ -403,7 +408,7 @@ angular.module('myApp')
             document.getElementById("itemList").innerHTML = "";
             document.getElementById("insertCanvas").innerHTML = "";
             $scope.reportName = "";
-            turnOnMainList("btnOverallInsuranceTypes")
+            turnOnMainList("btnOverallInsuranceTypes");
             $http(
               {
                   method: 'GET',
@@ -414,6 +419,7 @@ angular.module('myApp')
        var drawcurrentMonthInsuranceType = function (responce)
        {
            $scope.reportName = "Current Month Insurance Type Sales";
+           $scope.shortdescription = " The graph below displays each insurance type sales for the current month. Sales are in Rands";
             document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
             var labels = [];
             var sales = [];
@@ -509,6 +515,7 @@ angular.module('myApp')
             document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:385px;width:840px;marign-left:29px;'></div>";
             document.getElementById("drawReport").style.visibility = 'visible';
             $scope.reportName = "Compare Insurance Types Sales";
+            $scope.shortdescription = "The graph below compares two insurance type sales. Its shows sales from the last six and forecasts the next Six.";
             document.getElementById("drawReport").onclick = function ()
             {
             
@@ -535,13 +542,11 @@ angular.module('myApp')
                 {
                     method: 'GET',
                     url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=5",
-                   // url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=1&numPredictions=5",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    //url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=21&numPredictions=5",
                     url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=5",
                 }).then(setinsurance2, errorCallBack);
             };
@@ -559,7 +564,8 @@ angular.module('myApp')
             var name1 = $scope.getType(insurnaceTypeSelected[0]) + " in ZAR";
             var name2 = $scope.getType(insurnaceTypeSelected[1]) + " in ZAR";
 
-            $scope.reportName = $scope.getType(insurnaceTypeSelected[0]) + " Sales  vs " + $scope.getType(insurnaceTypeSelected[1]) + "  Sales";
+            $scope.reportName = $scope.getType(insurnaceTypeSelected[0]) + "  Product  Sales  vs " + $scope.getType(insurnaceTypeSelected[1]) + "  Product  Sales";
+            $scope.shortdescription = "The graph below compares Two insurance type sales. Its shows sales from the last Six and Forecasts the next Six.";
 
             var date = new Date(Date.UTC(2015, 1, 1));
             var options = { year: "numeric" };
@@ -634,6 +640,7 @@ angular.module('myApp')
             document.getElementById("itemList").innerHTML = "";
             turnOnMainList("btnViewCurrentMonth");
             $scope.reportName = "Current Month Total Product Sales";
+            $scope.shortdescription = "The graph below displays the current month’s sales for each product. Sales are in Rands";
             document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
             var responce = $scope.targetInfor;
             var drawItems = [];
