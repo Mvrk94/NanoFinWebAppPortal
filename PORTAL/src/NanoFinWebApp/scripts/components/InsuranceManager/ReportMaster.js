@@ -5,7 +5,7 @@ angular.module('myApp')
         {
 
         var insurancetypeIDs = [1, 2, 11, 21, 31];
-        var insurancetypeNames = ["Assets", "Travel", "Legal", "Medical", "Value Added"];
+        var insurancetypeNames = ["Assets", "Travel", "Legal", "Medical", "Funeral"];
         $scope.getType = function (insuranceType)
         {
             if (insuranceType == 1)
@@ -112,7 +112,7 @@ angular.module('myApp')
                 result += "";
                 result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
                 result += String(data[c].name) + " <br />";
-                result += "<span style='font-size:12px'>" + $scope.getType(data[c].insuranceType) + "</span>";
+                result += "<span style='font-size:12px'>" + $scope.getType(data[c].InsuranceType_ID) + "</span>";
                 result += "</div>";
                 result += "</div>";
                 result += "</li>";
@@ -150,12 +150,12 @@ angular.module('myApp')
             turnOnMainList("btntargetSales");
             document.getElementById("insertCanvas").innerHTML = "";
             fillOptions();
-            $scope.reportName = "Current Month sales vs Target sales";
+            $scope.reportName = "Current  Month  sales  vs  Target  sales";
             $scope.shortdescription = " The graph below compares the selected product’s sales with target sales that you set for this month. Sales are in Rands.";
 
             document.getElementById("drawReport").onclick = function ()
             {
-                $scope.reportName = "Current Month sales vs Target sales";
+                $scope.reportName = "Current  Month  sales  vs  Target  sales";
                 $scope.shortdescription = " The graph below compares the selected product’s sales with target sales that you set for this month. Sales are in Rands.";
                 $scope.drawTargetToCanvas();
             };
@@ -202,12 +202,12 @@ angular.module('myApp')
                 datasets: [
                     {
                         label: "Sales",
-                        fillColor: "rgba(210, 214, 222, 1)",
-                        strokeColor: "rgba(210, 214, 222, 1)",
-                        pointColor: "rgba(210, 214, 222, 1)",
+                        fillColor: "#FF9966",
+                        strokeColor: "#FF9966",
+                        pointColor: "#FF9966",
                         pointStrokeColor: "#c1c7d1",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "#FF9966",
                         data: sales
                     },
                     {
@@ -226,9 +226,11 @@ angular.module('myApp')
             var barChartCanvas = $("#canvasData").get(0).getContext("2d");
             var barChart = new Chart(barChartCanvas);
             var barChartData = areaChartData;
-            barChartData.datasets[1].fillColor = "#00a65a";
-            barChartData.datasets[1].strokeColor = "#00a65a";
-            barChartData.datasets[1].pointColor = "#00a65a";
+
+            var color2 = "#79BEDB";
+            barChartData.datasets[1].fillColor = color2;
+            barChartData.datasets[1].strokeColor = color2;
+            barChartData.datasets[1].pointColor = color2;
             var barChartOptions =
             {
                 //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
@@ -285,26 +287,30 @@ angular.module('myApp')
             var labels = [];
             
             var datasets = [];
-            var counter = 1;
+            var counter = 0;
+
+            counter  =  parseInt(String($scope.product1data.previouse.length)) - 7;
+            counterp2 = parseInt(String($scope.product2data.previouse.length)) - 7;
 
             var name1 = $scope.product1data.name + " in ZAR";
             var name2 = $scope.product2data.name + " in ZAR";
 
-            $scope.reportName = $scope.product1data.name + " Sales vs  " + $scope.product2data.name + " Sales";
+            $scope.reportName = $scope.product1data.name + "  Sales vs  " + $scope.product2data.name + "  Sales";
             $scope.shortdescription = " The graph below compares the two select product sales. The last six months sales together with the forecasted sales of each selected product. Sales are in Rands.";
             //var date = new Date(Date.UTC(2015, 1, 1));
             //var options = { year: "numeric" };
 
             //alert(date.toLocaleDateString("en-US", options));
             var year = 6;
-            var month = 9;
+            var month = 3;
             var str = "";
             for (var n = 0 ; n < 6 ;  n++)
             {
                 str = String("201" + String(year) + "-" + String(month));
-                datasets.push({ period: str, licensed: parseFloat( $scope.product1data.previouse[counter]).toFixed(2), sorned: parseFloat($scope.product2data.previouse[counter]).toFixed(2) });
+                datasets.push({ period: str, licensed: parseFloat($scope.product1data.previouse[counter]).toFixed(2), sorned: parseFloat($scope.product2data.previouse[counterp2]).toFixed(2) });
                 month++;
                 counter++;
+                counterp2++;
 
                 if (month == 12)
                 {
@@ -315,7 +321,7 @@ angular.module('myApp')
             counter = 0;
             canDrawInsuranceType = 0;
             
-            for (var y = 0 ; y < 5 ;y++)
+            for (var y = 0 ; y < 6 ;y++)
             {
                 str = String("201" + String(year) + "-" + String(month));
                 datasets.push({ period: str, licensed: parseFloat( $scope.product1data.predictions[counter]).toFixed(2), sorned: parseFloat( $scope.product2data.predictions[counter]).toFixed(2) });
@@ -356,7 +362,7 @@ angular.module('myApp')
             fillOptions();
             turnOnMainList("btnCompareProducts");
             document.getElementById("insertCanvas").innerHTML = "";
-            $scope.reportName = "Compare two Products";
+            $scope.reportName = "Compare  Two  Products";
             $scope.shortdescription = " The graph will  show the two select product sales. The last six months sales together with the forecasted sales of each selected product. Sales are in Rands.";
 
             document.getElementById("drawReport").onclick = function ()
@@ -418,7 +424,7 @@ angular.module('myApp')
         
        var drawcurrentMonthInsuranceType = function (responce)
        {
-           $scope.reportName = "Current Month Insurance Type Sales";
+           $scope.reportName = "Current  Month  Insurance  Type  Sales";
            $scope.shortdescription = " The graph below displays each insurance type sales for the current month. Sales are in Rands";
             document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
             var labels = [];
@@ -438,12 +444,12 @@ angular.module('myApp')
                 datasets: [
                     {
                         label: "Sales",
-                        fillColor: "rgba(210, 214, 222, 1)",
-                        strokeColor: "rgba(210, 214, 222, 1)",
-                        pointColor: "rgba(210, 214, 222, 1)",
+                        fillColor: "#FF9966",
+                        strokeColor: "#FF9966",
+                        pointColor: "#FF9966",
                         pointStrokeColor: "#c1c7d1",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "#FF9966",
                         data: sales
                     }
                 ]
@@ -514,7 +520,7 @@ angular.module('myApp')
             document.getElementById("insertCanvas").innerHTML = "";
             document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:385px;width:840px;marign-left:29px;'></div>";
             document.getElementById("drawReport").style.visibility = 'visible';
-            $scope.reportName = "Compare Insurance Types Sales";
+            $scope.reportName = "Compare  Insurance  Types  Sales";
             $scope.shortdescription = "The graph below compares two insurance type sales. Its shows sales from the last six and forecasts the next Six.";
             document.getElementById("drawReport").onclick = function ()
             {
@@ -541,13 +547,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=5",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=5",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6",
                 }).then(setinsurance2, errorCallBack);
             };
         };
@@ -561,6 +567,9 @@ angular.module('myApp')
             var datasets = [];
             var counter = 1;
 
+            counter = parseInt(String($scope.insurace1data.previouse.length)) - 7;
+            var counterp2 = parseInt(String($scope.insurace2data.previouse.length)) - 7;
+
             var name1 = $scope.getType(insurnaceTypeSelected[0]) + " in ZAR";
             var name2 = $scope.getType(insurnaceTypeSelected[1]) + " in ZAR";
 
@@ -571,13 +580,14 @@ angular.module('myApp')
             var options = { year: "numeric" };
             var str = "";
             var year = 6;
-            var month = 9;
+            var month = 3;
             for (var n = 0 ; n < 6 ; n++)
             {
                 str = String("201" + String(year) + "-" + String(month));
-                datasets.push({ period: str, licensed: parseFloat($scope.insurace1data.previouse[counter]).toFixed(2), sorned: parseFloat($scope.insurace2data.previouse[counter]).toFixed(2) });
+                datasets.push({ period: str, licensed: parseFloat($scope.insurace1data.previouse[counter]).toFixed(2), sorned: parseFloat($scope.insurace2data.previouse[counterp2]).toFixed(2) });
                 counter++;
                 month++;
+                counterp2++;
                 if (month == 12)
                 {
                     year++;
@@ -588,7 +598,7 @@ angular.module('myApp')
             counter = 0;
 
             var predictionsDate = new Date(Date.UTC(2016, 9, 1));
-            for (var y = 0 ; y < 5 ; y++)
+            for (var y = 0 ; y < 6 ; y++)
             {
                 str = String("201" + String(year) + "-" + String(month));
                 datasets.push({ period: str, licensed: parseFloat($scope.insurace1data.predictions[counter]).toFixed(2), sorned: parseFloat($scope.insurace2data.predictions[counter]).toFixed(2) });
@@ -674,12 +684,12 @@ angular.module('myApp')
                 datasets: [
                     {
                         label: "Sales",
-                        fillColor: "rgba(210, 214, 222, 1)",
-                        strokeColor: "rgba(210, 214, 222, 1)",
-                        pointColor: "rgba(210, 214, 222, 1)",
-                        pointStrokeColor: "#c1c7d1",
+                        fillColor: "#FF9966",
+                        strokeColor: "00BFFF",
+                        pointColor: "#FF9966",
+                        pointStrokeColor: "#00BFFF",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "#FF9966",
                         data: sales
                     }
                 ]

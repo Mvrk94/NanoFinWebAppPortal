@@ -32,7 +32,7 @@
     </section>
     <br />
 
-    <div id='scrollableDiv' style='width:2000px; height: 530px; position: absolute; overflow: scroll;'>
+    <div id='scrollableDiv' style='width:2000px; position: absolute; overflow: scroll;'>
         <div>
             <div class="row">
                 <div class="col-sm-3" style="width:285px;margin:3px; padding:0px;margin-left:30px">
@@ -75,7 +75,7 @@
                                     </a>
                                 </li>
                                
-                                <li><a><br /><span style="font-size:12px"></span></a></li>
+                                <li><br /><br /><br /><br /></li>
                             </ul>
                         </div>
                     </div>
@@ -95,9 +95,9 @@
                         </div>
                         <div class="box-footer no-padding">
                             <div class="row">
-                                <div id="canvas" class="col-sm-5" style="margin:0px;"></div>
+                                <div id="canvas" class="col-sm-6" style="margin-right:-82px;"></div>
 
-                                <div id="submenu" class="col-sm-5" style="margin:0px;"></div>
+                                <div id="submenu" class="col-sm-5" ></div>
                             </div>
                         </div>    
                     </div>
@@ -129,7 +129,7 @@
              });
               httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
 
-              var htnl = "<div id='informationBox' style='width:500px;height:460px;'></div>";
+              var htnl = "<div id='informationBox' style='width:600px;height:460px;'></div>";
               document.getElementById('submenu').innerHTML = htnl;
           };
 
@@ -137,7 +137,6 @@
           {
               productlist = JSON.parse(responce);   
           }
-
 
           var drawMonthlySales = function ()
           {
@@ -183,7 +182,7 @@
               //alert(arr);
               html = "";
 
-              html += "<div class='box box-widget widget-user' style='width:97%;color:black;margin:1px;border:1px solid blue;'>";
+              html += "<div class='box box-widget widget-user' style='width:97%;color:black;margin:1px;border:1px 3399FF;'>";
               html += "<div class='box-header bg-aqua'>";
               html += "<h3 class='box-title'>Top 5 Popular Products at "+title.split(" ")[0] +"</h3>";
               html += "";
@@ -195,29 +194,26 @@
               html += "</div>";
               html += "";
               html += "<div class='box-footer no-padding'>";
-              html += "<ul class='nav nav-pills nav-stacked' style='font-size:15px;'>";
+              html += "<ul class='nav nav-pills nav-stacked' style='font-size:15px;width:95%;'>";
               var ic = 0;
               for (ic = 0; ic < arr.length && ic < 5; ic++)
               {
-                  html += "<li>" + arr[ic].productName + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> R " + arr[ic].sales + "</span></li>";
+                  html += "<li>" + arr[ic].productName + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> R " + arr[ic].sales + " </span></li>";
               }
-              html += "<li>. </li>";
+              html += "<li><br/> </li>";
               html += "</ul>";
               html += "</div>";
               html += "</div>";
               html += "";
               
-              html += "<div class='box box-solid bg-aqua' style='margin:1px'>";
-              html += "<div class='box-header'>";
+              html += "<div class='box box-solid ' style='margin:1px;width:97%'>";
+              html += "<div class='box-header bg-aqua'>";
               html += "<i class='fa fa-th'></i>";
               html += "";
               html += "<h3 class='box-title'>Sales Graph</h3>";
 
               html += "<div class='box-tools pull-right'>";
               html += "<button type='button' class='btn bg-aqua btn-sm' data-widget='collapse'><i class='fa fa-minus'></i>";
-              html += "</button>";
-              html += "<button type='button' class='btn bg-aqua btn-sm' data-widget='remove'><i class='fa fa-times'></i>";
-              html += "</button>";
               html += "</div>";
               html += "</div>";
               html += "<div class='box-body border-radius-none'>";
@@ -269,14 +265,14 @@
                   xkey: 'y',
                   ykeys: ['item1'],
                   labels: ['sales in ZAR'],
-                  lineColors: ['#efefef'],
+                  //lineColors: ['#efefef'],
                   lineWidth: 2,
                   hideHover: 'auto',
-                  gridTextColor: "#fff",
+                  //gridTextColor: "#fff",
                   gridStrokeWidth: 0.4,
                   pointSize: 4,
-                  pointStrokeColors: ["#efefef"],
-                  gridLineColor: "#efefef",
+                 // pointStrokeColors: ["#efefef"],
+                 // gridLineColor: "#efefef",
                   gridTextFamily: "Open Sans",
                   gridTextSize: 10
               });
@@ -317,21 +313,16 @@
 
           var drawProvincialPieGrapg =  function(id)
           {
-              var html = "<div id='informationBox' style='width:570px;height:460px;'></div>";
+              var html = "<div id='informationBox' style='width:570px;height:600px;'></div>";
               document.getElementById('submenu').innerHTML = html;
               
-              html = "<div class='box box-danger'>";
+              html = "<div class='box box-info'>";
               html += "<div class='box-header with-border'>";
-              html += "<h3 class='box-title'>Donut Chart</h3>";
+              html += "<h3 class='box-title'>Province Name</h3>";
 
-              html += "<div class='box-tools pull-right'>";
-              html += "<button type='button' class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i>";
-              html += "</button>";
-              html += "<button type='button' class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button>";
               html += "</div>";
-              html += "</div>";
-              html += "<div class='box-body'>";
-              html += "<canvas id='pieChart' style='height:400px'></canvas>";
+              html += "<div class='box-body' style='height:450px;'>";
+              html += "<canvas id='pieChart' style='height:450px;'></canvas>";
               html += "</div>";
               html += "</div>";
 
@@ -394,9 +385,6 @@
               drawProductsModal();
           };
 
-          var InsuranceTypesLocationSales = function ()
-          {
-          };
           
           function drawProductsModal()
           {
