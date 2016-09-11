@@ -1,6 +1,15 @@
-﻿<div id="geoReports">
+﻿    <!-- Morris.js charts -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<div id="geoReports">
     <style>
-        .removePersonalSpace {
+        .removePersonalSpace 
+        {
             margin: 0px;
             padding: 0px;
         }
@@ -10,41 +19,7 @@
     <!-- ChartJS 1.0.1 -->
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgzaeGEo_YeMg-YKoZuXSWTLw7r8f0b30&callback=initMap" async defer></script>
-
-    <script >
-        window.onload = function (e)
-        {
-            evt =  e || window.event;
-
-            var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
-
-            if(document.attachEvent) {
-              document.getElementById('scrollableDiv').attachEvent('on'+mousewheelevt, scroll);
-            } else {
-              document.getElementById('scrollableDiv').addEventListener(mousewheelevt, scroll, false);
-            }
-          }
-
-
-        function scroll(evt)
-        {
-            scrollTarget =  evt.currentTarget || evt.srcElement;
-
-            if(scrollTarget.scrollWidth > scrollTarget.offsetWidth ) {
-              var delta = Math.max(-1, Math.min(1, (evt.wheelDelta || -evt.detail)));
-              switch(delta) {
-                case 1:
-                  scrollTarget.scrollLeft -= 32;
-                  break;
-
-                case -1:
-                  scrollTarget.scrollLeft += 32;
-                  break;
-              }
-            }
-          }
-
-    </script>
+    
 
     <section class="content-header">
         <h1>
@@ -120,14 +95,13 @@
                         </div>
                         <div class="box-footer no-padding">
                             <div class="row">
-                                <div id="canvas" class="col-sm-6"></div>
+                                <div id="canvas" class="col-sm-5" style="margin:0px;"></div>
 
-                                <div id="submenu" class="col-sm-5"></div>
+                                <div id="submenu" class="col-sm-5" style="margin:0px;"></div>
                             </div>
                         </div>    
                     </div>
-
-                   
+   
             </div>
                 <!-- /.row -->
         </div>
@@ -147,7 +121,7 @@
 
           function initMap()
           {
-              document.getElementById('canvas').innerHTML = "<div id='map' style='width:500px;height:460px'></div>";
+              document.getElementById('canvas').innerHTML = "<div id='map' style='width:500px;height:460px;margin:0px;'></div>";
               map = new google.maps.Map(document.getElementById('map'),
              {
                  center: { lat: -29.126612, lng: 25.543462 },
@@ -155,7 +129,7 @@
              });
               httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
 
-              var htnl = "<div id='informationBox' style='width:570px;height:460px;margin-left:-35px;'></div>";
+              var htnl = "<div id='informationBox' style='width:500px;height:460px;'></div>";
               document.getElementById('submenu').innerHTML = htnl;
           };
 
@@ -168,7 +142,6 @@
           var drawMonthlySales = function ()
           {
               document.getElementById('canvas').innerHTML = "";
-              //alert("monthly sales");
               map = null;
           };
 
@@ -183,29 +156,26 @@
                   var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
                   var note = String(arr[i].city) + " R" + arr[i].sales;
 
-
-                  var marker = new google.maps.Marker({
+                  var marker = new google.maps.Marker(
+                  {
                       position: myLatLng,
                       map: map,
                       title: note,
                       snippet: "marker" + arr[i].Location_ID
                   });
 
-                  
-
                   marker.addListener('click', function ()
                   {
                       var locID = String(this.snippet).replace("marker", "");
-                      //this.setAnimation(google.maps.Animation.BOUNCE);
                       var req = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
                       //alert(req);
                       monthlysalesinforBox(JSON.parse(req), this.title);
                       locationLineGraph(locID);
+                      toggleBounce(this);
                   });
               }
               
           };
-
 
           var monthlysalesinforBox =  function(arr, title)
           {
@@ -261,7 +231,6 @@
 
           }
 
-
           var locationLineGraph = function( locationID)
           {
               var sales = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getAllLocationSales?locationID=" + locationID);
@@ -314,30 +283,31 @@
 
           }
 
-
           var ProvincialSales = function ()
           {
               initMap();
               var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
+              var arr = JSON.parse(responce);
 
-              arr = JSON.parse(responce);
-              for (i = 0; i < arr.length; i++) {
+              for (i = 0; i < arr.length; i++)
+              {
                   var latlng = String(arr[i].LatLng).split(",");
                   var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
                   var note = String(arr[i].Province) + " R" + arr[i].sales;
 
-
-                  var marker = new google.maps.Marker({
+                  var marker = new google.maps.Marker(
+                   {
                       position: myLatLng,
                       map: map,
                       title: note,
                       snippet: "marker" + arr[i].Province
                   });
 
-                  marker.addListener('click', function () {
+                  marker.addListener('click', function ()
+                  {
                       var locID = String(this.snippet).replace("marker", "");
                       drawProvincialPieGrapg(locID);
-                      this.setAnimation(google.maps.Animation.BOUNCE);
+                      toggleBounce(this);
 
                   });
               }
@@ -426,7 +396,6 @@
 
           var InsuranceTypesLocationSales = function ()
           {
-              //alert("insurance type location sales");
           };
           
           function drawProductsModal()
@@ -507,7 +476,8 @@
                   var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
                   var note = String(arr[i].Province) + " " + arr[i].city + ",  R" + arr[i].sales;
 
-                  var marker = new google.maps.Marker({
+                  var marker = new google.maps.Marker(
+                    {
                       position: myLatLng,
                       animation: google.maps.Animation.DROP,
                       map: map,
@@ -515,13 +485,12 @@
                       snippet: "marker" + arr[i].Location_ID
                   });
 
-                  marker.addListener('click', function () {
+                  marker.addListener('click', function ()
+                  {
                       var locID = String(this.snippet).replace("marker", "");
                       drawProductLocationInformation(locID);
-                      this.setAnimation(google.maps.Animation.BOUNCE);
+                      toggleBounce(this);
                   });
-
-                  //marker.addListener()
               }
           }
 
@@ -529,15 +498,13 @@
           var drawProductLocationInformation = function (locID)
           {
               res = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getDemographicProductLocationLastMonthSales?productID=" + selectedProduct + "&locationsID=" + locID);
-              
               data = JSON.parse(res);
 
               var numConsumers = 0;
 
               for (var i = 0 ; i < data.length ; i++)
-              {
                   numConsumers += data[i].numConsumers;
-              }
+             
               var html = "<br /> <br/>"
               html += "<div class='row'>";
 
@@ -565,6 +532,10 @@
           };
 
 
+
+        /*
+            Utility Functions
+        */
           function httpGetAsync(theUrl, callback)
           {
               var xmlHttp = new XMLHttpRequest();
@@ -577,14 +548,16 @@
               xmlHttp.send(null);
           }
 
-          function httpGet(theUrl) {
+          function httpGet(theUrl)
+          {
               var xmlHttp = new XMLHttpRequest();
               xmlHttp.open("GET", theUrl, false); // false for synchronous request
               xmlHttp.send(null);
               return xmlHttp.responseText;
           }
 
-          function toggleBounce(marker) {
+          function toggleBounce(marker)
+          {
               if (marker.getAnimation() !== null) {
                   marker.setAnimation(null);
               } else {
@@ -599,6 +572,19 @@
 
 
 <div id="insertModal" ></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--<div id="processApplicationModal"></div>-->
 
 <!--<div class="modal fade" tabindex="-1" id="processApplicationModal" role="dialog" aria-labelledby="gridSystemModalLabel">

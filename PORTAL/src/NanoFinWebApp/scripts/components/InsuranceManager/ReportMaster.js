@@ -3,68 +3,66 @@
 angular.module('myApp')
         .controller('reportsNaster', ['$scope', '$http', '$compile', function ($scope, $http, $compile)
         {
-         
-            var insurancetypeIDs = [1, 2, 11, 21, 31];
-            var insurancetypeNames = ["Assets", "Travel", "Legal", "Medical", "Medical"];
-            $scope.getType = function (insuranceType)
-            {
-                if (insuranceType == 1)
-                    return "Assets";
-                else if (insuranceType == 2)
-                    return "Travel";
-                else if (insuranceType == 11)
-                    return "Legal";
 
-                else if (insuranceType == 21)
-                    return "Medical";
-                else if (insuranceType == 31)
-                    return "Funeral";
+        var insurancetypeIDs = [1, 2, 11, 21, 31];
+        var insurancetypeNames = ["Assets", "Travel", "Legal", "Medical", "Value Added"];
+        $scope.getType = function (insuranceType)
+        {
+            if (insuranceType == 1)
+                return "Assets";
+            else if (insuranceType == 2)
+                return "Travel";
+            else if (insuranceType == 11)
+                return "Legal";
+
+            else if (insuranceType == 21)
+                return "Medical";
+            else if (insuranceType == 31)
+                return "Funeral";
 
                
-                return "Value Added";
-            };
+            return "Value Added";
+        };
 
 
+        var fillInsuranceType = function ()
+        {
+            var result = "";
+                
+            var insurancetypeIDs = [1, 2, 11, 21, 31];
+            for (var c = 0 ; c < insurancetypeIDs.length ; c++)
+            {
+                result += "	<li  style='margin-bottom:9px;width:280px'>";
+                result += "	<div class='row'>";
+                result += "	<div class='col-sm-1 col-sm-push-1 removePersonalSpace'>";
+                result += "<label><input type='checkbox' id='checkbox" + insurancetypeIDs[c] + "' class='flat-red'></label>";
+                result += "	</div>";
+                result += "";
+                result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
+                result += String(insurancetypeNames[c]) + " <br />";
+                result += "<span style='font-size:12px'>." + "</span>";
+                result += "</div>";
+                result += "</div>";
+                result += "</li>";
+            }
 
-            var fillInsuranceType = function () {
-                var result = "";
-                //var insurancetypeNames = ["Assets", "Travel", "Legal", "Medical", "Funeral"];
-               // var insurancetypeIDs = [1, 2, 11, 21, 31];
-                var insurancetypeIDs = [1, 2, 11, 21, 31];
-                for (var c = 0 ; c < insurancetypeIDs.length ; c++) {
-                    result += "	<li  style='margin-bottom:9px;width:280px'>";
-                    result += "	<div class='row'>";
-                    result += "	<div class='col-sm-1 col-sm-push-1 removePersonalSpace'>";
-                    result += "<label><input type='checkbox' id='checkbox" + insurancetypeIDs[c] + "' class='flat-red'></label>";
-                    result += "	</div>";
-                    //alert(data[c].Product_ID)
-                    result += "";
-                    result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
-                    result += String(insurancetypeNames[c]) + " <br />";
-                    result += "<span style='font-size:12px'>." + "</span>";
-                    result += "</div>";
-                    result += "</div>";
-                    result += "</li>";
-                }
+            result += "<li style='font-size:19px' >  <br /> <br /></li>";
 
-                result += "<li style='font-size:19px' >  <br /> <br /></li>";
+            var element = document.getElementById("itemList");
+            element.innerHTML = result;
 
-                var element = document.getElementById("itemList");
-                element.innerHTML = result;
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck
+            ({
+                checkboxClass: 'icheckbox_flat-green',
+            });
+        };
 
-                $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck
-                ({
-                    checkboxClass: 'icheckbox_flat-green',
-                });
-            };
+        var insurnaceTypeSelected = [];
+        var canDraw = 0;
+        var canDrawInsuranceType = 0;
 
-
-            var insurnaceTypeSelected = [];
-            var canDraw = 0;
-            var canDrawInsuranceType = 0;
-
-        var errorCallBack = function (response) {
-
+        var errorCallBack = function (response)
+        {
             $scope.products = response.data;
         };
 
@@ -72,7 +70,8 @@ angular.module('myApp')
         {
             $scope.itemsData = response;
             //fillOptions();
-           fillInsuranceType();
+            document.getElementById("drawReport").style.visibility = 'hidden';
+            //fillInsuranceType();
         };
 
         var setTargetSales = function (responce)
@@ -101,7 +100,8 @@ angular.module('myApp')
         {
             var result = "";
             var data = $scope.itemsData.data;
-            for (var c = 0 ; c < data.length ; c++) {
+            for (var c = 0 ; c < data.length ; c++)
+            {
                 result += "	<li  style='margin-bottom:9px;width:280px'>";
                 result += "	<div class='row'>";
                 result += "	<div class='col-sm-1 col-sm-push-1 removePersonalSpace'>";
@@ -145,16 +145,20 @@ angular.module('myApp')
         */
         $scope.targetSales = function ()
         {
+            document.getElementById("drawReport").style.visibility = 'visible';
+            turnOnMainList("btntargetSales");
+            document.getElementById("insertCanvas").innerHTML = "";
             fillOptions();
+
+            document.getElementById("drawReport").onclick = function ()
+            {
+                $scope.drawTargetToCanvas();
+            };
         };
-    
 
-
-
-
-        $scope.drawToCanvas = function ()
+        $scope.drawTargetToCanvas = function ()
         {
-            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:830px;marign-left:29px;'></canvas>";
+            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
             var responce = $scope.targetInfor;
             var drawItems = [];
             var index = 0;
@@ -181,7 +185,7 @@ angular.module('myApp')
             for (var v in drawItems)
             {
                 var temp = drawItems[counter];
-                labels.push(temp.name);
+                labels.push(temp.name + " in ZAR");
                 sales.push(temp.currentSales);
                 target.push(temp.targetSales);
                 counter++;
@@ -243,6 +247,16 @@ angular.module('myApp')
                 isFixedWidth: false,
                 barWidth: 10,
 
+                title : "sacacasc ascacs",
+
+                legend: {
+                    display: true
+                },
+
+                tooltips: {
+                    enabled: false
+                },
+
                 barDatasetSpacing: 1,
                 //String - A legend template
                 legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
@@ -274,41 +288,36 @@ angular.module('myApp')
             //var options = { year: "numeric" };
 
             //alert(date.toLocaleDateString("en-US", options));
-            var year = 5;
-            var month = 1;
+            var year = 6;
+            var month = 9;
             var str = "";
             for (var n = 0 ; n < 6 ;  n++)
             {
-                str = String("201" + String(year) + "-" + String(counter));
-                alert(str);
+                str = String("201" + String(year) + "-" + String(month));
                 datasets.push({ period: str, licensed: parseFloat( $scope.product1data.previouse[counter]).toFixed(2), sorned: parseFloat($scope.product2data.previouse[counter]).toFixed(2) });
-
-                counter++;
                 month++;
+                counter++;
 
-                if (counter == 12)
+                if (month == 12)
                 {
                     year++;
                     month = 1;
                 }
             }
-            canDrawInsuranceType = 0;
             counter = 0;
+            canDrawInsuranceType = 0;
             
-            //var predictionsDate = new Date(Date.UTC(2016, 9, 1));
             for (var y = 0 ; y < 5 ;y++)
             {
                 var str = String("201" + String(year) + "-" + String(month));
-                alert(str);
                 datasets.push({ period: str, licensed: parseFloat( $scope.product1data.predictions[counter]).toFixed(2), sorned: parseFloat( $scope.product2data.predictions[counter]).toFixed(2) });
                 month++;
                 counter++;
-                if (counter == 12)
+                if (month == 12)
                 {
                     year++;
                     month = 1;
                 }
-                //predictionsDate.setMonth(date.getMonth() + 1);
             }
 
 
@@ -333,43 +342,44 @@ angular.module('myApp')
 
         };
 
-
         $scope.compareProuctsCanvas = function ()
         {
-            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></div>";
-            //document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></canvas>";
-            var drawItems = [];
-            var index = 0;
-            var productlist = $scope.itemsData.data;
-            var found = 0;
-            for (var prod = 0 ; prod < productlist.length && found < 2; prod++)
-            {
-                var check = document.getElementById("checkbox" + productlist[index].Product_ID).checked;
+            document.getElementById("drawReport").style.visibility = 'visible';
+            fillOptions();
+            turnOnMainList("btnCompareProducts");
+            document.getElementById("insertCanvas").innerHTML = "";
 
-                if (check === true)
+            document.getElementById("drawReport").onclick = function ()
+            {
+                document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:385px;width:840px;marign-left:29px;'></div>";
+                var drawItems = [];
+                var index = 0;
+                var productlist = $scope.itemsData.data;
+                var found = 0;
+                for (var prod = 0 ; prod < productlist.length && found < 2; prod++)
                 {
-                    found++;
-                    alert(found);
-                    drawItems.push(productlist[index].Product_ID);
+                    var check = document.getElementById("checkbox" + productlist[index].Product_ID).checked;
+
+                    if (check === true)
+                    {
+                        found++;
+                        drawItems.push(productlist[index].Product_ID);
+                    }
+                    index++;
                 }
-                index++;
-            }
 
-            $http(
-            {
-                method: 'GET',
-                url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=5",
-            }).then(setProduct1, errorCallBack);
+                $http(
+                {
+                    method: 'GET',
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7",
+                }).then(setProduct1, errorCallBack);
 
-            $http(
-            {
-                method: 'GET',
-                url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=5",
-            }).then(setProduct2, errorCallBack);
-
-            //product2data
-           
-
+                $http(
+                {
+                    method: 'GET',
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7",
+                }).then(setProduct2, errorCallBack);
+            };
         };
         
            
@@ -382,8 +392,12 @@ angular.module('myApp')
             drawcurrentMonthInsuranceType(responce.data);
         };
 
-        $scope.insuranceTypeSales = function (responce) {
-
+        $scope.insuranceTypeSales = function (responce)
+        {
+            document.getElementById("drawReport").style.visibility = 'hidden';
+            document.getElementById("itemList").innerHTML = "";
+            document.getElementById("insertCanvas").innerHTML = "";
+            turnOnMainList("btnOverallInsuranceTypes")
             $http(
               {
                   method: 'GET',
@@ -391,13 +405,15 @@ angular.module('myApp')
               }).then(SetinsuranceTypeData, errorCallBack);
         };
         
-        drawcurrentMonthInsuranceType = function (responce) {
-            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:830px;marign-left:29px;'></canvas>";
+       var drawcurrentMonthInsuranceType = function (responce)
+       {
+            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
             var labels = [];
             var sales = [];
             var counter = 0;
 
-            for (var v in responce) {
+            for (var v in responce)
+            {
                 var temp = responce[counter];
                 labels.push($scope.getType(temp.InsuranceType_ID));
                 sales.push(temp.monthSales);
@@ -461,7 +477,6 @@ angular.module('myApp')
 
         };
        
-
         /*
             COMPARE INSURANCE TYPE SALES
         */
@@ -481,55 +496,56 @@ angular.module('myApp')
 
         $scope.compareInsuranceTypes = function()
         {
-            //fillInsuranceType();
-
-            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></div>";
-            //document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></canvas>";
-            var drawItems = [];
-
-
-            var index = 0;
-
-            var found = 0;
-
-
-            //for (var prod = 0 ; prod < insurancetypeIDs.length && found < 2; prod++)
-            //{
-            //    var check = document.getElementById("checkbox" + insurancetypeIDs[index]).checked;
-
-            //    alert(check);
-            //    alert(insurancetypeIDs[index]);
-            //    if (check === true)
-            //    {
-            //        found++;
-            //        alert(found);
-            //        drawItems.push(insurancetypeIDs[index]);
-            //    }
-            //    index++;
-            //}
-            insurnaceTypeSelected = [];
-            insurnaceTypeSelected.push(drawItems[0]);
-            insurnaceTypeSelected.push(drawItems[1]);
-
-            $http(
+            fillInsuranceType();
+            turnOnMainList("btnCompareType");
+            document.getElementById("insertCanvas").innerHTML = "";
+            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:385px;width:840px;marign-left:29px;'></div>";
+            document.getElementById("drawReport").style.visibility = 'visible';
+            document.getElementById("drawReport").onclick = function ()
             {
-                method: 'GET',
-                //url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=5",
-                url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=1&numPredictions=5",
-            }).then(setinsurance1, errorCallBack);
+            
+                var drawItems = [];
+                var index = 0;
+                var found = 0;
 
-            $http(
-            {
-                method: 'GET',
-                url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=21&numPredictions=5",
-                //url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=5",
-            }).then(setinsurance2, errorCallBack);
+                //for (var prod = 0 ; prod < insurancetypeIDs.length && found < 2; prod++)
+                //{
+                //    var check = document.getElementById("checkbox" + insurancetypeIDs[index]).checked;
+
+                //    alert(check);
+                //    alert(insurancetypeIDs[index]);
+                //    if (check === true)
+                //    {
+                //        found++;
+                //        alert(found);
+                //        drawItems.push(insurancetypeIDs[index]);
+                //    }
+                //    index++;
+                //}
+                insurnaceTypeSelected = [];
+                insurnaceTypeSelected.push(drawItems[0]);
+                insurnaceTypeSelected.push(drawItems[1]);
+
+                $http(
+                {
+                    method: 'GET',
+                    //url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=5",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=1&numPredictions=5",
+                }).then(setinsurance1, errorCallBack);
+
+                $http(
+                {
+                    method: 'GET',
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=21&numPredictions=5",
+                    //url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=5",
+                }).then(setinsurance2, errorCallBack);
+            };
         };
 
 
         var drawCompareInsuranceType = function ()
         {
-            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:395px;width:840px;marign-left:29px;'></div>";
+            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:385px;width:840px;marign-left:29px;'></div>";
             var labels = [];
 
             var datasets = [];
@@ -538,23 +554,19 @@ angular.module('myApp')
             var name1 = $scope.getType(insurnaceTypeSelected[0]) + " in ZAR";
             var name2 = $scope.getType(insurnaceTypeSelected[1]) + " in ZAR";
 
-            alert($scope.insurace1data);
-            alert($scope.insurace2data);
-
             var date = new Date(Date.UTC(2015, 1, 1));
             var options = { year: "numeric" };
             var str = "";
-            alert(date.toLocaleDateString("en-US", options));
-            var year = 5;
-            var month = 1;
-            for (var n = 0 ; n < 6 ; n++) {
-                str = String("201" + String(year) + "-" + String(counter));
-                //alert(str);
+            var year = 6;
+            var month = 9;
+            for (var n = 0 ; n < 6 ; n++)
+            {
+                str = String("201" + String(year) + "-" + String(month));
                 datasets.push({ period: str, licensed: parseFloat($scope.insurace1data.previouse[counter]).toFixed(2), sorned: parseFloat($scope.insurace2data.previouse[counter]).toFixed(2) });
-
                 counter++;
                 month++;
-                if (counter == 12) {
+                if (month == 12)
+                {
                     year++;
                     month = 1;
                 }
@@ -563,19 +575,18 @@ angular.module('myApp')
             counter = 0;
 
             var predictionsDate = new Date(Date.UTC(2016, 9, 1));
-            for (var y = 0 ; y < 5 ; y++) {
+            for (var y = 0 ; y < 5 ; y++)
+            {
                 str = String("201" + String(year) + "-" + String(month));
-                //alert(str);
                 datasets.push({ period: str, licensed: parseFloat($scope.insurace1data.predictions[counter]).toFixed(2), sorned: parseFloat($scope.insurace2data.predictions[counter]).toFixed(2) });
                 month++;
                 counter++;
-                if (counter == 12) {
+                if (month == 12)
+                {
                     year++;
                     month = 1;
                 }
-                //predictionsDate.setMonth(date.getMonth() + 1);
             }
-            alert("data set");
 
 
             var line = new Morris.Line({
@@ -594,16 +605,24 @@ angular.module('myApp')
                 // pointStrokeColors: ["#efefef"],
                 // gridLineColor: "#efefef",
                 gridTextFamily: "Open Sans",
-                gridTextSize: 10
+                gridTextSize: 10,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Custom Chart Title'
+                    }
+                }
+
             });
 
         };
     
-      
-
         $scope.viewCurrentMonthProductSales = function ()
         {
-            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:395px;width:830px;marign-left:29px;'></canvas>";
+            document.getElementById("drawReport").style.visibility = 'hidden';
+            document.getElementById("itemList").innerHTML = "";
+            turnOnMainList("btnViewCurrentMonth");
+            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
             var responce = $scope.targetInfor;
             var drawItems = [];
             var index = 0;
@@ -624,12 +643,12 @@ angular.module('myApp')
             for (var v in drawItems)
             {
                 var temp = drawItems[counter];
-                labels.push(temp.name);
+                labels.push(temp.name + " in ZAR");
                 sales.push(temp.currentSales);
                 target.push(temp.targetSales);
                 counter++;
             }
-            alert(drawItems.length);
+
             var areaChartData =
             {
                 labels: labels,
@@ -697,29 +716,21 @@ angular.module('myApp')
 
         };
 
+            
+        var turnOnMainList = function (item)
+        {
+            var linkedList = document.getElementById("menuList");
+
+            var collection = linkedList.getElementsByTagName("li");
+
+            for (var i = 1 ; i < collection.length ; i++)
+            {
+                if(collection[i].id !== item)
+                    collection[i].className = "";
+                else
+                    collection[i].className = "active";
+            }
 
 
-
+        };
 }]);
-
-//AIzaSyBkIBUzzdZb8TgLRaECvmf6J6H9UZi23oc
-
-//function loadScript(url, callback) {
-//    // Adding the script tag to the head as suggested before
-//    var head = document.getElementsByTagName('head')[0];
-//    var script = document.createElement('script');
-//    script.type = 'text/javascript';
-//    script.src = url;
-
-//    // Then bind the event to the callback function.
-//    // There are several events for cross browser compatibility.
-//    script.onreadystatechange = callback;
-//    script.onload = callback;
-
-//    // Fire the loading
-//    head.appendChild(script);
-//    //alert("am here");
-//}
-/*
-    COMPARE PRODUCT SALES        
-*/
