@@ -34,7 +34,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapi.azurewebsites.net/api/Reports/getInvoices?providerID=11'
+            url: 'http://nanofinapibeta.azurewebsites.net/api/Reports/getInvoices?providerID=11'
         })
         .then(successCallBack, errorCallBack);
 
@@ -130,7 +130,7 @@
         $http(
        {
            method: 'GET',
-           url: 'http://nanofinapi.azurewebsites.net/api/Reports/getBestSellingProduct'
+           url: 'http://nanofinapibeta.azurewebsites.net/api/Reports/getBestSellingProduct'
        })
        .then(ProductSales, errorCallBack);
 

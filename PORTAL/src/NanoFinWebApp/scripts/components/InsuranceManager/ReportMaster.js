@@ -4,8 +4,8 @@ angular.module('myApp')
         .controller('reportsNaster', ['$scope', '$http', '$compile', function ($scope, $http, $compile)
         {
 
-        var insurancetypeIDs = [1, 2, 11, 21, 31];
-        var insurancetypeNames = ["Assets", "Travel", "Legal", "Medical", "Funeral"];
+        var insurancetypeIDs = [1, 21, 31];
+        var insurancetypeNames = ["Assets", "Medical", "Funeral"];
         $scope.getType = function (insuranceType)
         {
             if (insuranceType == 1)
@@ -30,13 +30,13 @@ angular.module('myApp')
         {
             var result = "";
                 
-            var insurancetypeIDs = [1, 2, 11, 21, 31];
+            var insurancetypeIDs = [1,21, 31];
             for (var c = 0 ; c < insurancetypeIDs.length ; c++)
             {
                 result += "	<li  style='margin-bottom:9px;width:280px'>";
                 result += "	<div class='row'>";
                 result += "	<div class='col-sm-1 col-sm-push-1 removePersonalSpace'>";
-                result += "<label><input type='checkbox' id='checkbox" + insurancetypeIDs[c] + "' class='flat-red'></label>";
+                result += "<label><input type='checkbox' class='flat-red'></label>";
                 result += "	</div>";
                 result += "";
                 result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
@@ -138,8 +138,9 @@ angular.module('myApp')
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=1'
+            url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
         }).then(setTargetSales, errorCallBack);
+
 
         /*
             Product Compare Sales With Target
@@ -173,12 +174,22 @@ angular.module('myApp')
 
             for (var tmep in responce.data)
             {
-                var check = document.getElementById("checkbox" + responce.data[index].ProductID).checked;
+                var check = false;
+                var data = $scope.itemsData.data;
 
-                if (check === true)
+                for (var c = 0 ; c < data.length ; c++)
                 {
-                    i++;
-                    drawItems.push(responce.data[index]);
+                    if(data[c].Product_ID === responce.data[index].ProductID)
+                    {
+                        check = document.getElementById("checkbox" + responce.data[index].ProductID).checked;
+                        if (check === true)
+                        {
+                            drawItems.push(responce.data[index]);
+                        }
+                        break;
+                        check = false;
+                    }
+
                 }
                 index++;
             }
@@ -387,13 +398,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct2, errorCallBack);
             };
         };
@@ -547,13 +558,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6",
+                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance2, errorCallBack);
             };
         };

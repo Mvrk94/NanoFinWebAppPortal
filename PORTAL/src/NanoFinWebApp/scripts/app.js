@@ -33,7 +33,12 @@ app.config(function ($routeProvider, $locationProvider)
     })
     .when('/ProcessPurchases', {
         title: ' home',
-        templateUrl: '/views/components/InsuranceManager/viewiunprocessedapplications.html',
+        templateUrl: '/views/components/InsuranceManager/processApplicationsWithRisk.html',
+        controller: 'insuranceApplicationsPageController'
+    })
+    .when('/ProcessSingleApplication', {
+        title: ' process',
+        templateUrl: '/views/components/InsuranceManager/processConsumerApplications.html',
         controller: 'insuranceApplicationsPageController'
     })
     .when('/Reports',
@@ -54,7 +59,7 @@ app.config(function ($routeProvider, $locationProvider)
     })
      .when('/mapLocation',
     {
-        title: 'maps',
+        title: 'Geo reports',
         templateUrl: '/views/components/test/GeoReports.html',
     })
 

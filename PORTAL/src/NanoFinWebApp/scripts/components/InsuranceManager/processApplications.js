@@ -1,5 +1,9 @@
-﻿angular.module('myApp')
-    .controller('processApplications', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
+﻿/// <reference path="../../../wwwroot/assets/plugins/datatables/jquery.datatables.min.js" />
+/// <reference path="../../../wwwroot/assets/plugins/datatables/jquery.datatables.js" />
+
+
+angular.module('myApp')
+    .controller('processBatchApplications', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
 
         var table;
         var unprocessedList;
@@ -17,135 +21,202 @@
                     "autoWidth": false,
                     'columns':
                         [
-                            { 'data': 'activeProductID' },
-                            { 'data': 'customerIDNo' },
-                            { 'data': 'customerName' },
-                            { 'data': 'address' },
-                            { 'data': 'InsurnceName' },
-                            { 'data': "startdate" }
+                            { 'data': 'icon' },
+                            { 'data': 'idConsumer' },
+                            { 'data': 'consumerName' },
+                            { 'data': 'numUnprocessed' },
+                            { 'data': "RiskCategory" },
+                            { 'data': "options" }
+
                         ]
-                    });
+                });
+
         });
 
-
-        /*   var apiHandler =
-        function (url, methode, jsonStorage)
-        {
-        $http(
-       {
-           method: 'GET',
-         url: 'http://nanofinwebapi2.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
-       })
-       .then(successCallBack(resonce,, errorCallBack);
-       // }*/
 
 
         var errorCallBack = function (response) {
             $scope.uprocessedApplications = response.data;
         };
-        var successCallBack = function (response,storage) {
-            unprocessedList = response.data.unprocessed;
-            lastPolicyDOc = response.data.lastestPolicyNo;
+        var successCallBack = function (response)
+        {
+            unprocessedList = response.data;
+            var counter = 0;
+            for (var r in unprocessedList)
+            {
+                var riskCat = unprocessedList[counter].RiskCategory;
+                if (riskCat == 1)
+                {
+                    unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:green;'></i> ";
+                }
+                else if (riskCat  == 2)
+                {
+                    unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:yellow;'></i> ";
+                }
+                else if (riskCat == 3)
+                {
+                    unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:orange;'></i> ";
+                }
+                else
+                {
+                    unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:red;'></i> ";
+                }
+                unprocessedList[counter].options = generateBtn(unprocessedList[counter].idConsumer);
+                counter++;
+            }
+            
             table.rows.add(unprocessedList);
             table.draw();
-            addRowHandlers();
+
+            $('#tblApplications').on('draw.dt', function (evet)
+            {
+                createButtonEvents();
+            });
+            
+            createButtonEvents();
+
         };
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/getUnprocessedApplications?ProductProviderID=11'
+            url: 'http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications'
         })
         .then(successCallBack, errorCallBack);
        
-        function addRowHandlers()
+        function addRowHandlers(event)
         {
-            var table = document.getElementById("tblApplications");
-            var rows = table.getElementsByTagName("tr");
-            for (i = 1; i < rows.length - 1; i++)
-            {
-                var currentRow = table.rows[i];
-                var createClickHandler =
-                    function (row)
-                    {
-                        return function () {
-                            var cell = row.getElementsByTagName("td")[0];
-                            var id = cell.innerHTML;
-                            $scope.viewModal(id);
-                        };
-                    };
-
-                currentRow.onclick = createClickHandler(currentRow);
-            }
+                id = String(this.id).replace("btnView", "");
+                $scope.viewModal(id);
         }
+
+        var createButtonEvents = function ()
+        {
+            var table1 = document.getElementById("tblApplications");
+            var rows = table1.getElementsByTagName("tr");
+            for (i = 1; i < rows.length; i++)
+            {
+                var currentRow = table1.rows[i];
+                var cell = currentRow.getElementsByTagName("td")[1];
+                var id = cell.innerHTML;
+                document.getElementById("btnView" + id).onclick = addRowHandlers;
+            }
+        };
 
         $scope.viewModal = function (index)
         {
 
-            if (index === null) return;
-            var unprocessedApplication = findID(index);
-            $scope.selectedApplication = unprocessedApplication;
-            //alert(lastPolicyDOc);
+            var user = findConsumerApp(index);
             var html = "";
             html += "<div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>";
-            html += "<div class='modal-dialog' role='document'>";
+            html += "<div class='modal-dialog' role='document' style='width:700px;height:700px;'>";
             html += "<div class='modal-content'>";
             html += "<div class='modal-header'>";
             html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
-            html += "<h4 class='modal-title' id='myModalLabel'>" + unprocessedApplication.customerName + "'s Insurance Application </h4>";
+            html += "<h4 class='modal-title' id='myModalLabel'><strong>Applicant No #" + user.idConsumer + "</strong></h4>";
             html += "</div>";
             html += "<div class='modal-body'>";
-            html += "<div class='row'> <div class='col-sm-5 col-sm-push-6'>    <p style='text-align: right'><strong>Lastest Policy#:" + lastPolicyDOc + " </strong<></p> </div></div>";
+            html += "<div class='row'>";
+            html += "<br/>";
+            html += "<div class='col col-sm-6'>";
             html += "<div class='row'>";
             html += "<div class='form-group'>";
-            html += "<label for='txtIDno' class='col-sm-3 control-label'>ID</label>";
-            html += "<div class='col-sm-8'>";
-            html += "<input type='text' class='form-control' value='" + unprocessedApplication.customerIDNo + "' disabled>";
+            html += "<label for='txtIDno' class='col-sm-6 control-label'>Age Group :</label>";
+            html += "<div class='col-sm-6'>" + getAgeCat(user.ageGroup) + "</div>";
+            html += "<br />";
+            html += "<div class='col-sm-10'>";
+            html += "<label id='txtIDno' class='col-sm-9 control-label'>+" + user.ageRiskValue + " Risk-Load</label>";
+            html += "</div>";
             html += "</div>";
             html += "</div>";
             html += "</div>";
 
+            html += "<div class='col col-sm-6'>";
+            html += "<div class='row'>";
+            html += "<div class='form-group'>";
+            html += "<label for='txtAddress' class='col-sm-6 control-label'>Gender :</label>";
+            html += "<div  class='col-sm-6'>" + user.gender+"</div>";
+            html += "<br />";
+            html += "<div class='col-sm-10'>";
+            html += "<label id='txtAddress' class='col-sm-9 control-label'>+" + user.genderRiskValue + " Risk-Load</label>";
+            html += "</div>";
+            html += "<br />";
+            html += "</div>";
+            html += "</div>";
+            html += "</div>";
+
+
+            html += "<div class='col col-sm-6'>";
             html += "<div class='row'>";
             html += "<div class='form-group'>";
             html += "<br />";
-            html += "<label for='txtAddress' class='col-sm-3 control-label'>Address</label>";
-            html += "<div class='col-sm-8'>";
-            html += "<input type='text' class='form-control' id='txtAddress' value='" + unprocessedApplication.address + "' disabled>";
-            html += "</div>";
+            html += "<label for='txtProductPurchase' class='col-sm-6 control-label'>Marital Status :</label>";
+            html += "<div class='col-sm-6'>" + user.maritalStatus + "</div>";
             html += "<br />";
+            html += "<div class='col-sm-10'>";
+            html += "<label id='txtProductPurchase' class='col-sm-9 control-label'>+" + user.maritalStatusRiskValue + " Risk-Load</label>";
+            html += "</div>";
+            html += "</div>";
             html += "</div>";
             html += "</div>";
 
+            html += "<div class='col col-sm-6'>";
             html += "<div class='row'>";
             html += "<div class='form-group'>";
             html += "<br />";
-            html += "<label for='txtProductPurchase' class='col-sm-3 control-label'>Product Purchased</label>";
-            html += "<div class='col-sm-8'>";
-            html += "<input type='text' class='form-control' id='txtProductPurchase' value='" + unprocessedApplication.InsurnceName + "' disabled>";
+            html += "<label for='txtStartDate' class='col-sm-6 control-label'>Claim Rate :</label>";
+            html += "<div class='col-sm-6'>" + user.claimRate + "%</div>";
+            html += "<br />";
+            html += "<div class='col-sm-10'>";
+            html += "";
+            html += "<label id='txtStartDate' class='col-sm-9 control-label'>+" + user.claimRate + " Risk-Load</label>";
+            html += "</div>";
             html += "</div>";
             html += "</div>";
             html += "</div>";
 
+            html += "<br />";
+            html += "<div class='col col-sm-6'>";
             html += "<div class='row'>";
             html += "<div class='form-group'>";
             html += "<br />";
-            html += "<label for='txtStartDate' class='col-sm-3 control-label'>Product Purchased</label>";
-            html += "<div class='col-sm-8'>";
-            html += "<input type='text' class='form-control' id='txtStartDate' value='" + unprocessedApplication.startdate + "' disabled>";
-            html += "</div>";
-            html += "</div>";
-            html += "</div>";
-
-            html += "<div class='row'>";
+            html += "<div class='col-sm-6 control-label'><strong>Work Status :</strong></div>";
+            html += "<div  class='col-sm-6'>" + user.employmentStatus + "</div>";
             html += "<br />";
-            html += "<div id='frmPolicyDoc' class='form-group'>";
-            html += "<label for='txtPolicyNo' class='col-sm-3 control-label'>Assign Policy No</label>";
-            html += "<div class='col-sm-8'>";
-            html += "<input type='text' class='form-control' id='txtPolicyNo'>";
-            html += "<div id='txtError'></div>";
+            html += "<div class='col-sm-10'>";
+            html += "<label id='txtStartDate' class='col-sm-9 control-label'>+" + user.employmentStatusRiskValue + " Risk-Load</label>";
+            html += "</div>";
             html += "</div>";
             html += "</div>";
             html += "</div>";
 
+
+
+
+            html += "</div>";
+
+            html += "<hr /> ";
+            html += "<h4><strong>Products Await Approval</strong></h4>";
+            html += "<small> please select the products you wish process </small>";
+            html += "<br />";
+
+            var list = String(user.purchasedProducts).split(";");
+            for (index = 0; index < list.length - 1; index++)
+            {
+                html += "<div class='row'>";
+                html += "<div  class='col-sm-5' style='margin:7px;'";
+                html += "<label><input type='checkbox' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
+                html += "</div>";
+                index++;
+                html += "<div  class='col-sm-5' style='margin:7px;'";
+                html += "<label><input type='checkbox' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
+                html += "</div>";
+                html += "</div";
+                html += "";
+            }
+            html += "<br />";
+            html += "<br />";
+            html += "<br />";
+            html += "<br />";
             html += "</div>";
             html += "<div class='modal-footer'>";
             html += "<div class='row'>";
@@ -164,12 +235,14 @@
 
             $("#processApplicationModal").html(html);
             $("#myModal").modal();
-            document.getElementById("txtPolicyNo").required = true;
+           // document.getElementById("txtPolicyNo").required = true;
 
-            var invalidInput = function (errormessage) {
-                document.getElementById("frmPolicyDoc").className = " form-group has-error";
-                document.getElementById("txtError").innerHTML = " <span class='help-block'>"+errormessage+"</span>";
-            };
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck
+           ({
+               checkboxClass: 'icheckbox_flat-green',
+           });
+
+            
 
             var modalButton = document.getElementById("btnModalApprove");
             modalButton.onclick = function ()
@@ -177,50 +250,7 @@
                 var newPolicyNo = document.getElementById("txtPolicyNo").value;
                 if (newPolicyNo === "") { invalidInput("please enter a policy number"); return; }
 
-                $http(
-               {
-                   method: 'GET',
-                   url: "http://nanofinapi.azurewebsites.net/api/insuranceManager/isPolicyNumberUnique?policyNo=" + newPolicyNo
-               }).then(function (responce)
-               {
-                       if (responce.data === false)
-                       {
-
-                           invalidInput("The policy number entered already exist");
-                       }
-                       else
-                       {
-                           var processApp =
-                           {
-                               "providerID": 11,
-                               "activeproductID": id,
-                               "policyNo": newPolicyNo.toString(),
-                           };
-
-                           //var progressBar = "<div class='progress-bar progress-bar-green' role='progressbar' aria-valuenow='40' aria-valuemin='0' aria-valuemax='100' style='width: 40%'>";
-                           //progressBar += "style='width: 40%'>";
-                           //progressBar += "  </div>";
-                           //document.getElementById("txtError").innerHTML = $compile(progressBar)($scope);
-                           //document.getElementById("btnModalApprove").Enabled = false;
-
-                           var req =
-                            {
-                                method: 'POST',
-                                url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/ProcessInsuranceProduct',
-                                headers:{'Content-Type': 'application/json; charset=UTF-8'},
-                                data: JSON.stringify(processApp)
-                            };
-                           $http(req).then(
-                               function (responce)
-                               {
-                                   if (Boolean.valueOf(responce.data) === true)
-                                       alert("happy!!!");
-                                   $('#myModal').modal('hide');
-
-                               });
-
-                       }
-                });
+                
             };
         };
 
@@ -236,6 +266,42 @@
             }
         }
 
+        function  generateBtn(id)
+        {
+            var html = "<div class='btn-group'>";
+            html += "<button type='button' id='btnView" + id + "' class='btn btn-default '><i class='fa fa-info' style='color:blue;'></i></button>";
+            html +="<button type='button' id='btnProcess" + id + "' class='btn btn-default'>Process</button>";
+            html +="</div>";
+            return html;
+        }
+
+        function findConsumerApp(ID)
+        {
+            var i = 0;
+            for(var r  in  unprocessedList)
+            {
+                if (unprocessedList[i].idConsumer == ID)
+                {
+                    return unprocessedList[i];
+                }
+                i++;
+            }
+
+            return unprocessedList[0];
+        }
+
+
+        $scope.getAgeCat = function getAgeCat(id) {
+            if (2 == id)
+                return "18-25";
+            else if (12 == id)
+                return "26-30";
+            else if (22 == id)
+                return "31-49";
+            else if (32 == id)
+                return "40-60";
+        };
+        
 
 
        

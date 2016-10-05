@@ -20,7 +20,7 @@
         $http(
         {
             method: 'GET',
-            url: "http://nanofinapi.azurewebsites.net/api/insuranceManager/Getproduct/" +  VID,
+            url: "http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Getproduct/" +  VID,
         })
         .then(PsuccessCallBack, PerrorCallBack);
 
@@ -40,14 +40,14 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/Getinsuranceproduct?ProductProviderID=11&InsuranceProduct_ID=91',
+            url: 'http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Getinsuranceproduct?ProductProviderID=11&InsuranceProduct_ID=91',
         })
         .then(IPsuccessCallBack, IPerrorCallBack);
 
         $scope.submitProductChanges = function ()
         {
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://nanofinapi.azurewebsites.net/api/insuranceManager/Putproduct/" + ID, true);
+            xhr.open("PUT", "http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Putproduct/" + ID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON
@@ -62,7 +62,7 @@
         $scope.submitInsuranceProductChanges = function () {
 
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://nanofinapi.azurewebsites.net/api/insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
+            xhr.open("PUT", "http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON

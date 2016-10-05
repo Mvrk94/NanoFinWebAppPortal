@@ -1,0 +1,194 @@
+﻿<div ng-controller="processConsumerApplicationCtr">
+
+    <section class="content-header">
+        <h1>
+            <font size="9">{{pageHeader}}</font>
+            <small>Client</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Help</a></li>
+        </ol>
+    </section>
+    <br />
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="box box-success well well-sm">
+            <div class="box-header with-border">
+                <h4 style="margin:0px;padding:0px;"><font size="5">Consumer Details</font></h4>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="txtIDno" class="col-sm-4 control-label">Identity#</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtIDno" ng-model="user.IDnumber" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtGender" class="col-sm-4 control-label">Age</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtGender" ng-model="user.Consumer_ID" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtGender" class="col-sm-4 control-label">Gender</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtGender" ng-model="user.gender" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtGender" class="col-sm-4 control-label">Marital Status</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtGender" ng-model="user.maritalStatus" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtEmployment" class="col-sm-4 control-label">Employment Status</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtEmployment" ng-model="user.employmentStatus" disabled>
+                                </div>
+                            </div>
+
+                        </div>
+                                     
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtLocation" class="col-sm-4 control-label">Resident City</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtLocation" ng-model="location" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtPostal" class="col-sm-4 control-label">Postal Address</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtPostal" ng-model="user.consumerAddress"  disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtContactNo" class="col-sm-4 control-label"> Contact Number</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="txtContactNo" ng-model="user.userContactNumber" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h3 class="col-sm-4 control-label" style="margin:0px;">Files</h3>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="txtContactNo" class="col-sm-4 control-label"> Identity Doc</label>
+
+                                <div class="col-sm-7">
+                                    <button type="button" class="btn btn-default btn-block">
+                                        <i class="fa fa-search"></i>Click To View Document
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+                        <!-- /.box-body -->
+
+        </form>
+    </div>
+
+
+                    
+
+            
+            <!-- /.box-body -->
+        <!-- /.box -->
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="box box-info well well-sm" >
+
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"> <font size="5">Process Applications </font></h3>
+
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- form start -->
+                                <form class="form-horizontal" style="height:330px;overflow-y:scroll;overflow-x:hidden">
+                                    <div class="box-body ">
+
+                                        <br />
+                                        <div class="row" >
+                                            <div id="unprocessedProds"></div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-5">
+                            <!-- Widget: user widget style 1 -->
+                            <div class="box box-danger widget-user-2 well well-sm">
+                                <!-- Add the bg color to the header using any of the bg-* classes -->
+                                <div class="widget-user-header ">
+                                    <div class="widget-user-image">
+                                        <img src="../../../assets/img/risk-icon-16781.png" />
+                                    </div>
+                                    <!-- /.widget-user-image -->
+                                    <h3 class="widget-user-username">Risk Profile</h3>
+                                    <h5 class="widget-user-desc">Risk-Load Calculation</h5>
+                                </div>
+                                <div class="box-footer no-padding">
+                                    <ul class="nav nav-stacked">
+                                        <li><a href="#">Age Group: 20-25 <span class="pull-right badge bg-aqua">{{getAgeCat(user.ageRiskValue)}}</span></a></li>
+                                        <li><a href="#">{{user.gender}} <span class="pull-right badge bg-aqua">{{user.genderRiskValue}}</span></a></li>
+                                        <li><a href="#">{{user.maritalStatus}} <span class="pull-right badge bg-aqua">{{user.maritalStatusRiskValue}}</span></a></li>
+                                        <li><a href="#">{{user.employmentStatus}} <span class="pull-right badge bg-aqua">{{user.ageRiskValue}}</span></a></li>
+                                        <li><a href="#">Claim Rate: {{user.claimRate}}%<span class="pull-right badge bg-red">{{user.claimRate}}</span></a></li>
+                                        <li><a href="#">{{location}} <span class="pull-right badge bg-aqua">{{user.UnemploymentRate}}</span></a></li>
+                                        <li><a href="#">Total <span class="pull-right badge bg-red">{{user.ageRiskValue +  user.genderRiskValue + user.maritalStatusRiskValue +user.ageRiskValue + user.claimRate + + user.UnemploymentRate}}</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /.widget-user -->
+                        </div>
+                    
+        </div>
+
+
+
+    </section>
+</div>

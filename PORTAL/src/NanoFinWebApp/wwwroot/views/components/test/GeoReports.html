@@ -13,8 +13,38 @@
             margin: 0px;
             padding: 0px;
         }
+        table {
+color: #333;
+font-family: Helvetica, Arial, sans-serif;
+width: 640px;
+border-collapse:
+collapse; border-spacing: 0;
+}
 
-       
+td, th {
+border: 1px solid transparent; /* No more visible border */
+height: 30px;
+transition: all 0.3s; /* Simple transition for hover effect */
+}
+
+th {
+background: #DFDFDF; /* Darken header a bit */
+font-weight: bold;
+}
+
+td {
+background: #FAFAFA;
+text-align: center;
+}
+
+/* Cells in even rows (2,4,6...) are one color */
+tr:nth-child(even) td { background: #F1F1F1; }
+
+/* Cells in odd rows (1,3,5...) are another (excludes header cells) */
+tr:nth-child(odd) td { background: #FEFEFE; }
+
+tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
+    
     </style>
     <!-- ChartJS 1.0.1 -->
     
@@ -33,7 +63,7 @@
     <br />
 
     <div id='scrollableDiv' style='width:2000px; position: absolute; overflow: scroll;'>
-        <div>
+
             <div class="row">
                 <div class="col-sm-3" style="width:285px;margin:3px; padding:0px;margin-left:30px">
 
@@ -49,12 +79,6 @@
                             <ul class="nav nav-stacked" style="font-size:19px">
 
                                 <li> <br /> <br /></li>
-                                <li onclick="drawMonthlySales()">
-                                    <a>
-                                        Monthly Sales <br />
-                                        <span style="font-size:12px">show the current sales vs predicted sales value</span>
-                                    </a>
-                                </li>
                                 <li onclick="monthlyLocationSales()">
                                     <a>
                                         Geo month sales  <br />
@@ -97,9 +121,9 @@
                             <div class="row">
                                 <div id="canvas" class="col-sm-6" style="margin-right:-82px;"></div>
 
-                                <div id="submenu" class="col-sm-5" ></div>
-                            </div>
-                        </div>    
+                                <div id="submenu" class="col-sm-5"></div>
+                                
+                            </div>    
                     </div>
    
             </div>
@@ -115,9 +139,12 @@
         var map;
         var selectedProduct = 31;
         var monthlylocationMarker = [];
-        
+        var provinceName = "";
         var productlist = [];
         var provincialData = [];
+
+        var productNameselected;
+        var provinceNameSelected;
 
           function initMap()
           {
@@ -169,6 +196,7 @@
                       var req = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
                       //alert(req);
                       monthlysalesinforBox(JSON.parse(req), this.title);
+                      //alert(this.title);
                       locationLineGraph(locID);
                       toggleBounce(this);
                   });
@@ -198,7 +226,9 @@
               var ic = 0;
               for (ic = 0; ic < arr.length && ic < 5; ic++)
               {
-                  html += "<li>" + arr[ic].productName + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> R " + arr[ic].sales + " </span></li>";
+                  arr[ic].sales = arr[ic].sales + 0.10;
+                  
+                  html += "<li>" + arr[ic].productName + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> R " + arr[ic].sales.toMoney() + " </span></li>";
               }
               html += "<li><br/> </li>";
               html += "</ul>";
@@ -238,24 +268,25 @@
               var insert = 3;
               var index = 0;
               var date;
+              var month = 1;
+              
+              if(data.length >= 10)
+              {
+                  index = data.length - 9;
+                  month = 1;
+              }
+              else
+              {
+                  //index = 9 - data.length;
+                  month = 10 - data.length;
+              }
 
               for (var r in data)
-              {
-                  if (insert == 3)
-                  {
-                      date = "201" + String(year) + " Q" + String(quarter);
+              {                       
+                      date = "2016-"+month + "-01";
                       datasets.push({ y: date, item1: data[index], item2: data[index] });
-                      if (quarter == 4)
-                      {
-                          year += 1;
-                          quarter = 1;
-                      }
-                      quarter++;
-                      counter++;
-                      index += 3;
-                      insert = 1;
-                  }
-                  insert++;
+                      month++;
+                      index++;
               }
 
               var line = new Morris.Line({
@@ -301,8 +332,10 @@
 
                   marker.addListener('click', function ()
                   {
+                      provinceNameSelected = this.title;
                       var locID = String(this.snippet).replace("marker", "");
                       drawProvincialPieGrapg(locID);
+                      
                       toggleBounce(this);
 
                   });
@@ -318,7 +351,7 @@
               
               html = "<div class='box box-info'>";
               html += "<div class='box-header with-border'>";
-              html += "<h3 class='box-title'>Province Name</h3>";
+              html += "<h3 class='box-title' style='color:black;'>" + provinceNameSelected + "</h3>";
 
               html += "</div>";
               html += "<div class='box-body' style='height:450px;'>";
@@ -344,7 +377,7 @@
                           value: provincialData[i].sales ,
                           color: colors[colourCounter],
                           highlight: colors[colourCounter],
-                          label: provincialData[i].insuranctTypeDescription + " Sold Worth R \n\r asadasd asdasdasd \r\n cascascascsac"
+                          label: provincialData[i].insuranctTypeDescription + " Sold Worth R "
                       });
                       colourCounter++;
                   }
@@ -478,7 +511,10 @@
                   marker.addListener('click', function ()
                   {
                       var locID = String(this.snippet).replace("marker", "");
+                      productNameselected = this.title;
                       drawProductLocationInformation(locID);
+                      
+                     // document.getElementById("header").innerHTML = 
                       toggleBounce(this);
                   });
               }
@@ -494,31 +530,31 @@
 
               for (var i = 0 ; i < data.length ; i++)
                   numConsumers += data[i].numConsumers;
-             
+
               var html = "<br /> <br/>"
               html += "<div class='row'>";
+              for (var i = 0 ; i < data.length && i < 3 ; i++) {
+                  html += "<div class='col-sm-8'>";
+                  html += "<div class='info-box'>";
+                  html += "<span class='info-box-icon bg-aqua' style='height:117px;'><i class='fa fa-group'></i></span>";
+                  html += "<div class='info-box-content' style='color:black;'>";
+                  html += "#Consumers  <b style='margin-left:95px;'>" + data[i].numConsumers+ "</b><br/>";
+                  html += "Group Contribution <b style='margin-left: 58px'>R" + data[i].sales + "</b><br/>";
+                  html += "Employment status <b style='margin-left: 56px'>" + data[i].employmentStatus + "</b><br/>";
+                  html += "Marital status <b style='margin-left: 89px'>" + data[i].maritalStatus + "</b><br/>";
+                  html += "Gender    <b style='margin-left: 126px'>" + data[i].gender + "</b><br/>";
+                  html += "Avg netincome    <b style='margin-left: 84px'>R" + data[i].netIncome + "</b><br/>";
 
-              for( var  i  = 0 ; i <  data.length && i < 3 ;i++)
-              {
-                html += "<div class='col-sm-7'>";
-                html += "<div class='info-box'>";
-                html += "<span class='info-box-icon bg-aqua' style='height:108px'><i class='fa fa-group'></i></span>";
-
-                html += "<div class='info-box-content' style='color:black;'>";
-                html += "SEGMENT SIZE <b style='margin-left: 45px'>" + parseFloat((data[i].numConsumers / numConsumers) * 100).toFixed(2) + "%" + "</b><br/>";
-                html += "EMPLOYMENT STATUS <b style='margin-left: 2px'>" + data[i].employmentStatus + "</b><br/>";
-                html += "AVG NETINCOME    <b style='margin-left: 26px'>R" + data[i].netIncome + "</b><br/>";
-                html += "Avg #DEPENDANTS   <b style='margin-left: 21px'>" + data[i].NumDependants + "</b><br/>";
-                html += "OVERALL GROUP Exp <b style='margin-left: 11px'>R" + data[i].sales + "</b><br/>";
-                html += "</div>";
-                html += "  </div>";
-                html += "</div> <br />";
+                  html += "</div>";
+                  html += "  </div> ";
+                  html += "</div> <br /><br />";
               }
               html += "</div>";
 
-              var stucture = "<div id='informationBox' style='width:570px;height:460px;'></div>";
+              var head = "<h4 class='box-title' style='color:black;'>";
+              var stucture = "<div id='informationBox' style='width:570px;height:460px;'> " + head + productNameselected + "</h4></div>";
               document.getElementById('submenu').innerHTML = stucture;
-              document.getElementById('informationBox').innerHTML = html;
+              document.getElementById('informationBox').innerHTML += html;
           };
 
 
@@ -554,6 +590,27 @@
                   marker.setAnimation(google.maps.Animation.BOUNCE);
               }
           }
+
+          Number.prototype.toMoney = function (decimals, decimal_sep, thousands_sep) {
+              var n = this,
+              c = isNaN(decimals) ? 2 : Math.abs(decimals), //if decimal is zero we must take it, it means user does not want to show any decimal
+              d = decimal_sep || '.', //if no decimal separator is passed we use the dot as default decimal separator (we MUST use a decimal separator)
+
+              /*
+              according to [http://stackoverflow.com/questions/411352/how-best-to-determine-if-an-argument-is-not-sent-to-the-javascript-function]
+              the fastest way to check for not defined parameter is to use typeof value === 'undefined' 
+              rather than doing value === undefined.
+              */
+              t = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep, //if you don't want to use a thousands separator you can pass empty string as thousands_sep value
+
+              sign = (n < 0) ? '-' : '',
+
+              //extracting the absolute value of the integer part of the number and converting to string
+              i = parseInt(n = Math.abs(n).toFixed(c)) + '',
+
+              j = ((j = i.length) > 3) ? j % 3 : 0;
+              return sign + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
+          };
     </script>
     
     

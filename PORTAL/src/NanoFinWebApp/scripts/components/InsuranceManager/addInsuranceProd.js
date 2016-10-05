@@ -35,7 +35,7 @@
             $scope.product.isAvailableForPurchase = document.getElementById("sltAvailable").value;
             var req = {
                 method: 'POST',
-                url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/Postproduct',
+                url: 'http://nanofinapibetabeta.azurewebsites.net/api/insuranceManager/Postproduct',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },
@@ -45,7 +45,7 @@
             $http(req).then(
                 function (responce, status, headers, config)
                 {
-                    $scope.InsuranceProduct.Product_ID = parseInt(String(headers('location')).replace("http://nanofinapi.azurewebsites.net/api/insuranceManager/Postproduct/", ""));
+                    $scope.InsuranceProduct.Product_ID = parseInt(String(headers('location')).replace("http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Postproduct/", ""));
                     alert("first item sent");
                 }
                 );
@@ -59,7 +59,7 @@
             var req =
              {
                 method: 'POST',
-                url: 'http://nanofinapi.azurewebsites.net/api/insuranceManager/Postinsuranceproduct',
+                url: 'http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Postinsuranceproduct',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },
