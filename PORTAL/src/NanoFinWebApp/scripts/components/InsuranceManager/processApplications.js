@@ -3,12 +3,13 @@
 
 
 angular.module('myApp')
-    .controller('processBatchApplications', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
+    .controller('processBatchApplications', ['$scope', '$http', '$compile','$window', function ($scope, $http, $compile,$window) {
 
         var table;
         var unprocessedList;
         var lastPolicyDOc;
         var id;
+        var selectedCons = 11;
         angular.element(document).ready(function ()
         {
             table = $("#tblApplications").DataTable
@@ -78,14 +79,15 @@ angular.module('myApp')
         };
         $http(
         {
-            method: 'GET',
+            method: 'POST',
             url: 'http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications'
         })
         .then(successCallBack, errorCallBack);
        
         function addRowHandlers(event)
         {
-                id = String(this.id).replace("btnView", "");
+            id = String(this.id).replace("btnView", "");
+            selectedCons = id;
                 $scope.viewModal(id);
         }
 
@@ -97,10 +99,17 @@ angular.module('myApp')
             {
                 var currentRow = table1.rows[i];
                 var cell = currentRow.getElementsByTagName("td")[1];
-                var id = cell.innerHTML;
+                id = cell.innerHTML;
                 document.getElementById("btnView" + id).onclick = addRowHandlers;
+                document.getElementById("btnProcess" + id).onclick = redirectToClientPage;
             }
         };
+
+        function redirectToClientPage(event)
+        {
+            var cid = String(this.id).replace("btnProcess", "");
+            $window.location.href = '/ProcessSingleApplication?cid='+  cid;
+        }
 
         $scope.viewModal = function (index)
         {
@@ -200,15 +209,21 @@ angular.module('myApp')
             html += "<br />";
 
             var list = String(user.purchasedProducts).split(";");
-            for (index = 0; index < list.length - 1; index++)
+            var idList = String(user.purchasedProductIDs).split(";");
+            for (index = 0; index < list.length; index++)
             {
                 html += "<div class='row'>";
                 html += "<div  class='col-sm-5' style='margin:7px;'";
-                html += "<label><input type='checkbox' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
+                html += "<label><input type='checkbox' id='checkbox"+ idList[index] + "' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
                 html += "</div>";
                 index++;
+                if (index >= list.length - 1)
+                {
+                    html += "</div";
+                    break;
+                }
                 html += "<div  class='col-sm-5' style='margin:7px;'";
-                html += "<label><input type='checkbox' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
+                html += "<label><input type='checkbox' id='checkbox" + idList[index] + "' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
                 html += "</div>";
                 html += "</div";
                 html += "";
@@ -221,11 +236,11 @@ angular.module('myApp')
             html += "<div class='modal-footer'>";
             html += "<div class='row'>";
             html += "<div class='col-sm-4 '>";
-            html += "<button type='button' class='btn btn-danger ' data-dismiss='modal'>Decline Application</button>";
+            html += "<button type='button' class='btn btn-danger ' data-dismiss='modal'>Close</button>";
             html += "</div>";
 
             html += "<div class='col-sm-4 col-sm-push-4'>";
-            html += "<button type='button' id='btnModalApprove' class='btn btn-success'>Approve Application</button>";
+            html += "<button type='button' id='btnModalApprove" + user.idConsumer + "' class='btn btn-success'>Approve Application</button>";
             html += "</div>";
             html += "</div>";
             html += "</div>";
@@ -235,7 +250,6 @@ angular.module('myApp')
 
             $("#processApplicationModal").html(html);
             $("#myModal").modal();
-           // document.getElementById("txtPolicyNo").required = true;
 
             $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck
            ({
@@ -244,13 +258,35 @@ angular.module('myApp')
 
             
 
-            var modalButton = document.getElementById("btnModalApprove");
+            var modalButton = document.getElementById("btnModalApprove" + user.idConsumer);
             modalButton.onclick = function ()
             {
-                var newPolicyNo = document.getElementById("txtPolicyNo").value;
-                if (newPolicyNo === "") { invalidInput("please enter a policy number"); return; }
+                var buttonID = String(this.id).replace("btnModalApprove", "");
+                findConsumerApp(buttonID)
+                var idList = String(user.purchasedProductIDs).split(";");
+                for(var i  = 0 ; i <  idList.length ; i++)
+                {
+                    var check = document.getElementById("checkbox" + idList[i]).checked;
 
-                
+                    if (check)
+                    {
+                        $http(
+                        {
+                            method: 'POST',
+                            url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/ProcessSingleApplication?activeProductID=" + idList[i],
+                        });
+                    }
+                }
+                table.clear();
+    
+                $http(
+                {
+                    method: 'POST',
+                    url: 'http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications'
+                })
+                .then(successCallBack, errorCallBack);
+                $('#myModal').modal('hide');
+
             };
         };
 
@@ -291,7 +327,8 @@ angular.module('myApp')
         }
 
 
-        $scope.getAgeCat = function getAgeCat(id) {
+        function getAgeCat(id)
+        {
             if (2 == id)
                 return "18-25";
             else if (12 == id)
@@ -300,7 +337,7 @@ angular.module('myApp')
                 return "31-49";
             else if (32 == id)
                 return "40-60";
-        };
+        }
         
 
 

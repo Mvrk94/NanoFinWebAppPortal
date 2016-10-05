@@ -18,7 +18,7 @@
 
             $http(
             {
-                method: 'GET',
+                method: 'POST',
                 url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?ConsumerID=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
@@ -26,7 +26,7 @@
 
         $http(
         {
-            method: 'GET',
+            method: 'POST',
             url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUserInformation?idConsumer=" + CID,
         })
         .then(PsuccessCallBack, PerrorCallBack);
@@ -91,7 +91,7 @@
 
             $http(
             {
-                method: 'GET',
+                method: 'POST',
                 url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?ConsumerID=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
@@ -109,7 +109,7 @@
 
             $http(
             {
-                method: 'GET',
+                method: 'POST',
                 url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?ConsumerID=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
