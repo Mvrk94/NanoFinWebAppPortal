@@ -217,7 +217,7 @@ angular.module('myApp')
                 html += "<label><input type='checkbox' id='checkbox"+ idList[index] + "' class='flat-red'><i class='fa fa-fw fa-shopping-cart'></i> " + list[index] + "</label>";
                 html += "</div>";
                 index++;
-                if (index >= list.length - 1)
+                if (index >= list.length)
                 {
                     html += "</div";
                     break;
@@ -236,7 +236,7 @@ angular.module('myApp')
             html += "<div class='modal-footer'>";
             html += "<div class='row'>";
             html += "<div class='col-sm-4 '>";
-            html += "<button type='button' class='btn btn-danger ' data-dismiss='modal'>Close</button>";
+            html += "<button type='button' class='btn btn-danger ' data-dismiss='modal'>Close Application</button>";
             html += "</div>";
 
             html += "<div class='col-sm-4 col-sm-push-4'>";
@@ -262,7 +262,7 @@ angular.module('myApp')
             modalButton.onclick = function ()
             {
                 var buttonID = String(this.id).replace("btnModalApprove", "");
-                findConsumerApp(buttonID)
+                findConsumerApp(buttonID);
                 var idList = String(user.purchasedProductIDs).split(";");
                 for(var i  = 0 ; i <  idList.length ; i++)
                 {
@@ -284,8 +284,12 @@ angular.module('myApp')
                     method: 'POST',
                     url: 'http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications'
                 })
-                .then(successCallBack, errorCallBack);
-                $('#myModal').modal('hide');
+                .then(function(responce)
+                {
+                    successCallBack(responce);
+                    $('#myModal').modal('hide');
+                });
+                
 
             };
         };

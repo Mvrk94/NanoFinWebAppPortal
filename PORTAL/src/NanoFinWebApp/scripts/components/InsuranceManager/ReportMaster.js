@@ -186,8 +186,8 @@ angular.module('myApp')
                         {
                             drawItems.push(responce.data[index]);
                         }
-                        break;
                         check = false;
+                        break;
                     }
 
                 }

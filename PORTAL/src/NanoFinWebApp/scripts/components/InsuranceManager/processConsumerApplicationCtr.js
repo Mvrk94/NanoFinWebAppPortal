@@ -19,7 +19,7 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?ConsumerID=" + CID,
+                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
         };
@@ -92,7 +92,7 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?ConsumerID=" + CID,
+                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
         }
@@ -110,7 +110,7 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?ConsumerID=" + CID,
+                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
         }

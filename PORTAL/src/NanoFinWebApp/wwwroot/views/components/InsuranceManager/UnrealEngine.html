@@ -1,0 +1,172 @@
+﻿<div ng-controller="dataAnalytics">
+
+
+
+    <section class="content-header">
+        <h1>
+            <font size="10">The UN-REAL ENGINE</font>
+            <small>...</small>
+        </h1>
+
+
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Widgets</li>
+        </ol>
+    </section>
+    <br />
+    <br />
+
+
+    <section class="content">
+
+        <div class="row">
+            <div class="box box-success" style="margin:15px;">
+                <div class="box-header with-border">
+                    <h3 class="box-title"> <font size="5"> Select A Criteria</font></h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <div class="box-body">
+                    <div class="col-sm-3">
+                        <span style="font-size:15px;"><b>Select a Gender</b></span>
+                        <select id="cmbGender" class="form-control select2">
+                            <option selected="selected" value="All">All</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <span style="font-size:15px"><b>Select an Employment Status</b></span>
+                        <select id="cmbEmployment" class="form-control select2">
+                            <option selected="selected" value="All">All</option>
+                            <option value="Employed">Employed</option>
+                            <option value="unEmployed">unEmployed</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span style="font-size:15px"><b>Select a Marital Status</b></span>
+                        <select id="cmbMarital" class="form-control select2">
+                            <option selected="selected" value="All">All</option>
+                            <option value="Married">Married</option>
+                            <option value="Single">Single</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span style="font-size:15px"><b>Select a Age group</b></span>
+                        <select id="cmbAgeGroup" class="form-control select2">
+                            <option selected="selected" value="All">All</option>
+                            <option value="2">18-25</option>
+                            <option value="12">26-29</option>
+                            <option value="22">30-39</option>
+                            <option value="32">40-60</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span style="font-size:15px"><b>Select a Risk Category</b></span>
+                        <select id="cmbRiskCat" class="form-control select2">
+                            <option selected="selected" value="All">All</option>
+                            <option value="1">Low Risk</option>
+                            <option value="2">Moderate Risk</option>
+                            <option value="3">High Risk</option>
+                            <option value="4">Very-High Risk</option>
+                        </select>
+                    </div>
+                    <div class="col col-sm-3">
+                        <br />
+                        
+                        <button type="button" id="btnRefresh" class="btn btn-block btn-info">Refresh 
+                            <span class="pull-right"><li class="fa fa-fw fa-refresh"> </li></span>
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!--Consumer Reports-->
+            <div class="col col-sm-12">
+                <div class="box box-widget widget-user" style="height:90%;">
+                    <div class="widget-user-header bg-aqua" style="height:80%">
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <h3 class="widget-user-username">Consumer Reports</h3>
+                    </div>
+
+                    <div class="box-body no-padding">
+
+                        <div class="row">
+                            <br />
+                            <br />
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6" id="ConsumerReportGender"></div>
+                                    <div  id="ConsumerReportEmployment"></div>
+                                    <div  id="ConsumerReportAge"></div>
+                                    <div  id="ConsumerReportMarital"></div>
+                                    <div id="RiskCatReportMarital"></div>
+                                </div>
+                            </div>
+                            <!-- /.col (RIGHT) -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--Risk Reports-->
+            <div class="col col-sm-12 ">
+                <br /><br />
+                <div class="box box-widget widget-user" style="height:90%;">
+                    <div class="widget-user-header bg-aqua" style="height:80%">
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <h3 class="widget-user-username">Risk Reports</h3>
+                    </div>
+
+                    <div class="box-body no-padding">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- AREA CHART -->
+                                <div id="RiskReportGender"></div>
+                                <div id="RiskReportEmployment"></div>
+                            </div>
+                            <!-- /.col (LEFT) -->
+                            <div class="col-md-6">
+                                <div id="RiskReportAge"></div>
+                                <div id="RiskReportRisk"></div>
+                            </div>
+                            <!-- /.col (RIGHT) -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</div>

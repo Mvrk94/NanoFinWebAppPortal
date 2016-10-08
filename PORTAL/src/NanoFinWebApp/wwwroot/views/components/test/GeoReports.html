@@ -591,7 +591,8 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               }
           }
 
-          Number.prototype.toMoney = function (decimals, decimal_sep, thousands_sep) {
+          Number.prototype.toMoney = function (decimals, decimal_sep, thousands_sep)
+          {
               var n = this,
               c = isNaN(decimals) ? 2 : Math.abs(decimals), //if decimal is zero we must take it, it means user does not want to show any decimal
               d = decimal_sep || '.', //if no decimal separator is passed we use the dot as default decimal separator (we MUST use a decimal separator)

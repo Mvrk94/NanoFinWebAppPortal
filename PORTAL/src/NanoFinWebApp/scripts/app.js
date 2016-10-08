@@ -41,6 +41,13 @@ app.config(function ($routeProvider, $locationProvider)
         templateUrl: '/views/components/InsuranceManager/processConsumerApplications.html',
         controller: 'insuranceApplicationsPageController'
     })
+
+    .when('/DataAnalityics',
+    {
+        title: ' data analityics',
+        templateUrl: '/views/components/InsuranceManager/UnrealEngine.html',
+        controller: 'insuranceApplicationsPageController'
+    })
     .when('/Reports',
     {
         title: 'reports',
