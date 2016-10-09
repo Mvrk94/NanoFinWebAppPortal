@@ -151,6 +151,7 @@
     $(document).ready(function () {
         init();
         drawConsumerReport();
+        drawRiskReports();
     });
 
     /*
@@ -221,7 +222,7 @@
     {
         clearGraphCanvas("RiskReportAge");
         if (isfilterinhAgeGroup.isFilter) return;
-        drawRiskBarGraph("RiskReportAge", "RiskReportMaritalBarChart", "Age Group Claim Rate", "ageGroup", isfilterinhAgeGroup.possibleValues, "claimRate", isfilterinhAgeGroup.possibleValues);
+        drawRiskBarGraph("RiskReportAge", "RiskReportMaritalBarChart", "Age Group Claim Rate", "ageGroup", isfilterinhAgeGroup.possibleValues, "claimRate", ["18-25", "26-30", "31-39", "40-60"]);
     }
     function drawRiskMaritalReports()
     {
