@@ -69,6 +69,11 @@ app.config(function ($routeProvider, $locationProvider)
         title: 'Geo reports',
         templateUrl: '/views/components/test/GeoReports.html',
     })
+         .when('/processClaims',
+    {
+        title: 'Process Claims',
+        templateUrl: '/views/components/InsuranceManager/processClaims.html',
+    })
 
     .otherwise({
         templateUrl: '/views/components/InsuranceManager/home.html',

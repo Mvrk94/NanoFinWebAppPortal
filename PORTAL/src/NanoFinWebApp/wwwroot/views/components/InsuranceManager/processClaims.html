@@ -1,0 +1,64 @@
+﻿<div ng-controller="processClaimsCtrl">
+    <!-- Main content -->
+    <section class="content-header">
+        <h1>
+            <font size="10">Claims</font>
+            <small>...</small>
+        </h1>
+
+
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Widgets</li>
+        </ol>
+    </section>
+    <br />
+    <br />
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-11" style="margin-left:1cm">
+                <div class="box">
+                    <div class="box-header">
+                        <h1 class="box-title"><font size="5">Unprocessed Claim Sumbissions </font></h1>
+                        <a href ="http://localhost:14198/api/FileUpload/GetTestFile">download file</a>
+
+                        <object width="100%" height="400" data="http://nanofinapifinal.azurewebsites.net/UploadFiles/claims/Khaya%20Cover/12491/MF%20passport.pdf" type="application/pdf"></object>
+
+                        <!--<embed width="100%" height="500px" src="http://localhost:14198/UploadFiles/MargTest/MatriekSertifikaat.pdf">-->
+
+                        
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="tblApplications" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:25px;"><i class="fa fa-fw fa-exclamation-triangle"></i></th>
+                                    <th style="width:25px;">#User Ref</th>
+                                    <th style="width:60px;">Name</th>
+                                    <th style="width:60px;">Pending Applications</th>
+                                    <th style="width:60px;">Risk Category</th>
+                                    <th style="width:60px;">Process</th>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+
+
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- Modal -->
+    <div id="processApplicationModal"></div>
+</div>
+

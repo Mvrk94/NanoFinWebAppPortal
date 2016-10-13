@@ -11,8 +11,7 @@
     var isfilterinhAgeGroup = { isFilter: false, value: "All" , type : "ageGroup" ,possibleValues: [2,12,22,32] };
     var isfilteringRiskCat = { isFilter: false, value: "All", type: "RiskCategory", possibleValues: [1,2,3,4] };
 
-   
-
+ 
 
     function init()
     {
