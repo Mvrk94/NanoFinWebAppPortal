@@ -4,13 +4,14 @@
 
     var originalData = [];
     var filteredData = [];
-
+    var preferences = [];
     var isfilteringGender = { isFilter: false, value: "All" ,type: "gender" , possibleValues: ["Male" , "Female"]};
     var isfilteringMaritalStatus = { isFilter: false, value: "All", type: "maritalStatus", possibleValues: ["Married", "Single"] };
     var isfilteringEmploymentStatus = { isFilter: false, value: "All", type: "employmentStatus", possibleValues: ["Employed", "Unemployed"] };
     var isfilterinhAgeGroup = { isFilter: false, value: "All" , type : "ageGroup" ,possibleValues: [2,12,22,32] };
     var isfilteringRiskCat = { isFilter: false, value: "All", type: "RiskCategory", possibleValues: [1,2,3,4] };
 
+    
     /*
      CHART-JS GRAPH OPTIONS
  */
@@ -98,6 +99,7 @@
         //Number - Spacing between data sets within X values
         barDatasetSpacing: 1,
         //String - A legend template
+
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
         //Boolean - whether to make the chart responsive
         responsive: true,
@@ -107,12 +109,19 @@
 
     function init()
     {
-        originalData = JSON.parse(httpRequest("POST", "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications"));
-        
+        originalData = JSON.parse(httpRequest("GET", "http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerProfileData"));
+        preferences = JSON.parse(httpRequest("GET", 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getPreferencesReports'));
         for(var  i = 0 ; i < originalData.length ; i++)
         {
+            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("{", "");
+            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("}", "");
+            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("{", "");
+            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("}", "");
             filteredData.push(originalData[i]);
         }
+
+        for( i = 0 ; i <preferences.length ; i++)
+            preferences[i].count  = 0;
         document.getElementById("btnRefresh").onclick = function ()
         {
             isfilteringGender.value = document.getElementById("cmbGender").value;
@@ -146,12 +155,15 @@
         }
         drawConsumerReport(filterArr);
         drawRiskReports();
+        drawPerformencesReports();
     }
 
     $(document).ready(function () {
         init();
         drawConsumerReport();
         drawRiskReports();
+        monthConsumerGroupExpenditure();
+        popularProducts();
     });
 
     /*
@@ -169,41 +181,41 @@
     {
         clearGraphCanvas("ConsumerReportGender");
         if (isfilteringGender.isFilter) return;
-        drawBarGraph("ConsumerReportGender", "ConsumerReportMaritalBarChart", "Gender ", "gender", isfilteringGender.possibleValues, isfilteringGender.possibleValues);
+        drawBarGraph("ConsumerReportGender", "ConsumerReportMaritalBarChart", "#Consumers per Gender ", "gender", isfilteringGender.possibleValues, isfilteringGender.possibleValues);
     }
     function drawConsumerMaritalStatusReports()
     {
         clearGraphCanvas("ConsumerReportMarital");
         if (isfilteringMaritalStatus.isFilter) return;
-        drawBarGraph("ConsumerReportMarital", "consumerMaritalBarChart", "Marital Status", "maritalStatus", isfilteringMaritalStatus.possibleValues, isfilteringMaritalStatus.possibleValues);
+        drawBarGraph("ConsumerReportMarital", "consumerMaritalBarChart", "#Consumers per Marital Status", "maritalStatus", isfilteringMaritalStatus.possibleValues, isfilteringMaritalStatus.possibleValues);
     }
     function drawConsumerEmployedReports()
     {
         clearGraphCanvas("ConsumerReportEmployment");
         if (isfilteringEmploymentStatus.isFilter) return;
-        drawBarGraph("ConsumerReportEmployment", "consumerEmploymentBarChart", "Employment Status", "employmentStatus", isfilteringEmploymentStatus.possibleValues, isfilteringEmploymentStatus.possibleValues);
+        drawBarGraph("ConsumerReportEmployment", "consumerEmploymentBarChart", "#Consumers per Employment Status", "employmentStatus", isfilteringEmploymentStatus.possibleValues, isfilteringEmploymentStatus.possibleValues);
     }
     function drawConsumerAgeGroupReports()
     {
         clearGraphCanvas("ConsumerReportAge");
         if (isfilterinhAgeGroup.isFilter) return;
         var labels = ["18-25", "26-30", "31-39", "40-60"];
-        drawBarGraph("ConsumerReportAge", "ConsumerReportAgeBarChart", "Age Group", "ageGroup", isfilterinhAgeGroup.possibleValues, labels);
+        drawBarGraph("ConsumerReportAge", "ConsumerReportAgeBarChart", "#Consumers per Age Group", "ageGroup", isfilterinhAgeGroup.possibleValues, labels);
     }
     function drawConsumerRiskCatReports()
     {
         clearGraphCanvas("RiskCatReportMarital");
         if (isfilteringRiskCat.isFilter) return;
         var labels = ["Low", "Moderate", "High", "Very-High"];
-        drawBarGraph("RiskCatReportMarital", "RiskCatReportMaritalBarChart", "Risk Category", "RiskCategory", isfilteringRiskCat.possibleValues, labels);
+        drawBarGraph("RiskCatReportMarital", "RiskCatReportMaritalBarChart", "#Consumers per Risk Category", "RiskCategory", isfilteringRiskCat.possibleValues, labels);
     }
     /*
         RISK REPORTS
     */
-//<div id="RiskReportGender"></div>
-//<div id="RiskReportEmployment"></div>
-//<div id="RiskReportAge"></div>
-//<div id="MaritalReportRisk"></div>
+    //<div id="RiskReportGender"></div>
+    //<div id="RiskReportEmployment"></div>
+    //<div id="RiskReportAge"></div>
+    //<div id="MaritalReportRisk"></div>
     function drawRiskReports()
     {
         drawRiskGenderReports();
@@ -216,25 +228,25 @@
     {
         clearGraphCanvas("RiskReportGender");
         if (isfilteringGender.isFilter) return;
-        drawRiskBarGraph("RiskReportGender", "RiskReportGenderBarChart", "Gender Claim Rate", "gender", isfilteringGender.possibleValues, "claimRate", isfilteringGender.possibleValues);
+        drawRiskBarGraph("RiskReportGender", "RiskReportGenderBarChart", "Claim Rates(%) per Gender", "gender", isfilteringGender.possibleValues, "claimRate", isfilteringGender.possibleValues);
     }
     function drawRiskAgeGroupReports()
     {
         clearGraphCanvas("RiskReportAge");
         if (isfilterinhAgeGroup.isFilter) return;
-        drawRiskBarGraph("RiskReportAge", "RiskReportMaritalBarChart", "Age Group Claim Rate", "ageGroup", isfilterinhAgeGroup.possibleValues, "claimRate", ["18-25", "26-30", "31-39", "40-60"]);
+        drawRiskBarGraph("RiskReportAge", "RiskReportMaritalBarChart", "Claim Rates(%) per Age Group", "ageGroup", isfilterinhAgeGroup.possibleValues, "claimRate", ["18-25", "26-30", "31-39", "40-60"]);
     }
     function drawRiskMaritalReports()
     {
         clearGraphCanvas("RiskReportMarital");
         if (isfilteringMaritalStatus.isFilter) return;
-        drawRiskBarGraph("RiskReportMarital", "MaritalReportRiskBarChart", "Marital Claim Rate", "maritalStatus", isfilteringMaritalStatus.possibleValues, "claimRate", isfilteringMaritalStatus.possibleValues);
+        drawRiskBarGraph("RiskReportMarital", "MaritalReportRiskBarChart", "Claim Rates(%) per Marital  Status", "maritalStatus", isfilteringMaritalStatus.possibleValues, "claimRate", isfilteringMaritalStatus.possibleValues);
     }
     function drawRiskEmployedReports()
     {
         clearGraphCanvas("RiskReportEmployment");
         if (isfilteringEmploymentStatus.isFilter) return;
-        drawRiskBarGraph("RiskReportEmployment", "RiskReportEmploymentBarChart", "Employment Status Claim Rate", "employmentStatus", isfilteringEmploymentStatus.possibleValues, "claimRate", isfilteringEmploymentStatus.possibleValues);
+        drawRiskBarGraph("RiskReportEmployment", "RiskReportEmploymentBarChart", "Claim Rates(%) per Employment Status", "employmentStatus", isfilteringEmploymentStatus.possibleValues, "claimRate", isfilteringEmploymentStatus.possibleValues);
     }
     
     /*
@@ -290,7 +302,7 @@
             if (read_prop(filtered[i], variableType) == request)
                 sum += read_prop(filtered[i], valueToAvg);
         }
-        return sum/filtered.length;
+        return parseFloat( sum/filtered.length).toFixed(2);
     }
 
     function httpRequest(methode, theUrl)
@@ -372,5 +384,136 @@
         barChart.Bar(barChartData, barChartOptions);
     }
 
+    /*
+        PERFORMANCE REPORTS 
+    */
+
+    function drawPerformencesReports()
+    {
+        monthConsumerGroupExpenditure();
+        popularProducts();
+    }
+
+    function convert(item)
+    {
+        return parseInt(item, 10);
+    }
+
+    function monthConsumerGroupExpenditure()
+    {
+        var datapoints = [0, 0, 0, 0, 0, 0];
+        for (var i = 0 ; i < filteredData.length ; i++)
+        {
+            var temp = filteredData[i].monthPurchases.split(',').map(convert);
+
+            for(var r  = 0; r < temp.length && r < 6 ; r++)
+            {
+                datapoints[r] += temp[r];
+            }
+        }
+
+        var graphID = "monthlysales";
+        document.getElementById("monthExpenditure").innerHTML = drawLineChart(graphID, "Average monthly sales", "success");
+
+        var dataset = [];
+
+        for (i = 0 ; i < 6 ; i++)
+        {
+            dataset.push({ y: '2016-0'+i, item1: parseFloat(datapoints[i]/filteredData.length).toFixed(2) });
+        }
+
+
+        var line = new Morris.Line({
+            element: graphID,
+            resize: true,
+            data: dataset,
+            xkey: 'y',
+            ykeys: ['item1'],
+            labels: ['sales'],
+            lineColors: ['#3c8dbc'],
+            hideHover: 'auto'
+        });
+
+    }
+
+    function popularProducts()
+    {
+        var countIndex = 0;
+        for (var i = 0 ; i < preferences.length ; i++)
+            preferences[i].count = 0;
+
+        for( i = 0 ;i < filteredData.length ; i++)
+        {
+            if (String(filteredData[i].topProductCategoriesInterestedIn).split(";").length != 2)break;
+            var temp = String(filteredData[i].topProductCategoriesInterestedIn);
+            var ids = temp.split(";")[0].split(",").map(convert);
+            var pCounts = temp.split(";")[1].split(",").map(convert);
+
+            for (var r = 0 ; r < preferences.length ; r++)
+            {
+                countIndex = ids.indexOf(preferences[r].Product_ID);
+                if(countIndex !=  -1)
+                    preferences[r].count += pCounts[countIndex];
+            }
+        }
+       
+        preferences.sort(function (a, b) {
+            return a.count - b.count;
+        });
+        monthlysalesinforBox(preferences, "Units Sold per Product", "productName", "count");
+    }
+
+    function drawLineChart(graphID, title, cssColor)
+    {
+        var html = "";
+        html += "<div class='box box-"+ cssColor +"'>";
+        html += "<div class='box-header with-border'>";
+        html += "<h3 class='box-title'>"+title+"</h3>";
+
+        html += "<div class='box-tools pull-right'>";
+        html += "<button type='button' class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i>";
+        html += "</button>";
+        html += "</div>";
+        html += "</div>";
+
+        html += "<div class='box-body chart-responsive'>";
+        html += "<div class='chart' id='" + graphID + "' style='height: 300px;'></div>";
+
+        html += "</div>";
+        html += "</div>";
+
+        return html;
+    }
+
+    function monthlysalesinforBox(arr, title, param1, param2) {
+        var html = "";
+        
+        html = "";
+
+        html += "<div class='box box-widget widget-user' style='width:97%;color:black;margin:1px;border:1px 3399FF;'>";
+        html += "<div class='box-header bg-green'>";
+        html += "<h3 class='box-title'> " + title + "</h3>";
+        html += "";
+        html += "<div class='box-tools pull-right'>";
+        html += "<button type='button' class='btn btn-box-tool' style='color:white;' data-widget='collapse'><i class='fa fa-minus'></i>";
+        html += "</button>";
+        html += "";
+        html += "</div>";
+        html += "</div>";
+        html += "";
+        html += "<div class='box-footer no-padding'>";
+        html += "<ul class='nav nav-pills nav-stacked' style='font-size:15px;width:95%;'>";
+        var ic = 0;
+        for (ic = arr.length -1; ic >= 0; ic--) {
+            html += "<li>" + read_prop(arr[ic], param1) + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> " + read_prop(arr[ic], param2) + " </span></li>";
+        }
+        html += "<li><br/> </li>";
+        html += "</ul>";
+        html += "</div>";
+        html += "</div>";
+        html += "";
+
+        document.getElementById("PurchasedProducts").innerHTML = html;
+    }
 
 }]);
