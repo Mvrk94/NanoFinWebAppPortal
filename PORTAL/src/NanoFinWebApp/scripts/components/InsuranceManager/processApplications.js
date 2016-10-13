@@ -24,11 +24,10 @@ angular.module('myApp')
                         [
                             { 'data': 'icon' },
                             { 'data': 'idConsumer' },
-                            { 'data': 'consumerName' },
+                            { 'data': 'clientName' },
                             { 'data': 'numUnprocessed' },
                             { 'data': "RiskCategory" },
                             { 'data': "options" }
-
                         ]
                 });
 

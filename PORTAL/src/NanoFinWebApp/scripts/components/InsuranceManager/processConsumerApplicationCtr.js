@@ -11,10 +11,10 @@
 
         var PsuccessCallBack = function (response)
         {
-            $scope.user = response.data[0];
+            $scope.user = response.data;
             
-            $scope.pageHeader = "#" + $scope.user.idConsumer + " " + $scope.user.userFirstName + " " + $scope.user.userLastName;
-            $scope.location = $scope.user.City + ", " + $scope.user.Province;
+            $scope.pageHeader = "#" + $scope.user.idConsumer + " " + $scope.user.clientName;
+            $scope.location = $scope.user.residentTown;
 
             $http(
             {
@@ -85,16 +85,20 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/ProcessSingleApplication?activeProductID=" + activeProdID,
+                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/processApplicationNativeImp?activeProductID=" + activeProdID,
+            }).then(function(responce)
+            {
+                if(responce.data === true)
+                    $http(
+                   {
+                       method: 'POST',
+                       url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
+                   })
+                   .then(purchaseCallBack, PerrorCallBack);
             });
 
 
-            $http(
-            {
-                method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
-            })
-            .then(purchaseCallBack, PerrorCallBack);
+           
         }
 
         function DeclineProduct(event)
