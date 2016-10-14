@@ -26,7 +26,8 @@
                 ipUnitCost: 0,
                 ipUnitType: 0,
                 ipMinimunNoOfUnits: 0,
-                ipClaimInfoPath: "string"
+                ipClaimInfoPath: "string",
+                claimtemplate_ID: 0
             };
 
 
@@ -56,6 +57,9 @@
             
             $scope.InsuranceProduct.InsuranceType_ID = document.getElementById("sltInsuranceType").value;
             $scope.InsuranceProduct.ipUnitType = document.getElementById("sltInsuranceType").value;
+            //M Code to assign claim template to the product:
+            $scope.InsuranceProduct.claimtemplate_ID = document.getElementById("sltInsuranceType").value;
+
             var req =
              {
                 method: 'POST',
