@@ -1,0 +1,106 @@
+﻿<div ng-controller="viewClaimsCtrl">
+    <!-- Main content -->
+    <section class="content-header">
+        <h1>
+            <font size="10">Claims</font>
+         
+        </h1>
+
+
+        <!--<ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Widgets</li>
+        </ol>-->
+    </section>
+    <br />
+  
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-11" style="margin-left:1cm">
+                <div class="box">
+                    <div class="box-header">
+                        <h1 class="box-title"><font size="5">Unprocessed Claim Sumbissions </font></h1>
+                      
+                        
+                    </div>
+
+                    <div class="input-group col-md-4 col-md-offset-4">
+                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                        <input type="text" class="form-control" placeholder="Search for a claim" ng-model="searchClaim">
+                    </div>
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr style="cursor:pointer">
+                                    <th ng-click="sort('claimID')">Claim Ref # <i class="fa fa-sort"></i></th> <!--ng-show="sortKey=='id'" ng-class="{'fa fa-sort-asc':reverse,'fa fa-sort-desc':!reverse}"-->
+                                    <th ng-click="sort('claimDate')">Date <i class="fa fa-sort"></i></th>
+                                    <th ng-click="sort('consumerName')">Customer <i class="fa fa-sort"></i></th>
+                                    <th ng-click="sort('productName')">Product <i class="fa fa-sort"></i></th>
+                                    <th>Process Status</th>
+                                    <th>Payment Handled</th>
+                                    <th>Process</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="claim in ClaimsToBeProcessed |orderBy:sortKey:reverse |filter:searchClaim" style="cursor:pointer">
+                                <!--<tr ng-repeat="claim in ClaimsToBeProcessed" class="clickable-row" data-href="/ProcessPurchases" style="cursor:pointer">-->
+                                    <td>{{claim.claimID}}{{claim.activeProductID}}</td>
+                                    <td>{{claim.claimDate | date : 'yyyy-MM-dd'}}</td>
+                                    <td>{{claim.consumerName}} {{claim.consumerSurname}}</td>
+                                    <td>{{claim.productName}}</td>
+                                    <td>{{claim.claimStatus}}</td>
+                                    <td>{{claim.claimPaymentFinalised |payedYesOrNo }}</td>
+                                    <td class="text-center">
+                                        <a href="/processClaim?cid={{claim.claimID}}" data-toggle="tooltip" title="Process Claim" class="btn btn-app">
+                                            <i class="fa fa-file-text text-blue"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                              
+
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- Modal -->
+    <div id="processApplicationModal"></div>
+</div>
+
+<script>
+  $(function () {
+   
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": false,
+      "autoWidth": false
+    });
+  });
+
+  $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+  });
+
+
+  //$(function() {
+  //    $(".clickable-row").click(function() {
+  //        window.location = $(this).data("href");
+  //    });})
+
+
+</script>
