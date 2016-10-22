@@ -100,7 +100,7 @@ angular.module('myApp')
         var fillOptions = function ()
         {
             var result = "";
-            var data = $scope.itemsData.data;
+            var data = $scope.targetInfor.data;
             for (var c = 0 ; c < data.length ; c++)
             {
                 result += "	<li  style='margin-bottom:9px;width:280px'>";
@@ -111,7 +111,7 @@ angular.module('myApp')
                 //alert(data[c].Product_ID)
                 result += "";
                 result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
-                result += String(data[c].name) + " <br />";
+                result += String(data[c].productName) + " <br />";
                 result += "<span style='font-size:12px'>" + $scope.getType(data[c].InsuranceType_ID) + "</span>";
                 result += "</div>";
                 result += "</div>";
@@ -132,13 +132,13 @@ angular.module('myApp')
         $http(
            {
                method: 'GET',
-               url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList'
+               url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductList'
            }).then(saveItemInformartion, errorCallBack);
 
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
+            url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
         }).then(setTargetSales, errorCallBack);
 
 
@@ -175,22 +175,13 @@ angular.module('myApp')
             for (var tmep in responce.data)
             {
                 var check = false;
-                var data = $scope.itemsData.data;
-
-                for (var c = 0 ; c < data.length ; c++)
+                check = document.getElementById("checkbox" + responce.data[index].Product_ID).checked;
+                if (check === true)
                 {
-                    if(data[c].Product_ID === responce.data[index].ProductID)
-                    {
-                        check = document.getElementById("checkbox" + responce.data[index].ProductID).checked;
-                        if (check === true)
-                        {
-                            drawItems.push(responce.data[index]);
-                        }
-                        check = false;
-                        break;
-                    }
-
+                    drawItems.push(responce.data[index]);
                 }
+                check = false;
+                 
                 index++;
             }
 
@@ -202,9 +193,9 @@ angular.module('myApp')
             for (var v in drawItems)
             {
                 var temp = drawItems[counter];
-                labels.push(temp.name + " in ZAR");
-                sales.push(temp.currentSales);
-                target.push(temp.targetSales);
+                labels.push(temp.productName + " in ZAR");
+                sales.push(temp.sales);
+                target.push(temp.salesTargetAmount);
                 counter++;
             }
             var areaChartData =
@@ -398,13 +389,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct2, errorCallBack);
             };
         };
@@ -429,7 +420,7 @@ angular.module('myApp')
             $http(
               {
                   method: 'GET',
-                  url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getLastMonthInsuranceTypeSales'
+                  url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getLastMonthInsuranceTypeSales'
               }).then(SetinsuranceTypeData, errorCallBack);
         };
         
@@ -558,13 +549,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance2, errorCallBack);
             };
         };
@@ -683,9 +674,9 @@ angular.module('myApp')
             for (var v in drawItems)
             {
                 var temp = drawItems[counter];
-                labels.push(temp.name + " in ZAR");
-                sales.push(temp.currentSales);
-                target.push(temp.targetSales);
+                labels.push(temp.productName + " in ZAR");
+                sales.push(temp.sales);
+                target.push(temp.salesTargetAmount);
                 counter++;
             }
 

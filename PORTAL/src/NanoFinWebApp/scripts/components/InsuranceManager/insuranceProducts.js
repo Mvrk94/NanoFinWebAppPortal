@@ -95,7 +95,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Getinsuranceproducts?ProductProviderID=11'
+            url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Getinsuranceproducts?ProductProviderID=11'
         })
         .then(successCallBack, errorCallBack);
     }]);

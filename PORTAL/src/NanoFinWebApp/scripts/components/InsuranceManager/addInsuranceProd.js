@@ -1,6 +1,8 @@
 ﻿var app = angular.module('myApp');
 
 
+    
+
     app.controller('addProductController', ['$scope', '$http', function ($scope, $http) {
         var ID;
         var insuranceProdID;
@@ -46,8 +48,7 @@
             $http(req).then(
                 function (responce, status, headers, config)
                 {
-                    $scope.InsuranceProduct.Product_ID = parseInt(String(headers('location')).replace("http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Postproduct/", ""));
-                    alert("first item sent");
+                    $scope.InsuranceProduct.Product_ID = parseInt(responce.data.Product_ID);
                 }
                 );
         };
@@ -71,7 +72,6 @@
             };
             $http(req).then(
                 function (responce) {
-                    alert("second item sent");
                     $scope.InsuranceProduct.Product_ID = 262;
                 });
 

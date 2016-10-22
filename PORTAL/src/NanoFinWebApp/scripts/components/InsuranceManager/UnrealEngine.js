@@ -517,4 +517,24 @@
         document.getElementById("PurchasedProducts").innerHTML = html;
     }
 
+
+    //one signal
+    //var onesignal = require('node-opensignal-api');
+    //var onesignal_client = onesignal.createClient();
+
+    //var restApiKey = 'YOUR_APP_REST_API_KEY';  //
+    //var params = {
+    //    app_id: 'YOUR_APP_ID', //
+    //    contents: {
+    //        'en': 'NEW PRODUCT BITCHES !!! BUY IT'
+    //    },
+    //    tags: [{ "key": "custom_tag", "relation": "=", "value": "custom_value" }] //ask if assigned tags
+    //};
+    //onesignal_client.notifications.create(restApiKey, params, function (err, response) {
+    //    if (err) {
+    //        console.log('Encountered error', err);
+    //    } else {
+    //        console.log(response);
+    //    }
+    //});
 }]);

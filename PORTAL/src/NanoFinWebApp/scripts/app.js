@@ -75,6 +75,12 @@ app.config(function ($routeProvider, $locationProvider)
         templateUrl: '/views/components/InsuranceManager/processClaims.html',
     })
 
+     .when('/CreatedProfiles',
+    {
+        title: ' consumer profiles',
+        templateUrl: '/views/components/InsuranceManager/consumerProfiles.html',
+    })
+
     .otherwise({
         templateUrl: '/views/components/InsuranceManager/home.html',
         controller: 'homePageController'
