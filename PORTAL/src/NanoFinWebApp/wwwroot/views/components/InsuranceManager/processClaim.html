@@ -1,0 +1,240 @@
+﻿<div ng-controller="processClaimsCtrl">
+
+    <section class="content-header">
+        <h1>
+            <font size="12">Claim: {{productName}} #{{claimID}}{{activeProdID}}</font>
+           
+        </h1>
+      
+    </section>
+    <br />
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title"> <font size="5">Customer Submitted Documents</font></h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                   
+                </div>
+            </div>
+            <br />
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="box box-info well well-sm">
+                           
+                              
+                               
+
+                                <div class="box-header with-border">
+                                    <h4 class="box-title text-bold">Select Documents:</h4>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="text-center text-blue">
+                                    <h4 class="header"><i class="fa fa-file-text"></i>  Claim Form:</h4>
+                                    <a href="#" ng-click="viewClaimForm()" class="btn btn-info btn-block"><b>View Claim Form</b></a>
+                                    <a href="#"  ng-click="genPDF()" class="btn btn-info btn-block"><b>Download Claim Form</b></a>
+                                </div>
+                                <div class="text-center text-blue">
+                                    <h4 class="header"><i class="fa fa-cloud-upload"></i>  Uploaded Docs:</h4>
+                                    <div ng-repeat="doc in claimDocumentsInDir">
+                                        <a href="#" ng-click="showDocPreview(doc.OriginalPath)" class="btn btn-info btn-block"><b>{{doc.OriginalPath}}</b></a>
+                                        
+                                    </div>
+                                    
+                                    <!--some code to see backend paths being built correctly::-->
+                                    <!--<ul>
+                                           <li>{{claimDocsPath}}</li>
+                                        <li>{{claimDocsLongPath}}</li>
+                                        <li ng-repeat="doc in claimDocumentsInDir">
+                                        <a href="#" ng-click="showDocPreview(doc.OriginalPath)" class="btn btn-info btn-block">{{doc.OriginalPath}}</a></li>
+                                    </ul>
+
+                                    <a href="#" ng-click="showDocPreview()" class="btn btn-info btn-block"><b>View Uploaded Doc</b></a>
+                                    <a href="#" class="btn btn-info btn-block"><b></b></a>-->
+                                </div>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-8">
+                        <div class="box box-info well well-sm">
+                            <div class="box-header with-border">
+                                <h4 class="box-title text-bold">Preview Documents:</h4>
+                            </div>
+
+                            <div ng-show="nothingsBeenSelected" class="text-center text-blue">
+
+                                <h4>Select from the documents on the left to preview it here.</h4>
+                            </div>
+                           
+                           <div id="claimfrm" ng-show="showClaimForm">
+                               <h3>Claim Form: {{productName}}</h3>
+                               <h5><b>Claim Reference #: {{claimID}}{{activeProdID}}</b></h5>
+                               <h5><b>Claim Date: {{claimDate|date : 'yyyy-MM-dd'}}</b></h5>
+                               <table class="table table-striped">
+                                   <tr>
+                                       <th>{{claimForm[0].name}}:</th>
+                                       
+                                   </tr>
+                                   <tr ng-repeat="field in firstStepFields">
+                                       
+                                       <td>{{field.label}}:</td>
+                                       <td>
+                                          {{field.data}}
+                                       </td>                                     
+                                   </tr> 
+                               </table>
+
+                               <table class="table table-striped">
+                                   <tr>
+                                       <th>{{claimForm[1].name}}:</th>
+
+                                   </tr>
+                                   <tr ng-repeat="field in secondStepFields">
+
+                                       <td>{{field.label}}:</td>
+                                       <td>
+                                           {{field.data}}
+                                       </td>
+                                   </tr>
+                               </table>
+
+                           </div>
+
+
+                            <div ng-show="showDoc">
+
+                                <object width="100%" height="400" data="{{currentDocPath}}" type="application/pdf"></object>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+        <div class="box">
+            <div class="box box-success well well-sm">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title"> <font size="5">Process Claim</font></h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                       
+                    </div>
+                </div>
+                <!-- form start -->
+           
+                    <div class="box-body col-md-offset-3">
+
+                        <br />
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label control-label">Update Status:</label>
+
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa  fa-pencil-square-o"></i></span>
+                                        <select id="sltInsuranceType" ng-model="claimEntity.claimStatus"class="form-control select2" >
+                                            <option>In Progress</option>
+                                            <option>Accepted</option>
+                                            <option>Rejected</option>
+
+                                        </select>
+                                       <!--<p>{{claimEntity.claimStatus}}</p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Finalize Payment:</h4>
+                                <label>Mark as Finalized:  <input ng-disabled="isClaimStatusRejectedOrInProg()" type="checkbox" class="icheckbox_flat-blue" ng-model="claimEntity.claimPaymentFinalized" ng-true-value="true" ng-false-value="false" /></label>
+                              
+                                </div>
+                            <p>{{claimEntity.claimPaymentFinalized}}</p>
+                            </div>         
+                                  
+                        <div class="row">
+                            <div class=" col-md-6">
+                                <h4>Upload Proof:</h4>
+                                <input ng-disabled="isClaimStatusRejectedOrInProg()" id="filesSelectedInput" type="file" name="file" file-input="files" multiple required />
+                                <br/>
+                                <input type="button" class="btn btn-raised btn-success pull-left" ng-click="upload(files)" value="Upload" ng-disabled="isClaimStatusRejectedOrInProg()||uploading" />
+                            </div>
+
+                        </div>     
+                        <br />
+
+                        <div class="row">
+
+                                <div class="col-md-4 md-offset-1">
+                                    <button id="myBtn" ng-click="submitClaimProcess()"  ng-disabled="StatusNotFinalized ||submitLoading" type="button" class="btn btn-block btn-info ">Submit Changes</button>
+                                </div>
+
+                       
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                    
+
+
+              
+
+             
+            </div>
+        </div>
+
+
+
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-info">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">{{modalHeader}}</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>{{modalMessage}}</h4>
+                    <div ng-show="rejected">
+                        <h5 >Contact information for resolving claim: </h5>
+                        <p>{{consumerName}} {{consumerSurname}}: {{consumerContactNumber}}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="modalDismissed()">Ok</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+   
+</div>
+
+
+
+<script src="../../../lib/pdf/html2canvas.js"></script>
+<script src="../../../lib/pdf/pdfmake.min.js"></script>
+<script src="../../../lib/pdf/vfs_fonts.js"></script>

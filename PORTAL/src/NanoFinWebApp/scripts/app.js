@@ -69,11 +69,16 @@ app.config(function ($routeProvider, $locationProvider)
         title: 'Geo reports',
         templateUrl: '/views/components/test/GeoReports.html',
     })
-         .when('/processClaims',
+         .when('/viewClaims',
     {
-        title: 'Process Claims',
-        templateUrl: '/views/components/InsuranceManager/processClaims.html',
+        title: 'View Claims',
+        templateUrl: '/views/components/InsuranceManager/viewUnprocessedClaims.html',
     })
+         .when('/processClaim', {
+             title: 'Process Claim',
+             templateUrl: '/views/components/InsuranceManager/processClaim.html',   
+
+         })
 
      .when('/CreatedProfiles',
     {
