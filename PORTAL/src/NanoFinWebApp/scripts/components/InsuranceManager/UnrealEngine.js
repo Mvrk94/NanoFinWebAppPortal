@@ -1,7 +1,8 @@
 ﻿angular.module('myApp')
 .controller('dataAnalytics', ['$scope', '$http', '$compile', function ($scope, $http, $compile) 
 {
-
+    var selectedGroup;
+    var VID = 0;
     var originalData = [];
     var filteredData = [];
     var preferences = [];
@@ -111,26 +112,55 @@
     {
         originalData = JSON.parse(httpRequest("GET", "http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerProfileData"));
         preferences = JSON.parse(httpRequest("GET", 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getPreferencesReports'));
+
+        VID = location.search.split('vid=')[1];
+
+        if (VID == parseInt(VID))
+        {
+           selectedGroup = JSON.parse(httpRequest("GET","http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getSingleConsumerGroup?consumerGroupID=" +VID));
+
+           setValue("cmbGender", selectedGroup.gender);
+           setValue("cmbEmployment", selectedGroup.employmentStatus);
+           setValue("cmbMarital", selectedGroup.maritalStatus);
+           setValue("cmbAgeGroup", selectedGroup.agegroup);
+           setValue("cmbRiskCat", selectedGroup.riskCat);
+
+           var html = "<br/>";
+           //html += "<div class='row'>";
+
+           html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
+            html += "<button type='button' id='savechanges' class='btn btn-block btn-info'> Update</button>";
+            html += "</div>";
+
+            html += "<div class='col col-sm-2 col-sm-push-5'><br/>";
+            html += "<button type='button' id='sendMessage' class='btn btn-block btn-info'> Engage With Consumers </button>";
+            html += "</div>";
+           //html += "";
+          // html += "</div>";
+         //  html += "</div>";
+
+           document.getElementById("options").innerHTML = html;
+            update();
+        }
+
         for(var  i = 0 ; i < originalData.length ; i++)
         {
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("{", "");
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("}", "");
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("{", "");
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("}", "");
             filteredData.push(originalData[i]);
         }
 
         for( i = 0 ; i <preferences.length ; i++)
             preferences[i].count  = 0;
-        document.getElementById("btnRefresh").onclick = function ()
-        {
-            isfilteringGender.value = document.getElementById("cmbGender").value;
-            isfilteringEmploymentStatus.value = document.getElementById("cmbEmployment").value;
-            isfilteringMaritalStatus.value = document.getElementById("cmbMarital").value;
-            isfilterinhAgeGroup.value = document.getElementById("cmbAgeGroup").value;
-            isfilteringRiskCat.value = document.getElementById("cmbRiskCat").value;
-            FilterAllData();
-        };
+        document.getElementById("btnRefresh").onclick = update;
+    }
+
+    function update()
+    {
+        isfilteringGender.value = document.getElementById("cmbGender").value;
+        isfilteringEmploymentStatus.value = document.getElementById("cmbEmployment").value;
+        isfilteringMaritalStatus.value = document.getElementById("cmbMarital").value;
+        isfilterinhAgeGroup.value = document.getElementById("cmbAgeGroup").value;
+        isfilteringRiskCat.value = document.getElementById("cmbRiskCat").value;
+        FilterAllData();
     }
 
     function FilterAllData()
@@ -362,6 +392,23 @@
         for (var i = 0 ; i < possibleValues.length ; i++) {
             dataset.push(avgData(filteredData, type, possibleValues[i], valueToAvg));
         }
+
+        //var req =
+        //    {
+        //        method: 'POST',
+        //        url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Postproduct',
+        //        headers: {
+        //            'Content-Type': 'application/json; charset=UTF-8'
+        //        },
+        //        data: JSON.stringify(dataset)
+        //};
+
+        //$http(req).then(
+        //    function (responce, status, headers, config) {
+        //        $scope.InsuranceProduct.Product_ID = parseInt(responce.data.Product_ID);
+        //    }
+        //    );
+
         
         var barChartCanvas = $("#" + graphID).get(0).getContext("2d");
         var barChart = new Chart(barChartCanvas);
@@ -517,6 +564,10 @@
         document.getElementById("PurchasedProducts").innerHTML = html;
     }
 
+    function setValue(emementValue, value)
+    {
+        document.getElementById(emementValue).value = value;
+    }
 
     //one signal
     //var onesignal = require('node-opensignal-api');

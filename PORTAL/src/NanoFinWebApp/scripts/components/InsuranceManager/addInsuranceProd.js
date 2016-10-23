@@ -72,7 +72,7 @@
             };
             $http(req).then(
                 function (responce) {
-                    $scope.InsuranceProduct.Product_ID = 262;
+                  //  $scope.InsuranceProduct.Product_ID = 262;
                 });
 
         };
