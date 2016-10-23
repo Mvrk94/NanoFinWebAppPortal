@@ -117,6 +117,7 @@
 
         if (VID == parseInt(VID))
         {
+            alert("acacasc");
            selectedGroup = JSON.parse(httpRequest("GET","http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getSingleConsumerGroup?consumerGroupID=" +VID));
 
            setValue("cmbGender", selectedGroup.gender);
@@ -135,11 +136,20 @@
             html += "<div class='col col-sm-2 col-sm-push-5'><br/>";
             html += "<button type='button' id='sendMessage' class='btn btn-block btn-info'> Engage With Consumers </button>";
             html += "</div>";
-           //html += "";
-          // html += "</div>";
-         //  html += "</div>";
+          
 
-           document.getElementById("options").innerHTML = html;
+            document.getElementById("options").innerHTML = html;
+            update();
+        }
+        else
+        {
+            alert("eeeee");
+            document.getElementById("cmbGender").value = "All";
+            setValue("cmbEmployment", "All");
+            setValue("cmbMarital", "All");
+            setValue("cmbAgeGroup", "All");
+            setValue("cmbRiskCat", "All");
+
             update();
         }
 
@@ -180,6 +190,7 @@
         {
             if(filterArr[i].isFilter)
             {
+                alert(filterArr[i].type);
                 filteredData = FilterGroup(filteredData, filterArr[i].type, filterArr[i].value);
             }
         }
@@ -190,10 +201,10 @@
 
     $(document).ready(function () {
         init();
-        drawConsumerReport();
-        drawRiskReports();
-        monthConsumerGroupExpenditure();
-        popularProducts();
+       // drawConsumerReport();
+       // drawRiskReports();
+       // monthConsumerGroupExpenditure();
+       // popularProducts();
     });
 
     /*
@@ -393,22 +404,6 @@
             dataset.push(avgData(filteredData, type, possibleValues[i], valueToAvg));
         }
 
-        //var req =
-        //    {
-        //        method: 'POST',
-        //        url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Postproduct',
-        //        headers: {
-        //            'Content-Type': 'application/json; charset=UTF-8'
-        //        },
-        //        data: JSON.stringify(dataset)
-        //};
-
-        //$http(req).then(
-        //    function (responce, status, headers, config) {
-        //        $scope.InsuranceProduct.Product_ID = parseInt(responce.data.Product_ID);
-        //    }
-        //    );
-
         
         var barChartCanvas = $("#" + graphID).get(0).getContext("2d");
         var barChart = new Chart(barChartCanvas);
@@ -489,9 +484,10 @@
         var countIndex = 0;
         for (var i = 0 ; i < preferences.length ; i++)
             preferences[i].count = 0;
-
+        alert(filteredData.length + " length");
         for( i = 0 ;i < filteredData.length ; i++)
         {
+            
             if (String(filteredData[i].topProductCategoriesInterestedIn).split(";").length != 2)break;
             var temp = String(filteredData[i].topProductCategoriesInterestedIn);
             var ids = temp.split(";")[0].split(",").map(convert);
@@ -569,23 +565,43 @@
         document.getElementById(emementValue).value = value;
     }
 
-    //one signal
-    //var onesignal = require('node-opensignal-api');
-    //var onesignal_client = onesignal.createClient();
+    function runModal(event) {
+        var id = String(this.id).replace("btnMessage", "");
+        //alert(this.id);
+        var html = "";
+        html += "<div class='modal fade' tabindex='-1' id='processApplicationModal' role='dialog' aria-labelledby='gridSystemModalLabel'>";
+        html += "<div class='modal-dialog' role='document'>";
+        html += "<div class='modal-content'>";
+        html += "<div class='modal-header bg-aqua'>";
+        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+        html += "<h4 class='modal-title' id='gridSystemModalLabel'>Product Name</h4>";
+        html += "</div>";
+        html += "<div class='modal-body' style='height:200px'>";
 
-    //var restApiKey = 'YOUR_APP_REST_API_KEY';  //
-    //var params = {
-    //    app_id: 'YOUR_APP_ID', //
-    //    contents: {
-    //        'en': 'NEW PRODUCT BITCHES !!! BUY IT'
-    //    },
-    //    tags: [{ "key": "custom_tag", "relation": "=", "value": "custom_value" }] //ask if assigned tags
-    //};
-    //onesignal_client.notifications.create(restApiKey, params, function (err, response) {
-    //    if (err) {
-    //        console.log('Encountered error', err);
-    //    } else {
-    //        console.log(response);
-    //    }
-    //});
+        html += "<small> please enter a message that will be sent all the consumers in this group. </small> <br/>";
+        html += "<div class='form-group'>";
+        html += "<br/><label  class='col-sm-2  control-label'>Message</label>";
+        html += "<div class='col-sm-10'>";
+        html += "<textarea class='form-control'  style='height:119px'  ></textarea>";
+        html += "</div>";
+        html += "</div>";
+
+        html += "</div>";
+        html += "<div class='modal-footer'>";
+        html += "<span class='pull-left'><button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button></span>";
+        html += "<button type='button' id='submitSelectProductModal" + id + "'  class='btn btn-primary'>Send Message</button>";
+        html += "</div>";
+        html += "</div><!-- /.modal-content -->";
+        html += "</div><!-- /.modal-dialog -->";
+        html += "</div><!-- /.modal -->";
+
+        document.getElementById("insertModal").innerHTML = html;
+        $('#processApplicationModal').modal('show');
+
+
+        document.getElementById("submitSelectProductModal" + id).onclick = function () {
+            var btnID = String(this.id).replace("submitSelectProductModal", "");
+            //alert(btnID);
+        };
+    }
 }]);
