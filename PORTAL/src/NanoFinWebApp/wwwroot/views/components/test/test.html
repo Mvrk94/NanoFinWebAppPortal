@@ -45,10 +45,12 @@
             <small></small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Mailbox</li>
+            <button type="button" ng-click="genPDF()"  class="btn btn-info">Print PDF</button>
+            
         </ol>
     </section>
+
+
     <!-- Main content -->
     <section class="content">
         <scrollable class="row" id="scrollhere" style="width:2000px">
@@ -134,7 +136,7 @@
             </div>
             <!-- /.col -->
 
-            <div style="width:899px; margin-top:-15px;margin-left:615px;margin-right:200px; padding:0px">
+            <div style="width:899px; margin-top:-15px;margin-left:615px;margin-right:200px; padding:0px" id="printReport">
 
                 <!-- Widget: user widget style 1 -->
                 <div class="box box-widget widget-user" style="height:50%;">

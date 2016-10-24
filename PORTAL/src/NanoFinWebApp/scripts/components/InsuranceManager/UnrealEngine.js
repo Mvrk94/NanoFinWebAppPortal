@@ -567,7 +567,8 @@
         document.getElementById(emementValue).value = value;
     }
 
-    function runModal(event) {
+    function runModal(event)
+    {
         
         var html = "";
         html += "<div class='modal fade' tabindex='-1' id='processApplicationModal' role='dialog' aria-labelledby='gridSystemModalLabel'>";
@@ -643,5 +644,41 @@
                 }
                 );
         };
+
+
+
     }
+
+
+    $scope.genPDFConsumer = function () {
+        html2canvas(document.getElementById('printReport'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("NanoFinReport_Consumer.pdf");
+            }
+        });
+    };
+
+
+    $scope.genPDFRisk = function () {
+        html2canvas(document.getElementById('riskReport'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("NanoFinReport_Risk.pdf");
+            }
+        });
+    };
+    //riskReport
 }]);

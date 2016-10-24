@@ -7,19 +7,19 @@
 
     <section class="content-header">
         <h1>
-            <font size="10">The UN-REAL ENGINE</font>
-            <small>...</small>
+            <font size="10">Risk & Performance Reports</font>
+            
         </h1>
 
 
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Widgets</li>
+            
+
         </ol>
     </section>
 
 
-    <section class="content">
+    <section class="content" >
 
         <div class="row">
             <div class="box box-success" style="margin:15px;">
@@ -99,10 +99,11 @@
 
             <!--Consumer Reports-->
             <div class="col col-sm-12">
-                <div class="box box-widget widget-user" style="height:90%;margin-top:0px;margin-bottom:0px">
+                <div class="box box-widget widget-user" style="height:90%;margin-top:0px;margin-bottom:0px" id="printReport">
                     <div class="widget-user-header bg-aqua" style="height:80%">
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <button type="button" ng-click="genPDFConsumer()" class="btn btn-info">Print PDF</button>
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
@@ -135,10 +136,11 @@
             <!--Risk Reports-->
             <div class="col col-sm-12 ">
                 <br /><br />
-                <div class="box box-widget widget-user" style="height:90%;margin-top:0px;margin-bottom:0px">
+                <div class="box box-widget widget-user" style="height:90%;margin-top:0px;margin-bottom:0px" id="riskReport">
                     <div class="widget-user-header bg-red" style="height:80%">
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <a href="#" type="button" ng-click="genPDFRisk()" class="btn btn-danger">Print PDF</a>
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
