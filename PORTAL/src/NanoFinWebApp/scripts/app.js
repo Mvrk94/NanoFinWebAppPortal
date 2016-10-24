@@ -66,7 +66,7 @@ app.config(function ($routeProvider, $locationProvider)
     })
      .when('/mapLocation',
     {
-        title: 'Geo reports',
+        title: 'Geo Reports',
         templateUrl: '/views/components/test/GeoReports.html',
     })
          .when('/viewClaims',
