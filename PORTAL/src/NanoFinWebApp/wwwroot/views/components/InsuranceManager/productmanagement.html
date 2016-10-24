@@ -116,27 +116,42 @@
                                             <span class="info-box-icon bg-yellow"><i class="fa fa-cart-plus"></i></span>
 
                                             <div class="info-box-content">
-                                                <div class="col-sm-8">
-                                                    <button type="button" class="btn btn-block btn-info ">View</button>
-                                                    <input type="file" name="file" id="file" class="inputfile" />
+                                                <div class="col-sm-6">
 
-                                                    <label for="file" class="btn btn-block btn-info" style="margin-top:7px">Choose a file</label>
+                                                    <button type="button" id="btnViewPurchase" class="btn btn-block btn-info ">View</button>
+                                                    
                                                 </div>
+                                                <br /><br /><br />
+                                                        <div class="col-sm-6">
+
+                                                            <input id="filesSelectedInput"  type="file" name="file" file-input="files" multiple required />
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            <input type="button" class="btn btn-raised btn-info pull-left" ng-click="upload(files)" value="Upload" ng-disabled="uploading" />
+
+                                                        </div>
+                                                   
+                                                    
+                                                    <br />
+                                                    
+
+                                                
                                             </div>
                                             <!-- /.info-box-content -->
                                         </div>
                                         <!-- /.info-box -->
                                         <br />
-                                        <h4 class="box-title"> Claim info</h4>
+                                        
+                                        <h4 class="box-title"> View Nanofin Terms &   Condtions</h4>
                                         <div class="info-box ">
                                             <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
 
                                             <div class="info-box-content">
                                                 <div class="col-sm-8">
-                                                    <button type="button" class="btn btn-block btn-info ">View</button>
+                                                    <a target="_blank" href="http://nanofinapifinal.azurewebsites.net/UploadFiles/TandC/Terms.pdf"><button type="button" class="btn btn-block btn-info ">View</button></a>            
                                                     <input type="file" name="file" id="file1" class="inputfile" />
 
-                                                    <label for="file" class="btn btn-block btn-info" style="margin-top:7px">Choose a file</label>
                                                 </div>
                                             </div>
                                             <!-- /.info-box-content -->

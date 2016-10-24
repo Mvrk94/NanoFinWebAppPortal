@@ -1,6 +1,20 @@
 ﻿angular.module('myApp')
+     .directive('fileInput', ['$parse', function ($parse) {
+
+         return {
+             restrict: 'A',
+             link: function (scope, element, attrs) {
+                 element.bind('change', function () {//on change event bind this element to the model
+                     $parse(attrs.fileInput)
+                     .assign(scope, element[0].files);
+                     scope.$apply();
+                 });
+             }
+         };
+     }])
     .controller('productManagement', ['$scope', '$http', function ($scope, $http)
     {
+        $scope.apiBaseUrl = 'http://nanofinapifinal.azurewebsites.net';
         var ID;
         var insuranceProdID;
         var VID = location.search.split('vid=')[1];
@@ -92,8 +106,68 @@
         })
         .then(function (responce)
         {
-            alert("cacascascascas");
             $scope.groups = responce.data;
         });
 
-    }]);
+        $scope.uploading = false;
+
+       
+        var fd = new FormData();
+        $scope.upload = function (files) {
+            $scope.uploading = true;
+
+
+            console.log(files);
+
+            if (files.length === 0) {
+                alert("No files selected!");
+                $scope.uploading = false;
+                return;
+            }
+            //check file size of all files //and extensions
+            for (var i = 0; i < files.length; i++) {
+                var fsize = files.item(i).size;//size of file
+                console.log('file size:' + fsize);
+
+                if ((fsize / 1024) >= 2048) {
+                    $scope.showMaxFileSizeAlert();
+                    $scope.uploading = false;
+                    return;
+                }
+
+                var fileExtension = $scope.getFileExt(files.item(i).name);
+
+                if (fileExtension === 'exe') {
+                    alert("Don't allow this file type!");
+                    $scope.uploading = false;
+                    return;
+                }
+            }
+
+            angular.forEach(files, function (value, key) {
+                fd.append(key, value);
+            });
+            $http.post($scope.apiBaseUrl + '/api/FileUpload/uploadToNewDirectory?strDirectory=PolicyDocs/',fd,
+                {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                }).success(function (d) {
+                    $scope.uploading = false;
+                    alert("Files uploaded successfully!");
+                    console.log(d);
+                }).error(function () {
+                    $scope.uploading = false;
+                    alert("Failed!");
+                });
+
+        };
+    
+        $scope.getFileExt = function (string) {
+            var array = string.split('.');
+            return array[1];
+        };
+
+        }
+    ]);

@@ -16,6 +16,7 @@
             $scope.pageHeader =  $scope.user.clientName;
             $scope.location = $scope.user.residentTown;
 
+            $scope.ageGroupValue = getAgeCat(getGroup($scope.user.age));
             $http(
             {
                 method: 'POST',
@@ -130,5 +131,17 @@
                 return "31-49";
             else if (32 == id)
                 return "40-60";
+        }
+
+        function getGroup(age)
+        {
+            if ( age <= 25)
+                return 2;
+            else if (age <=30)
+                return 12;
+            else if (age <= 49)
+                return 22;
+            else if (age <= 60)
+                return 32;
         }
     }]);

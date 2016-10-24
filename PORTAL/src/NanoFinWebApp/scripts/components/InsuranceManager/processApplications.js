@@ -26,7 +26,7 @@ angular.module('myApp')
                             { 'data': 'idConsumer' },
                             { 'data': 'clientName' },
                             { 'data': 'numUnprocessed' },
-                            { 'data': "RiskCategory" },
+                            { 'data': "riskDescription" },
                             { 'data': "options" }
                         ]
                 });
@@ -44,22 +44,30 @@ angular.module('myApp')
             var counter = 0;
             for (var r in unprocessedList)
             {
+                unprocessedList[counter].riskDescription = "";
                 var riskCat = unprocessedList[counter].RiskCategory;
                 if (riskCat == 1)
                 {
                     unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:green;'></i> ";
+                    unprocessedList[counter].riskDescription = "Low Risk";
                 }
                 else if (riskCat  == 2)
                 {
                     unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:yellow;'></i> ";
+                    unprocessedList[counter].riskDescription = "Moderate Risk";
+
                 }
                 else if (riskCat == 3)
                 {
                     unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:orange;'></i> ";
+                    unprocessedList[counter].riskDescription = "High Risk";
+
                 }
                 else
                 {
                     unprocessedList[counter].icon = "<i class='fa fa-fw fa-user' style='color:red;'></i> ";
+                    unprocessedList[counter].riskDescription = "Very High Risk";
+
                 }
                 unprocessedList[counter].options = generateBtn(unprocessedList[counter].idConsumer);
                 counter++;
@@ -99,7 +107,7 @@ angular.module('myApp')
                 var currentRow = table1.rows[i];
                 var cell = currentRow.getElementsByTagName("td")[1];
                 id = cell.innerHTML;
-                document.getElementById("btnView" + id).onclick = addRowHandlers;
+                //document.getElementById("btnView" + id).onclick = addRowHandlers;
                 document.getElementById("btnProcess" + id).onclick = redirectToClientPage;
             }
         };
@@ -308,7 +316,7 @@ angular.module('myApp')
         function  generateBtn(id)
         {
             var html = "<div class='btn-group'>";
-            html += "<button type='button' id='btnView" + id + "' class='btn btn-default '><i class='fa fa-info' style='color:blue;'></i></button>";
+            //html += "<button type='button' id='btnView" + id + "' class='btn btn-default '><i class='fa fa-info' style='color:blue;'></i></button>";
             html +="<button type='button' id='btnProcess" + id + "' class='btn btn-default'>Process</button>";
             html +="</div>";
             return html;
@@ -342,7 +350,7 @@ angular.module('myApp')
                 return "40-60";
         }
         
-
+   
 
        
     }]);
