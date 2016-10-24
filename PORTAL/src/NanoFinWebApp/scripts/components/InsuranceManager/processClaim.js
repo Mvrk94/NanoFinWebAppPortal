@@ -309,9 +309,9 @@ angular.module('myApp')
                             width: 500,
                         }]
                     };
-                    pdfMake.createPdf(docDefinition).download("#"+$scope.claimID+$scope.activeProdID +".pdf");
+                    pdfMake.createPdf(docDefinition).download("#" + $scope.claimID + $scope.activeProdID + ".pdf");
                 }
             });           
-        };
+        }; 
 
     }]);
