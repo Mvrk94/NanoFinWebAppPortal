@@ -5,9 +5,7 @@
             <font size="12">Add Product</font>
             <small>+</small>
         </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Help</a></li>
-        </ol>
+        
     </section>
     <br />
     <!-- Main content -->
@@ -75,7 +73,7 @@
                                         <label class="col-sm-4  control-label">Short Description</label>
 
                                         <div class="col-sm-10 col-sm-push-1">
-                                            <textarea class="form-control" style="height:86px" ng-model="product.productDescription"></textarea>
+                                            <textarea class="form-control"  style="height:119px" ng-model="product.productDescription"></textarea>
                                         </div>
                                     </div>
 
@@ -85,11 +83,8 @@
                                 <div class="box-footer">
 
                                     <div class="row">
-                                        <div class="col-sm-4">
-                                            <button type="button" class="btn btn-block btn-warning ">Revert</button>
-                                        </div>
 
-                                        <div class="col-sm-4 col-sm-push-3">
+                                        <div class="col-sm-4 col-sm-push-7">
                                             <button type="button" class="btn btn-block btn-info " ng-click="submitProductChanges()">Submit Changes</button>
                                         </div>
                                     </div>
@@ -133,10 +128,6 @@
                                             </div>
 
 
-                                            <br />
-
-
-
                                         </div>
                                         <!-- /.info-box-content -->
                                     </div>
@@ -157,7 +148,7 @@
                                         <!-- /.info-box-content -->
                                     </div>
                                     <!-- /.info-box -->
-                                    <br />
+                               
 
                                 </div>
                                 <!-- /.box-body -->
@@ -165,9 +156,7 @@
                                 <div class="box-footer">
 
                                     <div class="row">
-                                        <!--<div class="col-sm-4">
-                            <button type="button" class="btn btn-block btn-warning ">Revert</button>
-                        </div>-->
+                                       
 
                                         <div class="col-sm-4 col-sm-push-8">
                                             <button type="button" class="btn btn-block btn-info " ng-click="SendFile()">Submit Changes</button>
@@ -185,103 +174,166 @@
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
+        <div class="row">
+            <div class="col col-sm-6">
+                <div class="box">
+                    <div class="box box-success well well-sm">
 
-        <div class="box">
-            <div class="box box-success well well-sm">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"> <font size="5"> Billing & Unit Control</font></h3>
 
-                <div class="box-header with-border">
-                    <h3 class="box-title"> <font size="5"> Billing & Unit Control</font></h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- form start -->
+                        <form class="form-horizontal">
+                            <div class="box-body ">
 
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
+                                <br />
+                                <br />
+
+                                <div class="form-group">
+                                    <label for="txtCoverAmount" class="col-sm-4 control-label">Cover Amount</label>
+
+                                    <div class="col-sm-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">R</span>
+                                            <input id="txtCoverAmount" ng-model="InsuranceProduct.ipCoverAmount" type="number" class="form-control">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="sltInsuranceType" class="col-sm-4 control-label">Duration Type</label>
+
+                                    <div class="col-sm-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa  fa-clock-o"></i></span>
+                                            <select id="sltInsuranceType" ng-model="InsuranceProduct.ipUnitType" class="form-control select2">
+                                                <option selected="selected" value="1">Minute</option>
+                                                <option value="11">Hour</option>
+                                                <option value="21">Day</option>
+                                                <option value="31">Week</option>
+                                                <option value="41">Month</option>
+                                                <option value="51">Per Year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtUnitCost" class="col-sm-4 control-label">Minimum Units</label>
+
+                                    <div class="col-sm-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-truck"></i></span>
+                                            <input id="txtUnitCost" ng-model="InsuranceProduct.ipMinimunNoOfUnits" type="number" class="form-control" min="0">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtCostPerUnit" class="col-sm-4 control-label">Cost Per Unt</label>
+
+                                    <div class="col-sm-7 ">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">R</span>
+                                            <input id="txtCostPerUnit" ng-model="InsuranceProduct.ipUnitCost" type="number" class="form-control">
+                                            <span class="input-group-addon">.00</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <br />
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+
+                                <div class="row">
+
+
+                                    <div class="col-sm-4 col-sm-push-7">
+                                        <button type="button" class="btn btn-block btn-info " ng-click="submitInsuranceProductChanges()">Submit Changes</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
-                <!-- form start -->
-                <form class="form-horizontal">
-                    <div class="box-body ">
 
-                        <br />
-                        <br />
-
-                        <div class="form-group">
-                            <label for="txtCoverAmount" class="col-sm-3 col-sm-pull-1 control-label">Cover Amount</label>
-
-                            <div class="col-sm-5 col-sm-pull-1">
-                                <div class="input-group">
-                                    <span class="input-group-addon">R</span>
-                                    <input id="txtCoverAmount" ng-model="InsuranceProduct.ipCoverAmount" type="number" class="form-control">
-                                    <span class="input-group-addon">.00</span>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="sltInsuranceType" class="col-sm-3 col-sm-pull-1 control-label">Duration Type</label>
-
-                            <div class="col-sm-5 col-sm-pull-1">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa  fa-clock-o"></i></span>
-                                    <select id="sltInsuranceType" ng-model="InsuranceProduct.ipUnitType" class="form-control select2">
-                                        <option selected="selected" value="1">Minute</option>
-                                        <option value="11">Hour</option>
-                                        <option value="21">Day</option>
-                                        <option value="31">Week</option>
-                                        <option value="41">Month</option>
-                                        <option value="51">Per Year</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="txtUnitCost" class="col-sm-3 col-sm-pull-1 control-label">Minimum Units</label>
-
-                            <div class="col-sm-5 col-sm-pull-1">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-truck"></i></span>
-                                    <input id="txtUnitCost" ng-model="InsuranceProduct.ipMinimunNoOfUnits" type="number" class="form-control" min="0">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="txtCostPerUnit" class="col-sm-3 col-sm-pull-1 control-label">Cost Per Unt</label>
-
-                            <div class="col-sm-5 col-sm-pull-1">
-                                <div class="input-group">
-                                    <span class="input-group-addon">R</span>
-                                    <input id="txtCostPerUnit" ng-model="InsuranceProduct.ipUnitCost" type="number" class="form-control">
-                                    <span class="input-group-addon">.00</span>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <br />
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-
-                        <div class="row">
-                            <div class="col-sm-2 col-sm-push-1">
-                                <button type="button" class="btn btn-block btn-warning ">Revert</button>
-                            </div>
-
-                            <div class="col-sm-2 col-sm-push-5">
-                                <button type="button" class="btn btn-block btn-info " ng-click="submitInsuranceProductChanges()">Submit Changes</button>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </form>
             </div>
+
+            <div class="col-sm-6">
+                <div class="box box-success well well-sm">
+
+                    <div class="box-header with-border">
+                        <h3 class="box-title"> <font size="5"> Consumer Groups</font></h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- form start -->
+                    <form class="form-horizontal">
+                        <div class="box-body ">
+                            <br />
+                            <h5>Connect With Consumers That Matter to You Most. Select any of the consumer groups below to begin</h5>
+
+
+                            <div class="row">
+                                <div class="col col-sm-12">
+                                    <ul class="nav nav-pills nav-stacked" style="font-size:20px">
+
+                                        <div ng-repeat="temp in groups">
+                                            <li>
+                                                <hr />
+                                                <a href="DataAnalityics?vid={{temp.idconsumerGroups}}">
+                                                    {{temp.alias}}
+
+                                                </a>
+                                            </li>
+
+                                        </div>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+
+                            <div class="row">
+
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
         </div>
+
+       
 
 
 

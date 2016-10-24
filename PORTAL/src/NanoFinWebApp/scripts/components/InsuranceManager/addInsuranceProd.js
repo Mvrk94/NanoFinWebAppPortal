@@ -146,4 +146,13 @@
             var array = string.split('.');
             return array[1];
         };
+
+        $http(
+        {
+            method: 'GET',
+            url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerGroups',
+        })
+        .then(function (responce) {
+            $scope.groups = responce.data;
+        });
     }]);

@@ -617,12 +617,12 @@
 
             else
             {
-                for (var i = 0 ; i < (filteredData.length - 1) ; i++)
+                for (var i = 0 ; i < filteredData.length  ; i++)
                 {
                     Advt.IDs += filteredData[i].Consumer_ID + ",";
                 }
 
-                Advt.IDs += filteredData[i + 1].Consumer_ID;
+                Advt.IDs += filteredData[0].Consumer_ID;
             }
 
 
