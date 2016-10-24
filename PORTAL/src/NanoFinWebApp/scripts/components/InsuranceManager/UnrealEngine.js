@@ -1,7 +1,8 @@
 ﻿angular.module('myApp')
 .controller('dataAnalytics', ['$scope', '$http', '$compile', function ($scope, $http, $compile) 
 {
-
+    var selectedGroup;
+    var VID = 0;
     var originalData = [];
     var filteredData = [];
     var preferences = [];
@@ -111,26 +112,64 @@
     {
         originalData = JSON.parse(httpRequest("GET", "http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerProfileData"));
         preferences = JSON.parse(httpRequest("GET", 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getPreferencesReports'));
+
+        VID = location.search.split('vid=')[1];
+
+        if (VID == parseInt(VID))
+        {
+           selectedGroup = JSON.parse(httpRequest("GET","http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getSingleConsumerGroup?consumerGroupID=" +VID));
+
+           setValue("cmbGender", selectedGroup.gender);
+           setValue("cmbEmployment", selectedGroup.employmentStatus);
+           setValue("cmbMarital", selectedGroup.maritalStatus);
+           setValue("cmbAgeGroup", selectedGroup.agegroup);
+           setValue("cmbRiskCat", selectedGroup.riskCat);
+
+           var html = "<br/>";
+           //html += "<div class='row'>";
+
+           html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
+            html += "<button type='button' id='savechanges' class='btn btn-block btn-info'> Update</button>";
+            html += "</div>";
+
+            html += "<div class='col col-sm-2 col-sm-push-5'><br/>";
+            html += "<button type='button' id='sendMessage' class='btn btn-block btn-info'> Engage With Consumers </button>";
+            html += "</div>";
+          
+
+            document.getElementById("options").innerHTML = html;
+
+            document.getElementById("sendMessage").onclick = runModal;
+            update();
+        }
+        else
+        {
+            document.getElementById("cmbGender").value = "All";
+            setValue("cmbEmployment", "All");
+            setValue("cmbMarital", "All");
+            setValue("cmbAgeGroup", "All");
+            setValue("cmbRiskCat", "All");
+            update();
+        }
+
         for(var  i = 0 ; i < originalData.length ; i++)
         {
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("{", "");
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("}", "");
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("{", "");
-            originalData[i].topProductCategoriesInterestedIn = String(originalData[i].topProductCategoriesInterestedIn).replace("}", "");
             filteredData.push(originalData[i]);
         }
 
         for( i = 0 ; i <preferences.length ; i++)
             preferences[i].count  = 0;
-        document.getElementById("btnRefresh").onclick = function ()
-        {
-            isfilteringGender.value = document.getElementById("cmbGender").value;
-            isfilteringEmploymentStatus.value = document.getElementById("cmbEmployment").value;
-            isfilteringMaritalStatus.value = document.getElementById("cmbMarital").value;
-            isfilterinhAgeGroup.value = document.getElementById("cmbAgeGroup").value;
-            isfilteringRiskCat.value = document.getElementById("cmbRiskCat").value;
-            FilterAllData();
-        };
+        document.getElementById("btnRefresh").onclick = update;
+    }
+
+    function update()
+    {
+        isfilteringGender.value = document.getElementById("cmbGender").value;
+        isfilteringEmploymentStatus.value = document.getElementById("cmbEmployment").value;
+        isfilteringMaritalStatus.value = document.getElementById("cmbMarital").value;
+        isfilterinhAgeGroup.value = document.getElementById("cmbAgeGroup").value;
+        isfilteringRiskCat.value = document.getElementById("cmbRiskCat").value;
+        FilterAllData();
     }
 
     function FilterAllData()
@@ -150,9 +189,11 @@
         {
             if(filterArr[i].isFilter)
             {
+               
                 filteredData = FilterGroup(filteredData, filterArr[i].type, filterArr[i].value);
             }
         }
+        
         drawConsumerReport(filterArr);
         drawRiskReports();
         drawPerformencesReports();
@@ -160,10 +201,10 @@
 
     $(document).ready(function () {
         init();
-        drawConsumerReport();
-        drawRiskReports();
-        monthConsumerGroupExpenditure();
-        popularProducts();
+       // drawConsumerReport();
+       // drawRiskReports();
+       // monthConsumerGroupExpenditure();
+       // popularProducts();
     });
 
     /*
@@ -362,6 +403,7 @@
         for (var i = 0 ; i < possibleValues.length ; i++) {
             dataset.push(avgData(filteredData, type, possibleValues[i], valueToAvg));
         }
+
         
         var barChartCanvas = $("#" + graphID).get(0).getContext("2d");
         var barChart = new Chart(barChartCanvas);
@@ -403,6 +445,11 @@
     {
 
         var datapoints = [0, 0, 0, 0, 0, 0];
+
+        var graphID = "monthlysales";
+        document.getElementById("monthExpenditure").innerHTML = drawLineChart(graphID, "Average monthly sales", "success");
+
+        if (filteredData.length === 0) return;
         for (var i = 0 ; i < filteredData.length ; i++)
         {
             var temp = filteredData[i].monthPurchases.split(',').map(convert);
@@ -411,18 +458,17 @@
             {
                 datapoints[r] += temp[r];
             }
+
+
         }
 
-        var graphID = "monthlysales";
-        document.getElementById("monthExpenditure").innerHTML = drawLineChart(graphID, "Average monthly sales", "success");
 
         var dataset = [];
 
-        for (i = 0 ; i < 6 ; i++)
+        for (i = 0 ; i < 6 && i < datapoints.length ; i++)
         {
-            dataset.push({ y: '2016-0'+i, item1: parseFloat(datapoints[i]/filteredData.length).toFixed(2) });
+            dataset.push({ y: '2016-0' + (i + 6), item1: parseFloat(datapoints[i] / filteredData.length).toFixed(2) });
         }
-
 
         var line = new Morris.Line({
             element: graphID,
@@ -442,7 +488,6 @@
         var countIndex = 0;
         for (var i = 0 ; i < preferences.length ; i++)
             preferences[i].count = 0;
-
         for( i = 0 ;i < filteredData.length ; i++)
         {
             if (String(filteredData[i].topProductCategoriesInterestedIn).split(";").length != 2)break;
@@ -506,7 +551,7 @@
         html += "<ul class='nav nav-pills nav-stacked' style='font-size:15px;width:95%;'>";
         var ic = 0;
         for (ic = arr.length -1; ic >= 0; ic--) {
-            html += "<li>" + read_prop(arr[ic], param1) + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> " + read_prop(arr[ic], param2) + " </span></li>";
+            html += "<li>" + read_prop(arr[ic], param1) + "<span class='pull-right text-green'>" + read_prop(arr[ic], param2) + " </span></li>";
         }
         html += "<li><br/> </li>";
         html += "</ul>";
@@ -517,4 +562,86 @@
         document.getElementById("PurchasedProducts").innerHTML = html;
     }
 
+    function setValue(emementValue, value)
+    {
+        document.getElementById(emementValue).value = value;
+    }
+
+    function runModal(event) {
+        
+        var html = "";
+        html += "<div class='modal fade' tabindex='-1' id='processApplicationModal' role='dialog' aria-labelledby='gridSystemModalLabel'>";
+        html += "<div class='modal-dialog' role='document'>";
+        html += "<div class='modal-content'>";
+        html += "<div class='modal-header bg-aqua'>";
+        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+        html += "<h4 class='modal-title' id='gridSystemModalLabel'>Send Message To Clients</h4>";
+        html += "</div>";
+        html += "<div class='modal-body' style='height:200px'>";
+
+        html += "<small> please enter a message that will be sent all the consumers in this group. </small> <br/>";
+        html += "<div class='form-group'>";
+        html += "<br/><label  class='col-sm-2  control-label'>Message</label>";
+        html += "<div class='col-sm-10'>";
+        html += "<textarea class='form-control'  style='height:119px' id='txtMessage' ></textarea>";
+        html += "</div>";
+        html += "</div>";
+
+        html += "</div>";
+        html += "<div class='modal-footer'>";
+        html += "<span class='pull-left'><button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button></span>";
+        html += "<button type='button' id='submitSelectProductModal'  class='btn btn-primary'>Send Message</button>";
+        html += "</div>";
+        html += "</div><!-- /.modal-content -->";
+        html += "</div><!-- /.modal-dialog -->";
+        html += "</div><!-- /.modal -->";
+
+        document.getElementById("insertModal").innerHTML = html;
+        $('#processApplicationModal').modal('show');
+
+
+        document.getElementById("submitSelectProductModal").onclick = function ()
+        {
+            var consumerIDs = [];
+
+            var Advt = {
+                message: "",
+                IDs: ""
+            };
+
+            Advt.message = document.getElementById("txtMessage").value;
+
+
+            if (filteredData.length == 1)
+                Advt.IDs += filteredData[0].Consumer_ID;
+
+            else
+            {
+                for (var i = 0 ; i < (filteredData.length - 1) ; i++)
+                {
+                    Advt.IDs += filteredData[i].Consumer_ID + ",";
+                }
+
+                Advt.IDs += filteredData[i + 1].Consumer_ID;
+            }
+
+
+            var req =
+            {
+                method: 'POST',
+                url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/sendMessageToConsumer',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                data: JSON.stringify(Advt)
+            };
+
+            $http(req).then(
+                function (responce, status, headers, config)
+                {
+                    $('#processApplicationModal').modal('hide');
+                }
+                );
+        };
+    }
 }]);

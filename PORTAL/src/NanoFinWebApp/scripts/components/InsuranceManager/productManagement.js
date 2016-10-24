@@ -1,6 +1,20 @@
 ﻿angular.module('myApp')
+     .directive('fileInput', ['$parse', function ($parse) {
+
+         return {
+             restrict: 'A',
+             link: function (scope, element, attrs) {
+                 element.bind('change', function () {//on change event bind this element to the model
+                     $parse(attrs.fileInput)
+                     .assign(scope, element[0].files);
+                     scope.$apply();
+                 });
+             }
+         };
+     }])
     .controller('productManagement', ['$scope', '$http', function ($scope, $http)
     {
+        $scope.apiBaseUrl = 'http://nanofinapifinal.azurewebsites.net';
         var ID;
         var insuranceProdID;
         var VID = location.search.split('vid=')[1];
@@ -20,7 +34,7 @@
         $http(
         {
             method: 'GET',
-            url: "http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Getproduct/" +  VID,
+            url: "http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Getproduct/" +  VID,
         })
         .then(PsuccessCallBack, PerrorCallBack);
 
@@ -33,6 +47,7 @@
         {
             $scope.InsuranceProduct = response.data;
             insuranceProdID = $scope.InsuranceProduct.InsuranceProduct_ID;
+           
             document.getElementById("sltInsuranceType").value = $scope.InsuranceProduct.InsuranceType_ID;
             document.getElementById("sltInsuranceType").value = $scope.InsuranceProduct.InsuranceType_ID;
         };
@@ -40,14 +55,14 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Getinsuranceproduct?ProductProviderID=11&InsuranceProduct_ID=91',
+            url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Getinsuranceproduct?ProductProviderID=11&productID=' + VID,
         })
         .then(IPsuccessCallBack, IPerrorCallBack);
 
         $scope.submitProductChanges = function ()
         {
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Putproduct/" + ID, true);
+            xhr.open("PUT", "http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Putproduct/" + ID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON
@@ -62,7 +77,7 @@
         $scope.submitInsuranceProductChanges = function () {
 
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://nanofinapibeta.azurewebsites.net/api/insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
+            xhr.open("PUT", "http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON
@@ -84,4 +99,75 @@
         };
 
 
-    }]);
+        $http(
+        {
+            method: 'GET',
+            url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerGroups',
+        })
+        .then(function (responce)
+        {
+            $scope.groups = responce.data;
+        });
+
+        $scope.uploading = false;
+
+       
+        var fd = new FormData();
+        $scope.upload = function (files) {
+            $scope.uploading = true;
+
+
+            console.log(files);
+
+            if (files.length === 0) {
+                alert("No files selected!");
+                $scope.uploading = false;
+                return;
+            }
+            //check file size of all files //and extensions
+            for (var i = 0; i < files.length; i++) {
+                var fsize = files.item(i).size;//size of file
+                console.log('file size:' + fsize);
+
+                if ((fsize / 1024) >= 2048) {
+                    $scope.showMaxFileSizeAlert();
+                    $scope.uploading = false;
+                    return;
+                }
+
+                var fileExtension = $scope.getFileExt(files.item(i).name);
+
+                if (fileExtension === 'exe') {
+                    alert("Don't allow this file type!");
+                    $scope.uploading = false;
+                    return;
+                }
+            }
+
+            angular.forEach(files, function (value, key) {
+                fd.append(key, value);
+            });
+            $http.post($scope.apiBaseUrl + '/api/FileUpload/uploadToNewDirectory?strDirectory=PolicyDocs/',fd,
+                {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                }).success(function (d) {
+                    $scope.uploading = false;
+                    alert("Files uploaded successfully!");
+                    console.log(d);
+                }).error(function () {
+                    $scope.uploading = false;
+                    alert("Failed!");
+                });
+
+        };
+    
+        $scope.getFileExt = function (string) {
+            var array = string.split('.');
+            return array[1];
+        };
+
+        }
+    ]);

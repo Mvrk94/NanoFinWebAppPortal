@@ -6,6 +6,39 @@ angular.module('myApp')
 
         var insurancetypeIDs = [1, 21, 31];
         var insurancetypeNames = ["Assets", "Medical", "Funeral"];
+
+        var barChartOptions =
+            {
+                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: true,
+                //Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: true,
+                //String - Colour of the grid lines
+                scaleGridLineColor: "rgba(0,0,0,.05)",
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+                //Boolean - Whether to show horizontal lines (except X axis)
+                scaleShowHorizontalLines: true,
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: true,
+                //Boolean - If there is a stroke on each bar
+                barShowStroke: true,
+                //Number - Pixel width of the bar stroke
+                barStrokeWidth: 2,
+                //Number - Spacing between each of the X value sets
+                barValueSpacing: 20,
+                //Number - Spacing between data sets within X values
+                isFixedWidth: true,
+                barWidth: 5,
+
+                barDatasetSpacing: 1,
+                //String - A legend template
+                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+                //Boolean - whether to make the chart responsive
+                responsive: true,
+                maintainAspectRatio: true
+            };
+
         $scope.getType = function (insuranceType)
         {
             if (insuranceType == 1)
@@ -100,7 +133,7 @@ angular.module('myApp')
         var fillOptions = function ()
         {
             var result = "";
-            var data = $scope.itemsData.data;
+            var data = $scope.targetInfor.data;
             for (var c = 0 ; c < data.length ; c++)
             {
                 result += "	<li  style='margin-bottom:9px;width:280px'>";
@@ -111,7 +144,7 @@ angular.module('myApp')
                 //alert(data[c].Product_ID)
                 result += "";
                 result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
-                result += String(data[c].name) + " <br />";
+                result += String(data[c].productName) + " <br />";
                 result += "<span style='font-size:12px'>" + $scope.getType(data[c].InsuranceType_ID) + "</span>";
                 result += "</div>";
                 result += "</div>";
@@ -132,13 +165,13 @@ angular.module('myApp')
         $http(
            {
                method: 'GET',
-               url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList'
+               url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductList'
            }).then(saveItemInformartion, errorCallBack);
 
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
+            url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
         }).then(setTargetSales, errorCallBack);
 
 
@@ -175,22 +208,13 @@ angular.module('myApp')
             for (var tmep in responce.data)
             {
                 var check = false;
-                var data = $scope.itemsData.data;
-
-                for (var c = 0 ; c < data.length ; c++)
+                check = document.getElementById("checkbox" + responce.data[index].Product_ID).checked;
+                if (check === true)
                 {
-                    if(data[c].Product_ID === responce.data[index].ProductID)
-                    {
-                        check = document.getElementById("checkbox" + responce.data[index].ProductID).checked;
-                        if (check === true)
-                        {
-                            drawItems.push(responce.data[index]);
-                        }
-                        check = false;
-                        break;
-                    }
-
+                    drawItems.push(responce.data[index]);
                 }
+                check = false;
+                 
                 index++;
             }
 
@@ -202,9 +226,9 @@ angular.module('myApp')
             for (var v in drawItems)
             {
                 var temp = drawItems[counter];
-                labels.push(temp.name + " in ZAR");
-                sales.push(temp.currentSales);
-                target.push(temp.targetSales);
+                labels.push(temp.productName + " in ZAR");
+                sales.push(temp.sales);
+                target.push(temp.salesTargetAmount);
                 counter++;
             }
             var areaChartData =
@@ -242,47 +266,7 @@ angular.module('myApp')
             barChartData.datasets[1].fillColor = color2;
             barChartData.datasets[1].strokeColor = color2;
             barChartData.datasets[1].pointColor = color2;
-            var barChartOptions =
-            {
-                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-                scaleBeginAtZero: true,
-                //Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines: true,
-                //String - Colour of the grid lines
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                //Number - Width of the grid lines
-                scaleGridLineWidth: 1,
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines: true,
-                //Boolean - If there is a stroke on each bar
-                barShowStroke: true,
-                //Number - Pixel width of the bar stroke
-                barStrokeWidth: 2,
-                //Number - Spacing between each of the X value sets
-                barValueSpacing: 8,
-                //Number - Spacing between data sets within X values
-                isFixedWidth: false,
-                barWidth: 10,
-
-                title : "sacacasc ascacs",
-
-                legend: {
-                    display: true
-                },
-
-                tooltips: {
-                    enabled: false
-                },
-
-                barDatasetSpacing: 1,
-                //String - A legend template
-                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-                //Boolean - whether to make the chart responsive
-                responsive: true,
-                maintainAspectRatio: true
-            };
+            
 
             barChartOptions.datasetFill = false;
             barChart.Bar(barChartData, barChartOptions);
@@ -398,13 +382,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct2, errorCallBack);
             };
         };
@@ -429,7 +413,7 @@ angular.module('myApp')
             $http(
               {
                   method: 'GET',
-                  url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getLastMonthInsuranceTypeSales'
+                  url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getLastMonthInsuranceTypeSales'
               }).then(SetinsuranceTypeData, errorCallBack);
         };
         
@@ -469,37 +453,7 @@ angular.module('myApp')
             var barChartCanvas = $("#canvasData").get(0).getContext("2d");
             var barChart = new Chart(barChartCanvas);
             var barChartData = areaChartData;
-            var barChartOptions =
-            {
-                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-                scaleBeginAtZero: true,
-                //Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines: true,
-                //String - Colour of the grid lines
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                //Number - Width of the grid lines
-                scaleGridLineWidth: 1,
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines: true,
-                //Boolean - If there is a stroke on each bar
-                barShowStroke: true,
-                //Number - Pixel width of the bar stroke
-                barStrokeWidth: 2,
-                //Number - Spacing between each of the X value sets
-                barValueSpacing: 20,
-                //Number - Spacing between data sets within X values
-                isFixedWidth: true,
-                barWidth: 5,
-
-                barDatasetSpacing: 1,
-                //String - A legend template
-                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-                //Boolean - whether to make the chart responsive
-                responsive: true,
-                maintainAspectRatio: true
-            };
+            
 
             barChartOptions.datasetFill = false;
             barChart.Bar(barChartData, barChartOptions);
@@ -558,13 +512,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance2, errorCallBack);
             };
         };
@@ -657,102 +611,104 @@ angular.module('myApp')
 
         $scope.viewCurrentMonthProductSales = function ()
         {
-            document.getElementById("drawReport").style.visibility = 'hidden';
-            document.getElementById("itemList").innerHTML = "";
+            document.getElementById("drawReport").style.visibility = 'visible';
+
+            var html = "";
+            html += "<div class='form-group'>";
+            html += "<label>please enter a time range:</label>";
+            html += "";
+            html += "<div class='input-group' style='width:270px;'>";
+            html += "<div class='input-group-addon'>";
+            html += "<i class='fa fa-clock-o'></i>";
+            html += "</div>";
+            html += "<input type='text' class='form-control pull-right' id='reservation'>";
+            html += "</div>";
+            html += "<!-- /.input group -->";
+            html += "</div>";
+
+
+            document.getElementById("itemList").innerHTML = html;
+
+            //Date range picker
+            $('#reservation').daterangepicker();
+
             turnOnMainList("btnViewCurrentMonth");
-            $scope.reportName = "Current Month Total Product Sales";
+            $scope.reportName = "Monthly Sales";
             $scope.shortdescription = "The graph below displays the current month’s sales for each product. Sales are in Rands";
-            document.getElementById("insertCanvas").innerHTML = "<canvas  class='chart' id='canvasData' style='height:385px;width:830px;marign-left:29px;'></canvas>";
-            var responce = $scope.targetInfor;
-            var drawItems = [];
-            var index = 0;
-            var i = 0;
-            var j = 0;
+            document.getElementById("insertCanvas").innerHTML = "<div  class='chart' id='canvasData' style='height:385px;width:840px;marign-left:29px;'></div>";
+            
+            
 
-            for (var tmep in responce.data)
+            document.getElementById("drawReport").onclick = function ()
             {
-                drawItems.push(responce.data[index]);
-                index++;
-            }
+                var textAreaValue = document.getElementById("reservation").value;
+                var startDatestr = String(textAreaValue).split("-")[0];
+                var endDatestr = String(textAreaValue).split("-")[1];
 
-            var labels = [];
-            var sales = [];
-            var target = [];
-            var counter = 0;
+               
 
-            for (var v in drawItems)
-            {
-                var temp = drawItems[counter];
-                labels.push(temp.name + " in ZAR");
-                sales.push(temp.currentSales);
-                target.push(temp.targetSales);
-                counter++;
-            }
+                var start  =new Date (startDatestr);
+                var end = new Date(endDatestr);
+                $scope.reportName = "Monthly Sales From " + startDatestr.split("/")[2] + "-" + startDatestr.split("/")[0] + " to " + endDatestr.split("/")[2] + "-"  +endDatestr.split("/")[0];
+                
+                $scope.shortdescription = "The graph below display monthly sales for the selected period";
 
-            var areaChartData =
-            {
-                labels: labels,
-                datasets: [
+                $http(
+                {
+                    method: 'GET',
+                    url: "http://nanofinapifinal.azurewebsites.net/api/Reports/getSalesPermonthForRange?start=" + start.toISOString() + "&end=" + end.toISOString(),
+                }).then(function (response)
+                {
+
+                    var datasetss = [];
+                    var labelsX = [];
+
+                    var counter = 0;
+                     
+                    for (var p in response.data)
                     {
-                        label: "Sales",
-                        fillColor: "#FF9966",
-                        strokeColor: "00BFFF",
-                        pointColor: "#FF9966",
-                        pointStrokeColor: "#00BFFF",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "#FF9966",
-                        data: sales
+                        response.data[counter].datum += "-01";
+                        datasetss.push({ licensed: response.data[counter].sales, period: response.data[counter].datum });
+                        labelsX.push(response.data[counter].datum);
+                        counter++;
                     }
-                ]
-            };
-            document.getElementById("canvasData").innerHTML = 0;
-            var barChartCanvas = $("#canvasData").get(0).getContext("2d");
-            var barChart = new Chart(barChartCanvas);
-            var barChartData = areaChartData;
-            var barChartOptions =
-            {
-                scaleFontSize: 0,
-                //remove labels at the bottom
-                showXAxisLabel: false,
-                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-                scaleBeginAtZero: true,
-                //Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines: true,
-                //String - Colour of the grid lines
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                //Number - Width of the grid lines
-                scaleGridLineWidth: 1,
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines: true,
-                //Boolean - If there is a stroke on each bar
-                barShowStroke: true,
-                //Number - Pixel width of the bar stroke
-                barStrokeWidth: 2,
-                //Number - Spacing between each of the X value sets
-                barValueSpacing: 10,
+                    
 
-                legend: {
-                    display: false
-                },
+                    var line = new Morris.Line(
+                    {
+                        element: 'canvasData',
+                        resize: true,
+                        data: datasetss,
+                        xkey: 'period',
+                        ykeys: ['licensed'],
+                        labels: ["2Help1 sales"],
+                        //lineColors: ['#efefef'],
+                        lineWidth: 2,
+                        hideHover: 'auto',
+                        // gridTextColor: "#fff",
+                        gridStrokeWidth: 0.4,
+                        pointSize: 4,
+                        // pointStrokeColors: ["#efefef"],
+                        // gridLineColor: "#efefef",
+                        gridTextFamily: "Open Sans",
+                        gridTextSize: 10,
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Custom Chart Title'
+                            }
+                        }
 
-                tooltips: {
-                    enabled: false
-                },
-                //Number - Spacing between data sets within X values
-                barDatasetSpacing: 50,
-                //String - A legend template
-                //legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-                //Boolean - whether to make the chart responsive
+                    });
 
-
-                responsive: true,
-                maintainAspectRatio: true
+                
+                });
+                return;
             };
 
-            barChartOptions.datasetFill = false;
-            barChart.Bar(barChartData, barChartOptions);
+           
+
+            
 
         };
 

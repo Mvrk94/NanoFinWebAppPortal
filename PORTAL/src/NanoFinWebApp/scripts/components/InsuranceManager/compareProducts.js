@@ -94,7 +94,7 @@ angular.module('myApp')
             $http(
                {
                    method: 'GET',
-                   url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList'
+                   url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductList'
                }).then(saveItemInformartion, errorCallBack);
 
             /*
@@ -106,7 +106,7 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=1'
+                    url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=1'
                 }).then(setTargetSales, errorCallBack);
             };
 
@@ -328,13 +328,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=5",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=5",
                 }).then(setCompareProduct1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=5",
+                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=5",
                 }).then(setCompareProduct2, errorCallBack);
             };
 
@@ -354,7 +354,7 @@ angular.module('myApp')
                 $http(
               {
                   method: 'GET',
-                  url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList'
+                  url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductList'
               }).then(saveItemInformartion, errorCallBack);
             };
 
@@ -371,7 +371,7 @@ angular.module('myApp')
                 $http(
               {
                   method: 'GET',
-                  url: 'http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList'
+                  url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductList'
               }).then(saveItemInformartion, errorCallBack);
             };
 

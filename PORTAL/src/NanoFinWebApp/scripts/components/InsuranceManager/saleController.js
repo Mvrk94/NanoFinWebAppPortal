@@ -1,5 +1,6 @@
 ﻿angular.module('myApp')
-    .controller('reportsController', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
+    .controller('reportsController', ['$scope', '$http', '$compile', function ($scope, $http, $compile)
+    {
 
         var table;
         var unprocessedList;
@@ -34,7 +35,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapibeta.azurewebsites.net/api/Reports/getInvoices?providerID=11'
+            url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getInvoices?providerID=11'
         })
         .then(successCallBack, errorCallBack);
 
@@ -130,7 +131,7 @@
         $http(
        {
            method: 'GET',
-           url: 'http://nanofinapibeta.azurewebsites.net/api/Reports/getBestSellingProduct'
+           url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getBestSellingProduct'
        })
        .then(ProductSales, errorCallBack);
 

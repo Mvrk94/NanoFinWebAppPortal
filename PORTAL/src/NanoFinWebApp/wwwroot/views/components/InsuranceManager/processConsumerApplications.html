@@ -3,7 +3,6 @@
     <section class="content-header">
         <h1>
             <font size="9">{{pageHeader}}</font>
-            <small>Client</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Help</a></li>
@@ -173,13 +172,13 @@
                                 </div>
                                 <div class="box-footer no-padding">
                                     <ul class="nav nav-stacked">
-                                        <li><a href="#">Age Group: 20-25 <span class="pull-right badge bg-aqua">{{getAgeCat(user.ageRiskValue)}}</span></a></li>
+                                        <li><a href="#">Age Group: {{ageGroupValue}} <span class="pull-right badge bg-aqua">{{user.ageRiskValue}}</span></a></li>
                                         <li><a href="#">{{user.gender}} <span class="pull-right badge bg-aqua">{{user.genderRiskValue}}</span></a></li>
                                         <li><a href="#">{{user.maritalStatus}} <span class="pull-right badge bg-aqua">{{user.maritalStatusRiskValue}}</span></a></li>
                                         <li><a href="#">{{user.employmentStatus}} <span class="pull-right badge bg-aqua">{{user.ageRiskValue}}</span></a></li>
                                         <li><a href="#">Claim Rate: {{user.claimRate}}%<span class="pull-right badge bg-red">{{user.claimRate}}</span></a></li>
-                                        <li><a href="#">{{location}} <span class="pull-right badge bg-aqua">{{user.UnemploymentRate}}</span></a></li>
-                                        <li><a href="#">Total <span class="pull-right badge bg-red">{{user.ageRiskValue +  user.genderRiskValue + user.maritalStatusRiskValue +user.ageRiskValue + user.claimRate + + user.UnemploymentRate}}</span></a></li>
+                                        <li><a href="#">{{location}} <span class="pull-right badge bg-aqua">{{user.locationClaimRate}}</span></a></li>
+                                        <li><a href="#">Total <span class="pull-right badge bg-red">{{user.ageRiskValue +  user.genderRiskValue + user.maritalStatusRiskValue +user.ageRiskValue + user.claimRate + user.locationClaimRate + user.UnemploymentRate}}</span></a></li>
                                     </ul>
                                 </div>
                             </div>
