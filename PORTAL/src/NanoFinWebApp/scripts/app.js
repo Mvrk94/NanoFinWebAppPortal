@@ -32,36 +32,36 @@ app.config(function ($routeProvider, $locationProvider)
         controller: 'AddProductPageController'
     })
     .when('/ProcessPurchases', {
-        title: ' home',
+        title: 'Process Applications',
         templateUrl: '/views/components/InsuranceManager/processApplicationsWithRisk.html',
         controller: 'insuranceApplicationsPageController'
     })
     .when('/ProcessSingleApplication', {
-        title: ' process',
+        title: 'Process Applications',
         templateUrl: '/views/components/InsuranceManager/processConsumerApplications.html',
         controller: 'insuranceApplicationsPageController'
     })
 
     .when('/DataAnalityics',
     {
-        title: ' data analityics',
+        title: 'Data Analytics',
         templateUrl: '/views/components/InsuranceManager/UnrealEngine.html',
         controller: 'insuranceApplicationsPageController'
     })
     .when('/Reports',
     {
-        title: 'reports',
+        title: 'Reports',
         templateUrl: '/views/components/InsuranceManager/reports.html',
     })
     .when('/validate',
     {
-        title: 'validate',
+        title: 'Validate',
         templateUrl: '/views/components/home/validatorUsers.html',
     })
 
    .when('/test',
     {
-        title: 'validate',
+        title: 'General Reports',
         templateUrl: '/views/components/test/test.html',
     })
      .when('/mapLocation',
@@ -82,7 +82,7 @@ app.config(function ($routeProvider, $locationProvider)
 
      .when('/CreatedProfiles',
     {
-        title: ' consumer profiles',
+        title: 'Consumer Profiles',
         templateUrl: '/views/components/InsuranceManager/consumerProfiles.html',
     })
 
