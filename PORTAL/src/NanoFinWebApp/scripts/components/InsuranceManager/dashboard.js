@@ -39,18 +39,15 @@
             var data = response.data;
             var counter = 0;
 
-            for (var y  in data) {
-                str = String("2015-09-" + String(month));
+            for (var y in data)
+            {
+                str = String(data[counter].activeProductItemStartDate).substr(0,10);
                 datasets.push({ period: str, licensed: parseFloat(data[counter].sales).toFixed(2) });
                 month++;
                 counter++;
             }
 
-            if ($scope.salesToday === 0)
-            {
-                cost = data[counter - 1].sales;
-            }
-                
+            $scope.salesToday = parseInt( data[counter-1].sales).toFixed(2);
 
             var line = new Morris.Line(
                 {
@@ -87,11 +84,6 @@
             $scope.yearSale = responce.data.yearSale.toMoney();
             $scope.numMembers = responce.data.numMembers;
             $scope.claims = responce.data.claims;
-
-           if (responce.data.salesToday === 0)
-               $scope.salesToday = 216.2;
-            else
-               $scope.salesToday = responce.data.salesToday;
         };
 
         var errorCallBack = function (response) {

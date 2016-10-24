@@ -85,4 +85,15 @@
         };
 
 
+        $http(
+        {
+            method: 'GET',
+            url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerGroups',
+        })
+        .then(function (responce)
+        {
+            alert("cacascascascas");
+            $scope.groups = responce.data;
+        });
+
     }]);

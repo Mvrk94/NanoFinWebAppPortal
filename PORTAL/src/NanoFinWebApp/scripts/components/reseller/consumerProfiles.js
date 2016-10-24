@@ -106,10 +106,10 @@
         }
         document.getElementById("consumerGroups").innerHTML = html;
 
-        for (i = 0 ; i < responce.length ; i++)
-        {
-            document.getElementById("btnMessage" + responce[i].idconsumerGroups).onclick = runModal;
-        }
+        //for (i = 0 ; i < responce.length ; i++)
+        //{
+        //    document.getElementById("btnMessage" + responce[i].idconsumerGroups).onclick = runModal;
+        //}
 
     }
 

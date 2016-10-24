@@ -13,7 +13,7 @@
         {
             $scope.user = response.data;
             
-            $scope.pageHeader = "#" + $scope.user.idConsumer + " " + $scope.user.clientName;
+            $scope.pageHeader =  $scope.user.clientName;
             $scope.location = $scope.user.residentTown;
 
             $http(
@@ -45,7 +45,7 @@
                 html += "<div class='inner'>";
                 html += "<h4>"+ unprocessedList[counter].productName +"</h4>";
                 html += "";
-                html += "<p>purchased " + unprocessedList[counter].datum + "</p>";
+                html += "<p>Purchased " + unprocessedList[counter].datum + "</p>";
                 html += "<span class='pull-left'>";
                 html += "<button type='button' class='btn btn-success' id='btGrant" + unprocessedList[counter].ActiveProductItems_ID + "'>Grant</button>";
                 html += "</span>";
