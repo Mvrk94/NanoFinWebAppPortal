@@ -86,6 +86,13 @@ app.config(function ($routeProvider, $locationProvider)
         templateUrl: '/views/components/InsuranceManager/consumerProfiles.html',
     })
 
+    .when('/geodata',
+    {
+        title: 'Consumer Profiles',
+        templateUrl: '/views/components/InsuranceManager/GeoVisualization.html',
+    })
+
+
     .otherwise({
         templateUrl: '/views/components/InsuranceManager/home.html',
         controller: 'homePageController'

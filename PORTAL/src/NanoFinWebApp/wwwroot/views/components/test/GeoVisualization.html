@@ -8,125 +8,132 @@
 
 <div id="geoReports">
     <style>
-        .removePersonalSpace 
-        {
+        .removePersonalSpace {
             margin: 0px;
             padding: 0px;
         }
+
         table {
-color: #333;
-font-family: Helvetica, Arial, sans-serif;
-width: 640px;
-border-collapse:
-collapse; border-spacing: 0;
-}
+            color: #333;
+            font-family: Helvetica, Arial, sans-serif;
+            width: 640px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
-td, th {
-border: 1px solid transparent; /* No more visible border */
-height: 30px;
-transition: all 0.3s; /* Simple transition for hover effect */
-}
+        td, th {
+            border: 1px solid transparent; /* No more visible border */
+            height: 30px;
+            transition: all 0.3s; /* Simple transition for hover effect */
+        }
 
-th {
-background: #DFDFDF; /* Darken header a bit */
-font-weight: bold;
-}
+        th {
+            background: #DFDFDF; /* Darken header a bit */
+            font-weight: bold;
+        }
 
-td {
-background: #FAFAFA;
-text-align: center;
-}
+        td {
+            background: #FAFAFA;
+            text-align: center;
+        }
 
-/* Cells in even rows (2,4,6...) are one color */
-tr:nth-child(even) td { background: #F1F1F1; }
+        /* Cells in even rows (2,4,6...) are one color */
+        tr:nth-child(even) td {
+            background: #F1F1F1;
+        }
 
-/* Cells in odd rows (1,3,5...) are another (excludes header cells) */
-tr:nth-child(odd) td { background: #FEFEFE; }
+        /* Cells in odd rows (1,3,5...) are another (excludes header cells) */
+        tr:nth-child(odd) td {
+            background: #FEFEFE;
+        }
 
-tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
-    
+        tr td:hover {
+            background: #666;
+            color: #FFF;
+        }
+        /* Hover cell effect! */
     </style>
     <!-- ChartJS 1.0.1 -->
-    
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgzaeGEo_YeMg-YKoZuXSWTLw7r8f0b30&callback=initMap" async defer></script>
-    
+
 
     <section class="content-header">
         <h1>
             <font size="11">Geo Reports</font>
-            
+
         </h1>
-       
+
     </section>
     <br />
 
     <div id='scrollableDiv' style='width:2000px; position: absolute; overflow: scroll;'>
 
-            <div class="row">
-                <div class="col-sm-3" style="width:285px;margin:3px; padding:0px;margin-left:30px">
+        <div class="row">
+            <div class="col-sm-3" style="width:285px;margin:3px; padding:0px;margin-left:30px">
 
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user" style="height:90%;">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-aqua" style="height:58px;margin-top:-7px;">
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="height:90%;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:58px;margin-top:-7px;">
 
-                            <h3 class="widget-user-username">Track your Performance</h3>
-                            <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
-                        </div>
-                        <div class="box-footer no-padding">
-                            <ul class="nav nav-stacked" style="font-size:19px">
+                        <h3 class="widget-user-username">Track your Performance</h3>
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-stacked" style="font-size:19px">
 
-                                <li> <br /> <br /></li>
-                                <li onclick="monthlyLocationSales()">
-                                    <a>
-                                        Geo month sales  <br />
-                                        <span style="font-size:12px">compare sales for one or more Products</span>
-                                    </a>
-                                </li>
-                                <li onclick="ProductLocatioinSales()">
-                                    <a>
-                                        Geo Product Sales  <br />
-                                        <span style="font-size:12px">View forcasted sales for your Products</span>
-                                    </a>
-                                </li>
-                                
-                                <li onclick="ProvincialSales()">
-                                    <a>
-                                        Provincial Sales  <br />
-                                        <span style="font-size:12px">Product sales Per Product</span>
-                                    </a>
-                                </li>
-                               
-                                <li><br /><br /><br /><br /></li>
-                            </ul>
+                            <li> <br /> <br /></li>
+                            <li onclick="monthlyLocationSales()">
+                                <a>
+                                    Geo month sales  <br />
+                                    <span style="font-size:12px">compare sales for one or more Products</span>
+                                </a>
+                            </li>
+                            <li onclick="ProductLocatioinSales()">
+                                <a>
+                                    Geo Product Sales  <br />
+                                    <span style="font-size:12px">View forcasted sales for your Products</span>
+                                </a>
+                            </li>
+
+                            <li onclick="ProvincialSales()">
+                                <a>
+                                    Provincial Sales  <br />
+                                    <span style="font-size:12px">Product sales Per Product</span>
+                                </a>
+                            </li>
+
+                            <li><br /><br /><br /><br /></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.widget-user -->
+
+            </div>
+
+            <!-- /.col -->
+            <div class="col-sm-7" style="width:1200px;height:585px;margin-left:0px;color:aqua;">
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user" style="height:90%;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-aqua" style="height:58px;margin-top:-7px;">
+
+                        <h3 class="widget-user-username">Track your Performance</h3>
+                        <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
+                    </div>
+                    <div class="box-footer no-padding">
+                        <div class="row">
+                            <div id="canvas" class="col-sm-6" style="margin-right:-82px;"></div>
+
+                            <div id="submenu" class="col-sm-5"></div>
+
                         </div>
                     </div>
-                    <!-- /.widget-user -->
 
                 </div>
-                
-                <!-- /.col -->
-            <div class="col-sm-7" style="width:1200px;height:585px;margin-left:0px;color:aqua;">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user" style="height:90%;">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-aqua" style="height:58px;margin-top:-7px;">
-
-                            <h3 class="widget-user-username">Track your Performance</h3>
-                            <!--<h5 class="widget-user-desc">select any option below to being</h5>-->
-                        </div>
-                        <div class="box-footer no-padding">
-                            <div class="row">
-                                <div id="canvas" class="col-sm-6" style="margin-right:-82px;"></div>
-
-                                <div id="submenu" class="col-sm-5"></div>
-                                
-                            </div>    
-                    </div>
-   
-            </div>
                 <!-- /.row -->
-        </div>
+            </div>
         </div>
 
 
@@ -150,7 +157,6 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               map = new google.maps.Map(document.getElementById('map'),
              {
                  center: { lat: -29.126612, lng: 25.543462 },
-                 mapTypeId: 'terrain',
                  zoom: 5
              });
               httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
@@ -161,7 +167,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
 
           function getProductList(responce)
           {
-              productlist = JSON.parse(responce);   
+              productlist = JSON.parse(responce);
           }
 
           var drawMonthlySales = function ()
@@ -193,19 +199,20 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                   {
                       var locID = String(this.snippet).replace("marker", "");
                       var req = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
+                      //alert(req);
                       monthlysalesinforBox(JSON.parse(req), this.title);
+                      //alert(this.title);
                       locationLineGraph(locID);
                       toggleBounce(this);
                   });
-
-                  var circle = new google.maps.Circle(generateCircle(myLatLng, arr[i].sales));
               }
-              
+
           };
 
           var monthlysalesinforBox =  function(arr, title)
           {
               var html = "";
+              //alert(arr);
               html = "";
 
               html += "<div class='box box-widget widget-user' style='width:97%;color:black;margin:1px;border:1px 3399FF;'>";
@@ -225,7 +232,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               for (ic = 0; ic < arr.length && ic < 5; ic++)
               {
                   arr[ic].sales = arr[ic].sales + 0.10;
-                  
+
                   html += "<li>" + arr[ic].productName + "<span class='pull-right text-green'><i class='fa fa-angle-up'></i> R " + arr[ic].sales.toMoney() + " </span></li>";
               }
               html += "<li><br/> </li>";
@@ -233,7 +240,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               html += "</div>";
               html += "</div>";
               html += "";
-              
+
               html += "<div class='box box-solid ' style='margin:1px;width:97%'>";
               html += "<div class='box-header bg-aqua'>";
               html += "<i class='fa fa-th'></i>";
@@ -264,7 +271,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               var index = 0;
               var date;
               var month = 1;
-              
+
               if(data.length >= 10)
               {
                   index = data.length - 9;
@@ -277,7 +284,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               }
 
               for (var r in data)
-              {                       
+              {
                       date = "2016-"+month + "-01";
                       datasets.push({ y: date, item1: data[index], item2: data[index] });
                       month++;
@@ -291,10 +298,14 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                   xkey: 'y',
                   ykeys: ['item1'],
                   labels: ['sales in ZAR'],
+                  //lineColors: ['#efefef'],
                   lineWidth: 2,
                   hideHover: 'auto',
+                  //gridTextColor: "#fff",
                   gridStrokeWidth: 0.4,
                   pointSize: 4,
+                 // pointStrokeColors: ["#efefef"],
+                 // gridLineColor: "#efefef",
                   gridTextFamily: "Open Sans",
                   gridTextSize: 10
               });
@@ -326,7 +337,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                       provinceNameSelected = this.title;
                       var locID = String(this.snippet).replace("marker", "");
                       drawProvincialPieGrapg(locID);
-                      
+
                       toggleBounce(this);
 
                   });
@@ -335,19 +346,11 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               provincialData = JSON.parse(res);
           };
 
-
-
-          function extractLatlng(str) {
-              var latlng = String(str).split(",");
-              var myLatLng = { lat: parseInt(latlng[0]), lng: parseInt(latlng[1]) };
-              return myLatLng;
-          }
-
           var drawProvincialPieGrapg =  function(id)
           {
               var html = "<div id='informationBox' style='width:570px;height:600px;'></div>";
               document.getElementById('submenu').innerHTML = html;
-              
+
               html = "<div class='box box-info'>";
               html += "<div class='box-header with-border'>";
               html += "<h3 class='box-title' style='color:black;'>" + provinceNameSelected + "</h3>";
@@ -371,7 +374,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               {
                   if (provincialData[i].Province === id)
                   {
-                      
+
                       PieData.push({
                           value: provincialData[i].sales ,
                           color: colors[colourCounter],
@@ -419,7 +422,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               drawProductsModal();
           };
 
-          
+
           function drawProductsModal()
           {
               arr = productlist;
@@ -487,6 +490,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
 
           function getAndDrawSelectProduct(productID)
           {
+              //alert(productID);
               responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductLocationExpenditure?productID="+ productID);
               arr = JSON.parse(responce);
               selectedProduct = productID;
@@ -510,6 +514,8 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                       var locID = String(this.snippet).replace("marker", "");
                       productNameselected = this.title;
                       drawProductLocationInformation(locID);
+
+                     // document.getElementById("header").innerHTML =
                       toggleBounce(this);
                   });
               }
@@ -552,21 +558,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               document.getElementById('informationBox').innerHTML += html;
           };
 
-          function generateCircle(latlng , sales)
-          {
-              return {
-                  
-                  strokeColor: 'white',
-                  strokeWeight: .5,
-                  fillColor: 'red',
-                  fillOpacity: .2,
 
-                  map: map,
-              
-                  center: { lat: latlng.lat, lng: latlng.lng },
-                  radius: Math.sqrt(sales) * 8000
-              }
-          }
 
         /*
             Utility Functions
@@ -579,7 +571,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                   if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
                       callback(xmlHttp.responseText);
               }
-              xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+              xmlHttp.open("GET", theUrl, true); // true for asynchronous
               xmlHttp.send(null);
           }
 
@@ -608,7 +600,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
 
               /*
               according to [http://stackoverflow.com/questions/411352/how-best-to-determine-if-an-argument-is-not-sent-to-the-javascript-function]
-              the fastest way to check for not defined parameter is to use typeof value === 'undefined' 
+              the fastest way to check for not defined parameter is to use typeof value === 'undefined'
               rather than doing value === undefined.
               */
               t = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep, //if you don't want to use a thousands separator you can pass empty string as thousands_sep value
@@ -622,19 +614,10 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
               return sign + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
           };
     </script>
-    
-    
+
+
 
 </div>
 
 
-<div id="insertModal" ></div>
-
-
-
-
-
-
-
-
-
+<div id="insertModal"></div>
