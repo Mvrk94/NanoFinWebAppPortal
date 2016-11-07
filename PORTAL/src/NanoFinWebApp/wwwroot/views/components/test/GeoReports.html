@@ -330,6 +330,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                       toggleBounce(this);
 
                   });
+                  var circle = new google.maps.Circle(generateCircle(myLatLng, arr[i].sales));
               }
               var res = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProvincialProductType")
               provincialData = JSON.parse(res);
@@ -528,7 +529,8 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
 
               var html = "<br /> <br/>"
               html += "<div class='row'>";
-              for (var i = 0 ; i < data.length && i < 3 ; i++) {
+              for (var i = 0 ; i < data.length && i < 3 ; i++)
+              {
                   html += "<div class='col-sm-8'>";
                   html += "<div class='info-box'>";
                   html += "<span class='info-box-icon bg-aqua' style='height:117px;'><i class='fa fa-group'></i></span>";
