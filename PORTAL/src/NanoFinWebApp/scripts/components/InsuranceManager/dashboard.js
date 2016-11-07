@@ -2,7 +2,7 @@
     .controller('dashboard', ['$scope', '$http', '$log', function ($scope, $http, $log)
     {
         var map;
-
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
         var Vmaps;
        
         var BestProductSuccess = function (responce)
@@ -98,28 +98,28 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getDashboard?productProviderID=11'
+            url: hostaddress + 'Reports/getDashboard?productProviderID=11'
         }).then(setDashBoardCards, errorCallBack);
 
 
         $http(
        {
            method: 'GET',
-           url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getBestSellingProduct'
+           url: hostaddress + 'Reports/getBestSellingProduct'
        }).then(BestProductSuccess, errorCallBack);
 
 
         $http(
       {
           method: 'GET',
-          url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getCurrentMonthDailySales'
+          url: hostaddress + 'ReportsMaster/getCurrentMonthDailySales'
       }).then(successCallBack, errorCallBack);
        
 
         $http(
      {
          method: 'GET',
-         url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getNumberOfUnprocessedApplications?ProviderID=11'
+         url: hostaddress + 'Reports/getNumberOfUnprocessedApplications?ProviderID=11'
      }).then(unprocessedApplications, errorCallBack);
 
         

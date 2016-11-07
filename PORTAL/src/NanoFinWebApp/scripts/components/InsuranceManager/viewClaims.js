@@ -25,7 +25,7 @@ angular.module('myApp')
         };
         $scope.test = "test";
         $scope.searchClaim = '';
-
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
         $scope.sort = function (keyname) {
             $scope.sortKey = keyname;   //set the sortKey to the param passed
             $scope.reverse = !$scope.reverse; //if true make it false and vice versa
@@ -44,7 +44,7 @@ angular.module('myApp')
 
             $http({
                 method: 'GET',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/Claim/viewClaimsToBeProcessed'
+                url: hostaddress + 'Claim/viewClaimsToBeProcessed'
             })
               .then(function (response) {
                   var vClaimsToBeProcessed = response.data;

@@ -18,6 +18,7 @@
         var ID;
         var insuranceProdID;
         var VID = location.search.split('vid=')[1];
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
 
         var PerrorCallBack = function (response) {
             $scope.product = response.data;
@@ -34,7 +35,7 @@
         $http(
         {
             method: 'GET',
-            url: "http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Getproduct/" +  VID,
+            url: hostaddress + "insuranceManager/Getproduct/" +  VID,
         })
         .then(PsuccessCallBack, PerrorCallBack);
 
@@ -55,14 +56,14 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Getinsuranceproduct?ProductProviderID=11&productID=' + VID,
+            url: hostaddress + 'insuranceManager/Getinsuranceproduct?ProductProviderID=11&productID=' + VID,
         })
         .then(IPsuccessCallBack, IPerrorCallBack);
 
         $scope.submitProductChanges = function ()
         {
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Putproduct/" + ID, true);
+            xhr.open("PUT", hostaddress + "insuranceManager/Putproduct/" + ID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON
@@ -77,7 +78,7 @@
         $scope.submitInsuranceProductChanges = function () {
 
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", "http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
+            xhr.open("PUT", hostaddress + "insuranceManager/Putinsuranceproduct?InsuranceProduct_ID=" + insuranceProdID, true);
             xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
             // send the collected data as JSON
@@ -102,7 +103,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerGroups',
+            url: hostaddress + 'ConsumerProfiles/getConsumerGroups',
         })
         .then(function (responce)
         {

@@ -8,10 +8,9 @@
         var provinceName = "";
         var productlist = [];
         var provincialData = [];
-
+        var hostaddress = "https";
         var productNameselected;
         var provinceNameSelected;
-        alert("bla bla bla")
 
         var pieOptions =
                {
@@ -47,7 +46,7 @@
                mapTypeId: 'terrain',
                zoom: 5
            });
-            httpGetAsync("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
+            httpGetAsync(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
 
             var htnl = "<div id='informationBox' style='width:600px;height:460px;'></div>";
             document.getElementById('submenu').innerHTML = htnl;
@@ -71,7 +70,7 @@
 
         var monthlyLocationSales = function () {
             initMap();
-            var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthlyLocationSalesSum");
+            var responce = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthlyLocationSalesSum");
             arr = JSON.parse(responce);
             var heatmapData = [];
 
@@ -104,7 +103,7 @@
 
         function drawData() {
             var locID = String(this.snippet).replace("marker", "");
-            var req = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
+            var req = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
 
             monthlysalesinforBox(JSON.parse(req), this.title);
             locationLineGraph(locID);
@@ -161,7 +160,7 @@
         };
 
         var locationLineGraph = function (locationID) {
-            var sales = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getAllLocationSales?locationID=" + locationID);
+            var sales = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getAllLocationSales?locationID=" + locationID);
             var data = JSON.parse(sales);
             var datasets = [];
             var counter = 1;
@@ -211,7 +210,7 @@
 
         var ProvincialSales = function () {
             initMap();
-            var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
+            var responce = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
             var arr = JSON.parse(responce);
 
             for (i = 0; i < arr.length; i++) {
@@ -229,7 +228,7 @@
 
                 marker.addListener('click', provincialMarkerClick);
             }
-            var res = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProvincialProductType");
+            var res = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProvincialProductType");
             provincialData = JSON.parse(res);
         };
 
@@ -354,7 +353,7 @@
 
         function getAndDrawSelectProduct(productID) {
             //alert(productID);
-            responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductLocationExpenditure?productID=" + productID);
+            responce = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductLocationExpenditure?productID=" + productID);
             arr = JSON.parse(responce);
             selectedProduct = productID;
             for (i = 0; i < arr.length; i++) {
@@ -384,7 +383,7 @@
 
 
         var drawProductLocationInformation = function (locID) {
-            res = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getDemographicProductLocationLastMonthSales?productID=" + selectedProduct + "&locationsID=" + locID);
+            res = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getDemographicProductLocationLastMonthSales?productID=" + selectedProduct + "&locationsID=" + locID);
             data = JSON.parse(res);
 
             var numConsumers = 0;

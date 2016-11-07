@@ -14,7 +14,7 @@ angular.module('myApp')
         };
     }])
     .controller('processClaimsCtrl', ['$scope', '$http', '$compile', '$window', '$log', '$routeParams', function ($scope, $http, $compile, $window, $log, $routeParams) {
-        $scope.apiBaseUrl = 'http://nanofinapifinal.azurewebsites.net';
+        $scope.apiBaseUrl = hostaddress + '://nanofinapifinal.azurewebsites.net';
 
         var CID = location.search.split('cid=')[1];
         $scope.claimID = CID;
@@ -23,7 +23,7 @@ angular.module('myApp')
         $scope.nothingsBeenSelected = true;
         $scope.showClaimForm = false;
         $scope.showDoc = false;
-
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
         $scope.StatusNotFinalized = false;
        
 
@@ -42,7 +42,7 @@ angular.module('myApp')
         var getSingleClaimToBeProcessed = function () {
             $http({
                 method: 'GET',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/Claim/getSingleClaimToBeProcessed?claimID=' + $scope.claimID
+                url: hostaddress + 'Claim/getSingleClaimToBeProcessed?claimID=' + $scope.claimID
             })
               .then(function (response) {
                   var vClaimToBeProcessed = response.data;
@@ -83,17 +83,17 @@ angular.module('myApp')
         var getClaimDocsPath = function () {
             $http({
                 method: 'GET',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/Claim/getClaimUploadedDocsPath?ClaimID=' + $scope.claimID
+                url: hostaddress + 'Claim/getClaimUploadedDocsPath?ClaimID=' + $scope.claimID
             })
              .then(function (response) {
                  var vClaimDocsPath = response.data;
                  $scope.claimDocsPath = vClaimDocsPath;
-                 $scope.claimDocsLongPath = 'http://nanofinapifinal.azurewebsites.net' + vClaimDocsPath;
+                 $scope.claimDocsLongPath = hostaddress + '://nanofinapifinal.azurewebsites.net' + vClaimDocsPath;
 
                         //get the files inside this directory
                          $http({
                              method: 'GET',
-                             url: 'http://nanofinapifinal.azurewebsites.net/api/FileUpload/getFileInfoInDirectory?filepath=' + $scope.claimDocsPath
+                             url: hostaddress + 'FileUpload/getFileInfoInDirectory?filepath=' + $scope.claimDocsPath
                          })
                             .then(function (response) {
                                 var vClaimDocs = response.data;
@@ -200,7 +200,7 @@ angular.module('myApp')
 
             $http({
                 method: 'PUT',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/Claim/updateClaimStatus?ClaimID=' + $scope.claimID + '&status=' + $scope.claimEntity.claimStatus
+                url: hostaddress + 'Claim/updateClaimStatus?ClaimID=' + $scope.claimID + '&status=' + $scope.claimEntity.claimStatus
             }).then(function (response)
             {
 
@@ -213,7 +213,7 @@ angular.module('myApp')
 
             $http({
                 method: 'PUT',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/Claim/updateClaimPaymentStatus?ClaimID=' + $scope.claimID + '&paymentStatus=' + $scope.claimEntity.claimPaymentFinalised
+                url: hostaddress + 'Claim/updateClaimPaymentStatus?ClaimID=' + $scope.claimID + '&paymentStatus=' + $scope.claimEntity.claimPaymentFinalised
             }).then(function (response) {
 
                 $log.info(response);
@@ -237,7 +237,7 @@ angular.module('myApp')
                 // send sms to user to notify of rejected claim
                 $http({
                     method: 'POST',
-                    url: 'http://nanofinapifinal.azurewebsites.net/api/Notification/SendSMS?toPhoneNum=' + $scope.consumerContactNumber + '&message=' + "Your claim for: " + $scope.productName +" reference number: "+ $scope.claimID +$scope.activeProdID + " has been rejected, 2Help1 will contact you shortly. "
+                    url: hostaddress + 'Notification/SendSMS?toPhoneNum=' + $scope.consumerContactNumber + '&message=' + "Your claim for: " + $scope.productName + " reference number: " + $scope.claimID + $scope.activeProdID + " has been rejected, 2Help1 will contact you shortly. "
                 })
                 .then(function (response) {
                     console.log("sent sms to: " + $scope.consumerContactNumber + "with message: " + message);

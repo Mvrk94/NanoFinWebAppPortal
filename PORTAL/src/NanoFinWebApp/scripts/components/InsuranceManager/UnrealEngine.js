@@ -12,6 +12,7 @@
     var isfilterinhAgeGroup = { isFilter: false, value: "All" , type : "ageGroup" ,possibleValues: [2,12,22,32] };
     var isfilteringRiskCat = { isFilter: false, value: "All", type: "RiskCategory", possibleValues: [1,2,3,4] };
 
+    var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
     
     /*
      CHART-JS GRAPH OPTIONS
@@ -110,14 +111,14 @@
 
     function init()
     {
-        originalData = JSON.parse(httpRequest("GET", "http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerProfileData"));
-        preferences = JSON.parse(httpRequest("GET", 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getPreferencesReports'));
+        originalData = JSON.parse(httpRequest("GET", hostaddress + "ConsumerProfiles/getConsumerProfileData"));
+        preferences = JSON.parse(httpRequest("GET", hostaddress +'ConsumerProfiles/getPreferencesReports'));
 
         VID = location.search.split('vid=')[1];
 
         if (VID == parseInt(VID))
         {
-           selectedGroup = JSON.parse(httpRequest("GET","http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getSingleConsumerGroup?consumerGroupID=" +VID));
+            selectedGroup = JSON.parse(httpRequest("GET",hostaddress + "ConsumerProfiles/getSingleConsumerGroup?consumerGroupID=" +VID));
 
            setValue("cmbGender", selectedGroup.gender);
            setValue("cmbEmployment", selectedGroup.employmentStatus);
@@ -128,9 +129,9 @@
            var html = "<br/>";
            //html += "<div class='row'>";
 
-           html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
-            html += "<button type='button' id='savechanges' class='btn btn-block btn-info'> Update</button>";
-            html += "</div>";
+           //html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
+           // html += "<button type='button' id='savechanges' class='btn btn-block btn-info'> Update</button>";
+           // html += "</div>";
 
             html += "<div class='col col-sm-2 col-sm-push-5'><br/>";
             html += "<button type='button' id='sendMessage' class='btn btn-block btn-info'> Engage With Consumers </button>";
@@ -630,7 +631,7 @@
             var req =
             {
                 method: 'POST',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/sendMessageToConsumer',
+                url: hostaddress + 'ConsumerProfiles/sendMessageToConsumer',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },

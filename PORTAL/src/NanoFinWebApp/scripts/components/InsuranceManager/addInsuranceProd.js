@@ -15,7 +15,9 @@
    .controller('addProductController', ['$scope', '$http', function ($scope, $http) {
         var ID;
         var insuranceProdID;
-        $scope.apiBaseUrl = 'http://nanofinapifinal.azurewebsites.net';
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
+
+        $scope.apiBaseUrl = 'https://nanofinapifinal.azurewebsites.net';
         $scope.product = {
             Product_ID : 0,
             ProductProvider_ID : 11,
@@ -47,7 +49,7 @@
             $scope.product.isAvailableForPurchase = document.getElementById("sltAvailable").value;
             var req = {
                 method: 'POST',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Postproduct',
+                url: hostaddress + 'insuranceManager/Postproduct',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },
@@ -73,7 +75,7 @@
             var req =
              {
                 method: 'POST',
-                url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Postinsuranceproduct',
+                url: hostaddress + 'insuranceManager/Postinsuranceproduct',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },
@@ -150,7 +152,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerGroups',
+            url: hostaddress + 'ConsumerProfiles/getConsumerGroups',
         })
         .then(function (responce) {
             $scope.groups = responce.data;

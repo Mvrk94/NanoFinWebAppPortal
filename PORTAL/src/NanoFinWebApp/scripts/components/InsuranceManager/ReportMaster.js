@@ -6,7 +6,7 @@ angular.module('myApp')
 
         var insurancetypeIDs = [1, 21, 31];
         var insurancetypeNames = ["Assets", "Medical", "Funeral"];
-
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
         var barChartOptions =
             {
                 //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
@@ -165,13 +165,13 @@ angular.module('myApp')
         $http(
            {
                method: 'GET',
-               url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductList'
+               url: hostaddress + 'ReportsMaster/getProductList'
            }).then(saveItemInformartion, errorCallBack);
 
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
+            url: hostaddress + 'ReportsMaster/TargetProgrees?productProvider=11&numMonths=9'
         }).then(setTargetSales, errorCallBack);
 
 
@@ -382,13 +382,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
+                    url:hostaddress+ "ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
+                    url: hostaddress + "ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
                 }).then(setProduct2, errorCallBack);
             };
         };
@@ -413,7 +413,7 @@ angular.module('myApp')
             $http(
               {
                   method: 'GET',
-                  url: 'http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/getLastMonthInsuranceTypeSales'
+                  url: hostaddress + 'ReportsMaster/getLastMonthInsuranceTypeSales'
               }).then(SetinsuranceTypeData, errorCallBack);
         };
         
@@ -512,13 +512,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
+                    url: hostaddress + "ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapifinal.azurewebsites.net/api/ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
+                    url: hostaddress + "ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
                 }).then(setinsurance2, errorCallBack);
             };
         };
@@ -656,7 +656,7 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: "http://nanofinapifinal.azurewebsites.net/api/Reports/getSalesPermonthForRange?start=" + start.toISOString() + "&end=" + end.toISOString(),
+                    url: hostaddress +"Reports/getSalesPermonthForRange?start=" + start.toISOString() + "&end=" + end.toISOString(),
                 }).then(function (response)
                 {
 

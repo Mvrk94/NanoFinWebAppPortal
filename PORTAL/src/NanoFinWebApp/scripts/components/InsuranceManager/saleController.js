@@ -4,6 +4,8 @@
 
         var table;
         var unprocessedList;
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
+
         angular.element(document).ready(function () {
             table = $("#tblApplications").DataTable
                 ({
@@ -35,7 +37,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getInvoices?providerID=11'
+            url: hostaddress + 'Reports/getInvoices?providerID=11'
         })
         .then(successCallBack, errorCallBack);
 
@@ -131,7 +133,7 @@
         $http(
        {
            method: 'GET',
-           url: 'http://nanofinapifinal.azurewebsites.net/api/Reports/getBestSellingProduct'
+           url: hostaddress +'Reports/getBestSellingProduct'
        })
        .then(ProductSales, errorCallBack);
 

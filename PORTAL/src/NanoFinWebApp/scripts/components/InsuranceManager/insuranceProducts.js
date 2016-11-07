@@ -9,7 +9,7 @@
                       "Medical",
                       "Funeral"
         ];
-
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
         var errorCallBack = function (response) {
 
             $scope.insuranceProductList = response.data;
@@ -95,7 +95,7 @@
         $http(
         {
             method: 'GET',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/insuranceManager/Getinsuranceproducts?ProductProviderID=11'
+            url: hostaddress + 'insuranceManager/Getinsuranceproducts?ProductProviderID=11'
         })
         .then(successCallBack, errorCallBack);
     }]);

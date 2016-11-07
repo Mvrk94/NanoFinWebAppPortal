@@ -3,6 +3,7 @@
         var ID;
         var insuranceProdID;
         var CID = location.search.split('cid=')[1];
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
 
         var PerrorCallBack = function (response)
         {
@@ -20,7 +21,7 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
+                url: hostaddress + "ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
         };
@@ -28,7 +29,7 @@
         $http(
         {
             method: 'POST',
-            url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUserInformation?idConsumer=" + CID,
+            url: hostaddress + "ProcessInsuranceApplications/getUserInformation?idConsumer=" + CID,
         })
         .then(PsuccessCallBack, PerrorCallBack);
 
@@ -86,14 +87,14 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/processApplicationNativeImp?activeProductID=" + activeProdID,
+                url: hostaddress + "ProcessInsuranceApplications/processApplicationNativeImp?activeProductID=" + activeProdID,
             }).then(function(responce)
             {
                 if(responce.data === true)
                     $http(
                    {
                        method: 'POST',
-                       url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
+                       url: hostaddress + "ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
                    })
                    .then(purchaseCallBack, PerrorCallBack);
             });
@@ -108,14 +109,14 @@
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/RejectedApplication?ActiveProductID=" + activeProdID,
+                url: "ProcessInsuranceApplications/RejectedApplication?ActiveProductID=" + activeProdID,
             });
 
 
             $http(
             {
                 method: 'POST',
-                url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
+                url: "ProcessInsuranceApplications/getConsummerUnProccessedPurchases?idConsumer=" + CID,
             })
             .then(purchaseCallBack, PerrorCallBack);
         }

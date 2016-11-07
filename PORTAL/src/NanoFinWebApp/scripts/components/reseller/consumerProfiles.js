@@ -1,6 +1,9 @@
 ﻿angular.module('myApp')
 .controller('consumerGroups', ['$scope', '$http', '$compile', function ($scope, $http, $compile)
 {
+
+    var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
+
     function drawNode(temp)
     {
         var html = "";
@@ -96,7 +99,7 @@
     
     function init()
     {
-        var responce = JSON.parse(httpRequest("GET", "http://nanofinapifinal.azurewebsites.net/api/ConsumerProfiles/getConsumerGroups"));
+        var responce = JSON.parse(httpRequest("GET", hostaddress + "ConsumerProfiles/getConsumerGroups"));
         var html = "";
 
         for (var i = 0 ; i < responce.length ; i++)

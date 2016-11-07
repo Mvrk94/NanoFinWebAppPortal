@@ -10,6 +10,7 @@ angular.module('myApp')
         var lastPolicyDOc;
         var id;
         var selectedCons = 11;
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
         angular.element(document).ready(function ()
         {
             table = $("#tblApplications").DataTable
@@ -87,7 +88,7 @@ angular.module('myApp')
         $http(
         {
             method: 'POST',
-            url: 'http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications'
+            url: hostaddress + 'ProcessInsuranceApplications/getUnprocessedApplications'
         })
         .then(successCallBack, errorCallBack);
        
@@ -280,7 +281,7 @@ angular.module('myApp')
                         $http(
                         {
                             method: 'POST',
-                            url: "http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/ProcessSingleApplication?activeProductID=" + idList[i],
+                            url: hostaddress + "ProcessInsuranceApplications/ProcessSingleApplication?activeProductID=" + idList[i],
                         });
                     }
                 }
@@ -289,7 +290,7 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'POST',
-                    url: 'http://nanofinapifinal.azurewebsites.net/api/ProcessInsuranceApplications/getUnprocessedApplications'
+                    url: hostaddress + 'ProcessInsuranceApplications/getUnprocessedApplications'
                 })
                 .then(function(responce)
                 {
