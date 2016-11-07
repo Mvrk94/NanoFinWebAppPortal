@@ -14,7 +14,7 @@ angular.module('myApp')
         };
     }])
     .controller('processClaimsCtrl', ['$scope', '$http', '$compile', '$window', '$log', '$routeParams', function ($scope, $http, $compile, $window, $log, $routeParams) {
-        $scope.apiBaseUrl = hostaddress + '://nanofinapifinal.azurewebsites.net';
+        $scope.apiBaseUrl =  'https://nanofinapifinal.azurewebsites.net';
 
         var CID = location.search.split('cid=')[1];
         $scope.claimID = CID;
@@ -88,7 +88,7 @@ angular.module('myApp')
              .then(function (response) {
                  var vClaimDocsPath = response.data;
                  $scope.claimDocsPath = vClaimDocsPath;
-                 $scope.claimDocsLongPath = hostaddress + '://nanofinapifinal.azurewebsites.net' + vClaimDocsPath;
+                 $scope.claimDocsLongPath = 'https://nanofinapifinal.azurewebsites.net' + vClaimDocsPath;
 
                         //get the files inside this directory
                          $http({

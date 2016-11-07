@@ -144,7 +144,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
         var productNameselected;
         var provinceNameSelected;
 
-        var hostaddress = "https";
+        var hostaddress = "https://nanofinapifinal.azurewebsites.net/api/";
 
           function initMap()
           {
@@ -155,7 +155,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                  mapTypeId: 'terrain',
                  zoom: 5
              });
-              httpGetAsync(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductList", getProductList);
+              httpGetAsync(hostaddress + "ReportsMaster/getProductList", getProductList);
 
               var htnl = "<div id='informationBox' style='width:600px;height:460px;'></div>";
               document.getElementById('submenu').innerHTML = htnl;
@@ -175,7 +175,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
           var monthlyLocationSales = function ()
           {
               initMap();
-              var responce = httpGet("http://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthlyLocationSalesSum");
+              var responce = httpGet(hostaddress + "ReportsMaster/getCurrentMonthlyLocationSalesSum");
               arr = JSON.parse(responce);
               for (i = 0; i < arr.length; i++)
               {
@@ -194,7 +194,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                   marker.addListener('click', function ()
                   {
                       var locID = String(this.snippet).replace("marker", "");
-                      var req = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
+                      var req = httpGet(hostaddress + "ReportsMaster/getCurrentMonthLocationProductSalesDistribution?locationID=" + locID);
                       monthlysalesinforBox(JSON.parse(req), this.title);
                       locationLineGraph(locID);
                       toggleBounce(this);
@@ -256,7 +256,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
 
           var locationLineGraph = function( locationID)
           {
-              var sales = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getAllLocationSales?locationID=" + locationID);
+              var sales = httpGet(hostaddress + "ReportsMaster/getAllLocationSales?locationID=" + locationID);
               var data = JSON.parse(sales);
               var datasets = [];
               var counter = 1;
@@ -306,7 +306,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
           var ProvincialSales = function ()
           {
               initMap();
-              var responce = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/get_PP_ProvincialSales");
+              var responce = httpGet(hostaddress + "ReportsMaster/get_PP_ProvincialSales");
               var arr = JSON.parse(responce);
 
               for (i = 0; i < arr.length; i++)
@@ -334,7 +334,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                   });
                   var circle = new google.maps.Circle(generateCircle(myLatLng, arr[i].sales));
               }
-              var res = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProvincialProductType")
+              var res = httpGet(hostaddress + "ReportsMaster/getProvincialProductType")
               provincialData = JSON.parse(res);
           };
 
@@ -490,7 +490,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
 
           function getAndDrawSelectProduct(productID)
           {
-              responce = httpGet(hostaddress+"://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getProductLocationExpenditure?productID="+ productID);
+              responce = httpGet(hostaddress+"ReportsMaster/getProductLocationExpenditure?productID="+ productID);
               arr = JSON.parse(responce);
               selectedProduct = productID;
               for (i = 0; i < arr.length; i++)
@@ -515,13 +515,14 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                       drawProductLocationInformation(locID);
                       toggleBounce(this);
                   });
+                  var circle = new google.maps.Circle(generateCircle(myLatLng, arr[i].sales));
               }
           }
 
 
           var drawProductLocationInformation = function (locID)
           {
-              res = httpGet(hostaddress + "://nanofinapibeta.azurewebsites.net/api/ReportsMaster/getDemographicProductLocationLastMonthSales?productID=" + selectedProduct + "&locationsID=" + locID);
+              res = httpGet(hostaddress + "ReportsMaster/getDemographicProductLocationLastMonthSales?productID=" + selectedProduct + "&locationsID=" + locID);
               data = JSON.parse(res);
 
               var numConsumers = 0;
@@ -568,7 +569,7 @@ tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
                   map: map,
               
                   center: { lat: latlng.lat, lng: latlng.lng },
-                  radius: Math.sqrt(sales) * 8000
+                  radius: Math.sqrt(sales) * 3750
               }
           }
 

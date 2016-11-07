@@ -69,7 +69,7 @@ angular.module('myApp')
                 result += "	<li  style='margin-bottom:9px;width:280px'>";
                 result += "	<div class='row'>";
                 result += "	<div class='col-sm-1 col-sm-push-1 removePersonalSpace'>";
-                result += "<label><input type='checkbox' class='flat-red'></label>";
+                result += "<label><input type='checkbox' id='checkbox" + insurancetypeIDs[c] + "' class='flat-red'></label>";
                 result += "	</div>";
                 result += "";
                 result += "	<div class='col-sm-7 col-sm-push-1 removePersonalSpace' style='width:250px'>";
@@ -382,13 +382,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url:hostaddress+ "ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=2&value2=1",
+                    url:hostaddress+ "ReportsMaster/getProductSalesPredictions?productID=" + drawItems[0] + "&numPredictions=7&value1=1&value2=2",
                 }).then(setProduct1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: hostaddress + "ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=1",
+                    url: hostaddress + "ReportsMaster/getProductSalesPredictions?productID=" + drawItems[1] + "&numPredictions=7&value1=2&value2=2",
                 }).then(setProduct2, errorCallBack);
             };
         };
@@ -512,13 +512,13 @@ angular.module('myApp')
                 $http(
                 {
                     method: 'GET',
-                    url: hostaddress + "ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=2&value2=1",
+                    url: hostaddress + "ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[0] + "&numPredictions=6&value1=1&value2=2",
                 }).then(setinsurance1, errorCallBack);
 
                 $http(
                 {
                     method: 'GET',
-                    url: hostaddress + "ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=2&value2=1",
+                    url: hostaddress + "ReportsMaster/PredictInsuranceTypeSales?insuranceTypeID=" + drawItems[1] + "&numPredictions=6&value1=1&value2=2",
                 }).then(setinsurance2, errorCallBack);
             };
         };
