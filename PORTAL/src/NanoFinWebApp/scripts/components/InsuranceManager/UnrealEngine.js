@@ -129,11 +129,11 @@
            var html = "<br/>";
            //html += "<div class='row'>";
 
-           //html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
-           // html += "<button type='button' id='savechanges' class='btn btn-block btn-info'> Update</button>";
-           // html += "</div>";
+           html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
+            html += "<button type='button' id='btnSendVouchers' class='btn btn-block btn-info'> Send Vouchers To Consumer</button>";
+            html += "</div>";
 
-            html += "<div class='col col-sm-2 col-sm-push-5'><br/>";
+            html += "<div class='col col-sm-2 col-sm-push-5' style='margin-top:0px;'><br/>";
             html += "<button type='button' id='sendMessage' class='btn btn-block btn-info'> Engage With Consumers </button>";
             html += "</div>";
           
@@ -141,6 +141,10 @@
             document.getElementById("options").innerHTML = html;
 
             document.getElementById("sendMessage").onclick = runModal;
+
+            document.getElementById("btnSendVouchers").onclick = sendVoucherToConsumers;
+            
+
             update();
         }
         else
@@ -568,6 +572,84 @@
         document.getElementById(emementValue).value = value;
     }
 
+    function sendVoucherToConsumers(event) {
+
+        var html = "";
+        html += "<div class='modal fade' tabindex='-1' id='processApplicationModal' role='dialog' aria-labelledby='gridSystemModalLabel'>";
+        html += "<div class='modal-dialog' role='document'>";
+        html += "<div class='modal-content'>";
+        html += "<div class='modal-header bg-aqua'>";
+        html += "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+        html += "<h4 class='modal-title' id='gridSystemModalLabel'>Send Vouchers To Clients</h4>";
+        html += "</div>";
+        html += "<div class='modal-body'>";
+
+        html += "<small> Please enter a voucher value that will be sent all the consumers in this group. the is " + filteredData.length + " in this group </small> <br/>";
+        html += "<div class='form-group'>";
+        html += "<br/><label  class='col-sm-2  control-label'>Voucher Value</label>";
+        html += "<div class='col-sm-10'>";
+        html += "<input id='txtVoucherValue'  type='number'  class='form-control'>";
+        html += "</div>";
+        html += "</div>";
+
+        html += "</div>";
+        html += "<div class='modal-footer' style='margin:10px'>";
+        html += "<span class='pull-left'><br/><button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button></span>";
+        html += "<button type='button' id='submitSelectProductModal'  class='btn btn-primary'>Send Voucher</button>";
+        html += "</div>";
+        html += "</div><!-- /.modal-content -->";
+        html += "</div><!-- /.modal-dialog -->";
+        html += "</div><!-- /.modal -->";
+
+        document.getElementById("insertModal").innerHTML = html;
+        $('#processApplicationModal').modal('show');
+
+
+        document.getElementById("submitSelectProductModal").onclick = function () {
+            var consumerIDs = [];
+
+            var Advt = {
+                amount: 0,
+                IDs: ""
+            };
+
+            Advt.amount = document.getElementById("txtVoucherValue").value;
+
+
+            if (filteredData.length == 1)
+                Advt.IDs += filteredData[0].Consumer_ID;
+
+            else {
+                for (var i = 0 ; i < filteredData.length  ; i++) {
+                    Advt.IDs += filteredData[i].Consumer_ID + ",";
+                }
+
+                Advt.IDs += filteredData[0].Consumer_ID;
+            }
+
+
+            var req =
+            {
+                method: 'POST',
+                url: hostaddress + 'ConsumerProfiles/sendVoucherToClients',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                data: JSON.stringify(Advt)
+            };
+
+            $http(req).then(
+                function (responce, status, headers, config) {
+                    $('#processApplicationModal').modal('hide');
+                }
+                );
+        };
+
+
+
+    }
+
+
     function runModal(event)
     {
         
@@ -581,7 +663,7 @@
         html += "</div>";
         html += "<div class='modal-body' style='height:200px'>";
 
-        html += "<small> please enter a message that will be sent all the consumers in this group. </small> <br/>";
+        html += "<small> Please enter a message that will be sent all the consumers in this group. There is " + filteredData.length + " in this group </small> <br/>";
         html += "<div class='form-group'>";
         html += "<br/><label  class='col-sm-2  control-label'>Message</label>";
         html += "<div class='col-sm-10'>";
